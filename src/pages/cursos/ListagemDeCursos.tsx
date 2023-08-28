@@ -49,7 +49,7 @@ export const ListagemDeCursos: React.FC = () => {
   }, [busca, pagina]);
 
   const handleDelete = (id: number) => {
-    if (confirm('Realmente deseja apagar?')) {
+    if (window.confirm('Realmente deseja apagar?')) {
       CursosService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {

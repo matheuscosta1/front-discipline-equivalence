@@ -1,101 +1,13 @@
 {
   "pessoas": [
     {
-      "id": 3,
-      "nomeCompleto": "Carlos Silva",
-      "email": "carlos@gmail.com",
-      "faculdadeId": 1
-    },
-    {
-      "id": 5,
-      "nomeCompleto": "Alfredo Pereira",
-      "email": "alfredo@gmail.com",
-      "faculdadeId": 1
-    },
-    {
-      "id": 6,
-      "nomeCompleto": "Juca Silva",
-      "email": "Juca@gmail.com",
-      "faculdadeId": 1
-    },
-    {
       "id": 7,
       "nomeCompleto": "Maria Silva",
       "email": "maria@gmail.com",
       "faculdadeId": 3
-    },
-    {
-      "id": 8,
-      "faculdadeId": 1,
-      "email": "carlos@gmail.com",
-      "nomeCompleto": "Carlos Silva"
-    },
-    {
-      "id": 9,
-      "faculdadeId": 1,
-      "email": "pedro@gmail.com",
-      "nomeCompleto": "Pedro Silva"
-    },
-    {
-      "id": 10,
-      "faculdadeId": 1,
-      "email": "alfredo@gmail.com",
-      "nomeCompleto": "Alfredo Silva"
-    },
-    {
-      "id": 11,
-      "faculdadeId": 1,
-      "email": "alfredo@gmail.com",
-      "nomeCompleto": "Alfredo Silva"
-    },
-    {
-      "id": 12,
-      "faculdadeId": 1,
-      "email": "Juca@gmail.com",
-      "nomeCompleto": "Juca Silva"
-    },
-    {
-      "id": 13,
-      "faculdadeId": 1,
-      "email": "maria@gmail.com",
-      "nomeCompleto": "Maria Silva"
-    },
-    {
-      "id": 14,
-      "faculdadeId": 1,
-      "email": "carlos@gmail.com",
-      "nomeCompleto": "Carlos Silva"
-    },
-    {
-      "id": 154,
-      "faculdadeId": 1,
-      "email": "pedro@gmail.com",
-      "nomeCompleto": "Pedro Silva"
-    },
-    {
-      "id": 16,
-      "faculdadeId": 1,
-      "email": "alfredo@gmail.com",
-      "nomeCompleto": "Alfredo Silva"
-    },
-    {
-      "nomeCompleto": "Ana Silva",
-      "email": "ana@gmail.com",
-      "faculdadeId": "1",
-      "id": 156
-    },
-    {
-      "nomeCompleto": "Geronimo",
-      "email": "geronimo@gmail.com",
-      "faculdadeId": 5,
-      "id": 157
     }
   ],
   "faculdades": [
-    {
-      "nome": "Universidade Federal de Uberlândia",
-      "id": 1
-    },
     {
       "nome": "Universidade Federal de Minas Gerais",
       "id": 2
@@ -103,14 +15,13 @@
     {
       "nome": "Universidade Federal de São Paulo",
       "id": 3
+    },
+    {
+      "id": 4,
+      "nome": "Universidade Campinas 2"
     }
   ],
   "cursos": [
-    {
-      "nome": "Ciência da Computação",
-      "id": 1,
-      "faculdadeId": 1
-    },
     {
       "nome": "Engenharia Civil",
       "id": 2,
@@ -120,6 +31,43 @@
       "nome": "Engenharia Mecânica",
       "faculdadeId": 3,
       "id": 3
+    },
+    {
+      "nome": "Ciência da Computação",
+      "faculdadeId": 4,
+      "id": 4
+    },
+    {
+      "nome": "Comp",
+      "faculdadeId": 4,
+      "id": 5
+    },
+    {
+      "nome": "Teste",
+      "faculdadeId": 2,
+      "id": 6
+    }
+  ],
+  "disciplinas": [
+    {
+      "id": 1,
+      "nome": "Calculo I",
+      "codigoOrigem": "FAMAT1",
+      "ementa": "Limites;Derivadas",
+      "programa": "Limites",
+      "cargaHoraria": "60",
+      "faculdadeId": 2,
+      "cursoId": 3
+    },
+    {
+      "nome": "Calculo II",
+      "codigoOrigem": "FAMAT0002",
+      "ementa": "Limites;Derivadas",
+      "programa": "Limites;Derivadas",
+      "cargaHoraria": "Sessenta Horas",
+      "faculdadeId": 2,
+      "cursoId": 3,
+      "id": 2
     }
   ]
 }

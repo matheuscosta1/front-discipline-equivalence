@@ -93,16 +93,16 @@ export const Dashboard = () => {
               <Card>
                 <CardContent>
                   <Typography variant='h5' align='center'>
-                    Total de Faculdades
+                    Total de Cursos
                   </Typography>
 
                   <Box padding={6} display='flex' justifyContent='center' alignItems='center'>
-                    {!isLoadingFaculdades && (
+                    {!isLoadingCursos && (
                       <Typography variant='h1'>
-                        {totalCountFaculdades}
+                        {totalCountCursos}
                       </Typography>
                     )}
-                    {isLoadingFaculdades && (
+                    {isLoadingCursos && (
                       <Typography variant='h6'>
                         Carregando...
                       </Typography>

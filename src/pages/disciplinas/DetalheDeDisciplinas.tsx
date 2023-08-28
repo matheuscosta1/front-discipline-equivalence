@@ -3,25 +3,34 @@ import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 
-import { PessoasService } from '../../shared/services/api/pessoas/PessoasService';
+import { DisciplinasService } from '../../shared/services/api/disciplinas/DisciplinasService';
 import { VTextField, VForm, useVForm, IVFormErrors } from '../../shared/forms';
 import { AutoCompleteFaculdade } from './components/AutoCompleteFaculdade';
+import { AutoCompleteCurso } from './components/AutoCompleteCurso';
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 
 
 interface IFormData {
-  email: string;
+  nome: string;
+  codigoOrigem: string;
+  ementa: string;
+  programa: string;
+  cargaHoraria: string;
   faculdadeId: number;
-  nomeCompleto: string;
+  cursoId: number;
 }
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
+  nome: yup.string().required().min(3),
+  codigoOrigem: yup.string().required().min(3),
+  ementa: yup.string().required().min(3),
+  programa: yup.string().required().min(3),
+  cargaHoraria: yup.string().required().min(3),
   faculdadeId: yup.number().required(),
-  email: yup.string().required().email(),
-  nomeCompleto: yup.string().required().min(3),
+  cursoId: yup.number().required()
 });
 
-export const DetalheDePessoas: React.FC = () => {
+export const DetalheDeDisciplinas: React.FC = () => {
   const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
   const { id = 'nova' } = useParams<'id'>();
   const navigate = useNavigate();
@@ -29,28 +38,41 @@ export const DetalheDePessoas: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [nome, setNome] = useState('');
+  const [ementa, setEmenta] = useState('');
+  const [programa, setPrograma] = useState('');
+  const [cargaHoraria, setCargaHoraria] = useState('');
+  const [codigoOrigem, setCodigoOrigem] = useState('');
+
 
   useEffect(() => {
     if (id !== 'nova') {
       setIsLoading(true);
 
-      PessoasService.getById(Number(id))
+      DisciplinasService.getById(Number(id))
         .then((result) => {
           setIsLoading(false);
 
           if (result instanceof Error) {
             alert(result.message);
-            navigate('/pessoas');
+            navigate('/disciplinas');
           } else {
-            setNome(result.nomeCompleto);
+            setNome(result.nome);
+            setEmenta(result.ementa);
+            setPrograma(result.programa);
+            setCargaHoraria(result.cargaHoraria);
+            setCodigoOrigem(result.codigoOrigem);
             formRef.current?.setData(result);
           }
         });
     } else {
       formRef.current?.setData({
-        email: '',
-        nomeCompleto: '',
+        nome: '',
+        codigoOrigem: '',
+        ementa: '',
+        programa: '',
+        cargaHoraria: '',
         faculdadeId: undefined,
+        cursoId: undefined,
       });
     }
   }, [id]);
@@ -58,13 +80,13 @@ export const DetalheDePessoas: React.FC = () => {
 
   const handleSave = (dados: IFormData) => {
 
-    formValidationSchema.
-      validate(dados, { abortEarly: false })
+    formValidationSchema.validate(dados, { abortEarly: false })
       .then((dadosValidados) => {
         setIsLoading(true);
 
         if (id === 'nova') {
-          PessoasService
+
+          DisciplinasService
             .create(dadosValidados)
             .then((result) => {
               setIsLoading(false);
@@ -73,14 +95,14 @@ export const DetalheDePessoas: React.FC = () => {
                 alert(result.message);
               } else {
                 if (isSaveAndClose()) {
-                  navigate('/pessoas');
+                  navigate('/disciplinas');
                 } else {
-                  navigate(`/pessoas/detalhe/${result}`);
+                  navigate(`/disciplinas/detalhe/${result}`);
                 }
               }
             });
         } else {
-          PessoasService
+          DisciplinasService
             .updateById(Number(id), { id: Number(id), ...dadosValidados })
             .then((result) => {
               setIsLoading(false);
@@ -89,7 +111,7 @@ export const DetalheDePessoas: React.FC = () => {
                 alert(result.message);
               } else {
                 if (isSaveAndClose()) {
-                  navigate('/pessoas');
+                  navigate('/disciplinas');
                 }
               }
             });
@@ -103,6 +125,8 @@ export const DetalheDePessoas: React.FC = () => {
 
           validationErrors[error.path] = error.message;
         });
+        
+        console.log("Erro validacao", validationErrors);
 
         formRef.current?.setErrors(validationErrors);
       });
@@ -110,13 +134,13 @@ export const DetalheDePessoas: React.FC = () => {
 
   const handleDelete = (id: number) => {
     if (window.confirm('Realmente deseja apagar?')) {
-      PessoasService.deleteById(id)
+      DisciplinasService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
             alert('Registro apagado com sucesso!');
-            navigate('/pessoas');
+            navigate('/disciplinas');
           }
         });
     }
@@ -125,7 +149,7 @@ export const DetalheDePessoas: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo={id === 'nova' ? 'Nova pessoa' : nome}
+      titulo={id === 'nova' ? 'Nova disciplina' : nome}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo='Nova'
@@ -135,9 +159,9 @@ export const DetalheDePessoas: React.FC = () => {
 
           aoClicarEmSalvar={save}
           aoClicarEmSalvarEFechar={saveAndClose}
-          aoClicarEmVoltar={() => navigate('/pessoas')}
+          aoClicarEmVoltar={() => navigate('/disciplinas')}
           aoClicarEmApagar={() => handleDelete(Number(id))}
-          aoClicarEmNovo={() => navigate('/pessoas/detalhe/nova')}
+          aoClicarEmNovo={() => navigate('/disciplinas/detalhe/nova')}
         />
       }
     >
@@ -160,9 +184,9 @@ export const DetalheDePessoas: React.FC = () => {
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
-                  name='nomeCompleto'
+                  name='nome'
                   disabled={isLoading}
-                  label='Nome completo'
+                  label='Nome'
                   onChange={e => setNome(e.target.value)}
                 />
               </Grid>
@@ -172,9 +196,46 @@ export const DetalheDePessoas: React.FC = () => {
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
-                  name='email'
-                  label='Email'
+                  name='codigoOrigem'
                   disabled={isLoading}
+                  label='Código Disciplina Origem'
+                  onChange={e => setCodigoOrigem(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField
+                  fullWidth
+                  name='ementa'
+                  disabled={isLoading}
+                  label='Ementa'
+                  onChange={e => setEmenta(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField
+                  fullWidth
+                  name='programa'
+                  disabled={isLoading}
+                  label='Programa'
+                  onChange={e => setPrograma(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField
+                  fullWidth
+                  name='cargaHoraria'
+                  disabled={isLoading}
+                  label='Carga Horária'
+                  onChange={e => setCargaHoraria(e.target.value)}
                 />
               </Grid>
             </Grid>
@@ -185,8 +246,13 @@ export const DetalheDePessoas: React.FC = () => {
               </Grid>
             </Grid>
 
-          </Grid>
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <AutoCompleteCurso isExternalLoading={isLoading} />
+              </Grid>
+            </Grid>
 
+          </Grid>
         </Box>
       </VForm>
     </LayoutBaseDePagina>
