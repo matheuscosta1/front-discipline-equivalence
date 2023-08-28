@@ -49,7 +49,7 @@ export const ListagemDePessoas: React.FC = () => {
   }, [busca, pagina]);
 
   const handleDelete = (id: number) => {
-    if (confirm('Realmente deseja apagar?')) {
+    if (window.confirm('Realmente deseja apagar?')) {
       PessoasService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {

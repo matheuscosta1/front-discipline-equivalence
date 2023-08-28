@@ -9,7 +9,9 @@ import {
   DetalheDeFaculdades,
   ListagemDeFaculdades,
   DetalheDeCursos,
-  ListagemDeCursos
+  ListagemDeCursos,
+  ListagemDeDisciplinas,
+  DetalheDeDisciplinas
 } from '../pages';
 
 export const AppRoutes = () => {
@@ -37,6 +39,11 @@ export const AppRoutes = () => {
         path: '/cursos',
         label: 'Cursos',
       },
+      {
+        icon: 'location_city',
+        path: '/disciplinas',
+        label: 'Disciplinas',
+      },
     ]);
   }, []);
 
@@ -53,6 +60,8 @@ export const AppRoutes = () => {
       <Route path="/cursos" element={<ListagemDeCursos />} />
       <Route path="/cursos/detalhe/:id" element={<DetalheDeCursos />} />
 
+      <Route path="/disciplinas" element={<ListagemDeDisciplinas />} />
+      <Route path="/disciplinas/detalhe/:id" element={<DetalheDeDisciplinas />} />
 
       <Route path="*" element={<Navigate to="/pagina-inicial" />} />
     </Routes>

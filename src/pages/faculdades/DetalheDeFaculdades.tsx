@@ -101,7 +101,7 @@ export const DetalheDeFaculdades: React.FC = () => {
   };
 
   const handleDelete = (id: number) => {
-    if (confirm('Realmente deseja apagar?')) {
+    if (window.confirm('Realmente deseja apagar?')) {
       FaculdadesService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {

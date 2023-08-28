@@ -5,3 +5,5 @@ export * from './faculdades/DetalheDeFaculdades';
 export * from './dashboard/Dashboard';
 export * from './cursos/ListagemDeCursos';
 export * from './cursos/DetalheDeCursos';
+export * from './disciplinas/ListagemDeDisciplinas';
+export * from './disciplinas/DetalheDeDisciplinas';

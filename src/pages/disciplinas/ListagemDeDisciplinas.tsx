@@ -2,19 +2,19 @@ import { useEffect, useMemo, useState } from 'react';
 import { Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { IListagemFaculdade, FaculdadesService, } from '../../shared/services/api/faculdades/FaculdadesService';
+import { IListagemDisciplina, DisciplinasService, } from '../../shared/services/api/disciplinas/DisciplinasService';
 import { FerramentasDaListagem } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
-import { Environment } from '../../shared/environment';
 import { useDebounce } from '../../shared/hooks';
+import { Environment } from '../../shared/environment';
 
 
-export const ListagemDeFaculdades: React.FC = () => {
+export const ListagemDeDisciplinas: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce();
   const navigate = useNavigate();
 
-  const [rows, setRows] = useState<IListagemFaculdade[]>([]);
+  const [rows, setRows] = useState<IListagemDisciplina[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
 
@@ -32,7 +32,7 @@ export const ListagemDeFaculdades: React.FC = () => {
     setIsLoading(true);
 
     debounce(() => {
-      FaculdadesService.getAll(pagina, busca)
+      DisciplinasService.getAll(pagina, busca)
         .then((result) => {
           setIsLoading(false);
 
@@ -50,7 +50,7 @@ export const ListagemDeFaculdades: React.FC = () => {
 
   const handleDelete = (id: number) => {
     if (window.confirm('Realmente deseja apagar?')) {
-      FaculdadesService.deleteById(id)
+      DisciplinasService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
             alert(result.message);
@@ -67,13 +67,13 @@ export const ListagemDeFaculdades: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo='Listagem de faculdades'
+      titulo='Listagem de disciplinas'
       barraDeFerramentas={
         <FerramentasDaListagem
           mostrarInputBusca
           textoDaBusca={busca}
           textoBotaoNovo='Nova'
-          aoClicarEmNovo={() => navigate('/faculdades/detalhe/nova')}
+          aoClicarEmNovo={() => navigate('/disciplinas/detalhe/nova')}
           aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}
         />
       }
@@ -84,6 +84,9 @@ export const ListagemDeFaculdades: React.FC = () => {
             <TableRow>
               <TableCell width={100}>Ações</TableCell>
               <TableCell>Nome</TableCell>
+              <TableCell>Codigo Origem</TableCell>
+              <TableCell>Ementa</TableCell>
+              <TableCell>Carga Horaria</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -93,11 +96,15 @@ export const ListagemDeFaculdades: React.FC = () => {
                   <IconButton size="small" onClick={() => handleDelete(row.id)}>
                     <Icon>delete</Icon>
                   </IconButton>
-                  <IconButton size="small" onClick={() => navigate(`/faculdades/detalhe/${row.id}`)}>
+                  <IconButton size="small" onClick={() => navigate(`/disciplinas/detalhe/${row.id}`)}>
                     <Icon>edit</Icon>
                   </IconButton>
                 </TableCell>
                 <TableCell>{row.nome}</TableCell>
+                <TableCell>{row.codigoOrigem}</TableCell>
+                <TableCell>{row.ementa}</TableCell>
+                <TableCell>{row.cargaHoraria}</TableCell>
+
               </TableRow>
             ))}
           </TableBody>
