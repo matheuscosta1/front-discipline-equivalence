@@ -1,37 +1,30 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Autocomplete, CircularProgress, TextField } from '@mui/material';
 
-import { CursosService } from '../../../shared/services/api/cursos/CursosService';
+import { ProfessoresService } from '../../../shared/services/api/professores/ProfessoresService';
 import { useDebounce } from '../../../shared/hooks';
 import { useField } from '@unform/core';
+import { DeblurOutlined } from '@mui/icons-material';
+
 
 type TAutoCompleteOption = {
   id: number;
   label: string;
 }
 
-interface IAutoCompleteCursoProps {
-  faculdadeId?: number | undefined;
-  onCursoIdChange?: (cursoId: number | undefined) => void; // Adicione este prop
+interface IAutoCompleteProfessorPorDisciplinaDestinoProps {
   isExternalLoading?: boolean;
+  disciplinaId?: number | undefined;
 }
-
-export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
-  isExternalLoading = false,
-  faculdadeId,
-  onCursoIdChange,
-}) => {
-  const { fieldName, registerField, defaultValue, error, clearError } = useField('cursoOrigemId');
+export const AutoCompleteProfessorPorDisciplinaDestino: React.FC<IAutoCompleteProfessorPorDisciplinaDestinoProps> = ({ isExternalLoading = false, disciplinaId}) => {
+  const { fieldName, registerField, defaultValue, error, clearError } = useField('professorId');
   const { debounce } = useDebounce();
 
   const [selectedId, setSelectedId] = useState<number | undefined>(defaultValue);
+
   const [opcoes, setOpcoes] = useState<TAutoCompleteOption[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [busca, setBusca] = useState('');
-
-  onCursoIdChange?.(selectedId); // Chame a função de callback, se estiver definida
-
-  console.log(selectedId);
 
   useEffect(() => {
     registerField({
@@ -41,36 +34,39 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
     });
   }, [registerField, fieldName, selectedId]);
 
+  console.log("Disciplina destino: ", disciplinaId);
+
+  console.log("Professor selecionado", selectedId);
+
   useEffect(() => {
     setIsLoading(true);
 
     debounce(() => {
-      console.log("Teste");
-      // Utilize faculdadeId diretamente na chamada da API
-      CursosService.getByFaculdadeId(1, busca, faculdadeId)
+      ProfessoresService.getProfessoresByDisciplinaId(1, busca, disciplinaId)
         .then((result) => {
           setIsLoading(false);
 
           if (result instanceof Error) {
-            // Trate o erro aqui
+            // alert(result.message);
           } else {
             console.log(result);
-            setOpcoes(result.data.map(curso => ({ id: curso.id, label: curso.nome })));
+
+            setOpcoes(result.data.map(professor => ({ id: professor.id, label: professor.nome })));
           }
         });
     });
-  }, [busca, faculdadeId, debounce]);
+  }, [busca, disciplinaId, debounce]);
+
 
   const autoCompleteSelectedOption = useMemo(() => {
     if (!selectedId) return null;
-
-    console.log(selectedId);
 
     const selectedOption = opcoes.find(opcao => opcao.id === selectedId);
     if (!selectedOption) return null;
 
     return selectedOption;
   }, [selectedId, opcoes]);
+
 
   return (
     <Autocomplete
@@ -92,7 +88,7 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
         <TextField
           {...params}
 
-          label="Curso origem"
+          label="Professores analisadores do curso de destino"
           error={!!error}
           helperText={error}
         />

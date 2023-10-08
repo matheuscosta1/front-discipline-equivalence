@@ -19,6 +19,10 @@
     {
       "id": 4,
       "nome": "Universidade Campinas 2"
+    },
+    {
+      "nome": "Federal Ceará",
+      "id": 5
     }
   ],
   "cursos": [
@@ -56,6 +60,11 @@
       "nome": "Engenharia Mecânica 2",
       "faculdadeId": 3,
       "id": 8
+    },
+    {
+      "nome": "Ciencia da COmputacao",
+      "faculdadeId": 5,
+      "id": 9
     }
   ],
   "disciplinas": [
@@ -123,6 +132,20 @@
       "faculdadeId": 2,
       "cursoId": 2,
       "id": 2
+    },
+    {
+      "nome": "André",
+      "faculdadeId": 2,
+      "cursoId": 2,
+      "disciplinaId": 3,
+      "id": 3
+    },
+    {
+      "nome": "Roberto",
+      "faculdadeId": 2,
+      "cursoId": 2,
+      "disciplinaId": 3,
+      "id": 4
     }
   ],
   "alocacao-analises-professores": [
@@ -139,6 +162,26 @@
       "faculdadeId": 2,
       "cursoId": 2,
       "id": 2
+    },
+    {
+      "id": 3,
+      "faculdadeOrigemId": 2,
+      "cursoOrigemId": 2,
+      "disciplinaOrigemId": 3,
+      "faculdadeDestinoId": 2,
+      "cursoDestinoId": 2,
+      "disciplinaDestinoId": 3,
+      "professorId": 4
+    },
+    {
+      "faculdadeOrigemId": 2,
+      "cursoOrigemId": 2,
+      "disciplinaOrigemId": 3,
+      "faculdadeDestinoId": 2,
+      "cursoDestinoId": 2,
+      "disciplinaDestinoId": 3,
+      "professorId": 3,
+      "id": 4
     }
   ]
 }

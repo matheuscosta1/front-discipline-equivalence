@@ -21,7 +21,7 @@ export const AutoCompleteDisciplinaOrigem: React.FC<IAutoCompleteCursoProps> = (
   faculdadeId,
   cursoId,
 }) => {
-  const { fieldName, registerField, defaultValue, error, clearError } = useField('cursoId');
+  const { fieldName, registerField, defaultValue, error, clearError } = useField('disciplinaOrigemId');
   const { debounce } = useDebounce();
 
   const [selectedId, setSelectedId] = useState<number | undefined>(defaultValue);

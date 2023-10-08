@@ -11,6 +11,7 @@ import { AutoCompleteFaculdadeDestino } from './components/AutoCompleteFaculdade
 import { AutoCompleteCursoDestino } from './components/AutoCompleteCursoDestino';
 import { AutoCompleteDisciplinaOrigem } from './components/AutoCompleteDisciplinaOrigem';
 import { AutoCompleteDisciplinaDestino } from './components/AutoCompleteDisciplinaDestino';
+import { AutoCompleteProfessorPorDisciplinaDestino } from './components/AutoCompleteProfessorPorDisciplinaDestino';
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 
@@ -49,6 +50,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
   const [faculdadeDestinoId, setFaculdadeDestinoId] = useState<number | undefined>(/* valor inicial */);
 
   const [cursoDestinoId, setCursoDestinoId] = useState<number | undefined>(/* valor inicial */);
+  
+  const [disciplinaDestinoId, setDisciplinaDestinoId] = useState<number | undefined>(/* valor inicial */);
 
 
   const handleFaculdadeOrigemIdChange = (novoFaculdadeId: number | undefined) => {
@@ -65,6 +68,10 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
   const handleCursoDestinoIdChange = (novoCursoId: number | undefined) => {
     setCursoDestinoId(novoCursoId);
+  };
+
+  const handleDisciplinaDestinoIdChange = (novaDisciplinaId: number | undefined) => {
+    setDisciplinaDestinoId(novaDisciplinaId);
   };
 
   useEffect(() => {
@@ -223,7 +230,13 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <AutoCompleteDisciplinaDestino isExternalLoading={isLoading} faculdadeId={faculdadeDestinoId} cursoId={cursoDestinoId}/>
+                <AutoCompleteDisciplinaDestino isExternalLoading={isLoading} faculdadeId={faculdadeDestinoId} cursoId={cursoDestinoId} onDiscipinaDestinoIdChange={handleDisciplinaDestinoIdChange}/>
+              </Grid>
+            </Grid>
+
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <AutoCompleteProfessorPorDisciplinaDestino isExternalLoading={isLoading} disciplinaId={disciplinaDestinoId}/>
               </Grid>
             </Grid>
 
