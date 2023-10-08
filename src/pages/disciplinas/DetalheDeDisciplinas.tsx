@@ -16,7 +16,7 @@ interface IFormData {
   codigoOrigem: string;
   ementa: string;
   programa: string;
-  cargaHoraria: string;
+  cargaHoraria: number;
   faculdadeId: number;
   cursoId: number;
 }
@@ -25,7 +25,7 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   codigoOrigem: yup.string().required().min(3),
   ementa: yup.string().required().min(3),
   programa: yup.string().required().min(3),
-  cargaHoraria: yup.string().required().min(3),
+  cargaHoraria: yup.number().required().min(2),
   faculdadeId: yup.number().required(),
   cursoId: yup.number().required()
 });
@@ -44,6 +44,13 @@ export const DetalheDeDisciplinas: React.FC = () => {
   const [codigoOrigem, setCodigoOrigem] = useState('');
 
 
+  const [faculdadeId, setFaculdadeId] = useState<number | undefined>(/* valor inicial */);
+
+
+  const handleFaculdadeIdChange = (novoFaculdadeId: number | undefined) => {
+    setFaculdadeId(novoFaculdadeId);
+  };
+
   useEffect(() => {
     if (id !== 'nova') {
       setIsLoading(true);
@@ -59,7 +66,6 @@ export const DetalheDeDisciplinas: React.FC = () => {
             setNome(result.nome);
             setEmenta(result.ementa);
             setPrograma(result.programa);
-            setCargaHoraria(result.cargaHoraria);
             setCodigoOrigem(result.codigoOrigem);
             formRef.current?.setData(result);
           }
@@ -198,7 +204,7 @@ export const DetalheDeDisciplinas: React.FC = () => {
                   fullWidth
                   name='codigoOrigem'
                   disabled={isLoading}
-                  label='Código Disciplina Origem'
+                  label='Código Disciplina'
                   onChange={e => setCodigoOrigem(e.target.value)}
                 />
               </Grid>
@@ -242,13 +248,13 @@ export const DetalheDeDisciplinas: React.FC = () => {
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <AutoCompleteFaculdade isExternalLoading={isLoading} />
+                <AutoCompleteFaculdade isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeIdChange}/>
               </Grid>
             </Grid>
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <AutoCompleteCurso isExternalLoading={isLoading} />
+                <AutoCompleteCurso isExternalLoading={isLoading} faculdadeId={faculdadeId}/>
               </Grid>
             </Grid>
 

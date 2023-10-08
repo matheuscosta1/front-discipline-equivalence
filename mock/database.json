@@ -47,16 +47,6 @@
       "id": 5
     },
     {
-      "nome": "Teste",
-      "faculdadeId": 2,
-      "id": 6
-    },
-    {
-      "nome": "Matheus",
-      "faculdadeId": 2,
-      "id": 7
-    },
-    {
       "nome": "Engenharia Mecânica 2",
       "faculdadeId": 3,
       "id": 8
@@ -74,7 +64,7 @@
       "codigoOrigem": "FAMAT1",
       "ementa": "Limites;Derivadas",
       "programa": "Limites",
-      "cargaHoraria": "60",
+      "cargaHoraria": 60,
       "faculdadeId": 2,
       "cursoId": 3
     },
@@ -83,7 +73,7 @@
       "codigoOrigem": "FAMAT0002",
       "ementa": "Limites;Derivadas",
       "programa": "Limites;Derivadas",
-      "cargaHoraria": "Sessenta Horas",
+      "cargaHoraria": 90,
       "faculdadeId": 2,
       "cursoId": 3,
       "id": 2
@@ -103,10 +93,30 @@
       "codigoOrigem": "DANC123",
       "ementa": "Ementa",
       "programa": "Programa",
-      "cargaHoraria": "123",
+      "cargaHoraria": 60,
       "faculdadeId": 2,
       "cursoId": 6,
       "id": 4
+    },
+    {
+      "nome": "Matematica para Computacao",
+      "codigoOrigem": "MCC001",
+      "ementa": "Matematica;Logica",
+      "programa": "Matematica;Logica",
+      "cargaHoraria": 60,
+      "faculdadeId": 5,
+      "cursoId": 9,
+      "id": 5
+    },
+    {
+      "cursoId": 2,
+      "faculdadeId": 2,
+      "cargaHoraria": 90,
+      "programa": "Matemática",
+      "ementa": "Matemática",
+      "codigoOrigem": "MAT0002",
+      "nome": "Matemática",
+      "id": 6
     }
   ],
   "registro_equivalencia": [

@@ -5,24 +5,29 @@ import { CursosService } from '../../../shared/services/api/cursos/CursosService
 import { useDebounce } from '../../../shared/hooks';
 import { useField } from '@unform/core';
 
-
 type TAutoCompleteOption = {
   id: number;
   label: string;
 }
 
 interface IAutoCompleteCursoProps {
+  faculdadeId?: number | undefined;
   isExternalLoading?: boolean;
 }
-export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({ isExternalLoading = false }) => {
+
+export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({
+  isExternalLoading = false,
+  faculdadeId
+}) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField('cursoId');
   const { debounce } = useDebounce();
 
   const [selectedId, setSelectedId] = useState<number | undefined>(defaultValue);
-
   const [opcoes, setOpcoes] = useState<TAutoCompleteOption[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [busca, setBusca] = useState('');
+
+  console.log(selectedId);
 
   useEffect(() => {
     registerField({
@@ -36,30 +41,32 @@ export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({ isExterna
     setIsLoading(true);
 
     debounce(() => {
-      CursosService.getAll(1, busca)
+      console.log("Teste");
+      // Utilize faculdadeId diretamente na chamada da API
+      CursosService.getByFaculdadeId(1, busca, faculdadeId)
         .then((result) => {
           setIsLoading(false);
 
           if (result instanceof Error) {
-            // alert(result.message);
+            // Trate o erro aqui
           } else {
             console.log(result);
-
             setOpcoes(result.data.map(curso => ({ id: curso.id, label: curso.nome })));
           }
         });
     });
-  }, [busca]);
+  }, [busca, faculdadeId, debounce]);
 
   const autoCompleteSelectedOption = useMemo(() => {
     if (!selectedId) return null;
+
+    console.log(selectedId);
 
     const selectedOption = opcoes.find(opcao => opcao.id === selectedId);
     if (!selectedOption) return null;
 
     return selectedOption;
   }, [selectedId, opcoes]);
-
 
   return (
     <Autocomplete
