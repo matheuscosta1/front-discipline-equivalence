@@ -46,6 +46,11 @@
       "nome": "Teste",
       "faculdadeId": 2,
       "id": 6
+    },
+    {
+      "nome": "Matheus",
+      "faculdadeId": 2,
+      "id": 7
     }
   ],
   "disciplinas": [
@@ -67,6 +72,41 @@
       "cargaHoraria": "Sessenta Horas",
       "faculdadeId": 2,
       "cursoId": 3,
+      "id": 2
+    },
+    {
+      "nome": "Dança",
+      "codigoOrigem": "DANC123",
+      "ementa": "Ementa",
+      "programa": "Programa",
+      "cargaHoraria": "123",
+      "faculdadeId": 2,
+      "cursoId": 2,
+      "id": 3
+    }
+  ],
+  "registro_equivalencia": [
+    {
+      "id": 1,
+      "cursoOrigem": "FAMAT0001",
+      "cursoDestino": "FAMAT0002",
+      "professorAnalisador": "Roberto",
+      "status": "NAO_ANALISADO"
+    }
+  ],
+  "professores": [
+    {
+      "id": 1,
+      "nome": "Roberto",
+      "faculdadeId": 2,
+      "cursoId": 2,
+      "nomeFaculdade": "Universidade Federal de Minas Gerais",
+      "nomeCurso": "Engenharia Civil"
+    },
+    {
+      "nome": "Alberto",
+      "faculdadeId": 2,
+      "cursoId": 2,
       "id": 2
     }
   ]
