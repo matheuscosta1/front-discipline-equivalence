@@ -50,6 +50,28 @@ const getAll = async (page = 1, filter = ''): Promise<TDisciplinasComTotalCount 
   }
 };
 
+const getAllDisciplinesByFaculdadeIdAndCursoId = async (page = 1, filter = '', faculdadeId: any, cursoId: any): Promise<TDisciplinasComTotalCount | Error> => {
+  try {
+    console.log("Faculdade: ", faculdadeId);
+    console.log("Curso: ", cursoId);
+    const urlRelativa = `/disciplinas?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&faculdadeId_like=${faculdadeId}&cursoId_like=${cursoId}`;
+
+    const { data, headers } = await Api.get(urlRelativa);
+
+    if (data) {
+      return {
+        data,
+        totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
+      };
+    }
+
+    return new Error('Erro ao listar os registros.');
+  } catch (error) {
+    console.error(error);
+    return new Error((error as { message: string }).message || 'Erro ao listar os registros.');
+  }
+};
+
 const getById = async (id: number): Promise<IDetalheDisciplina | Error> => {
   try {
     const { data } = await Api.get(`/disciplinas/${id}`);
@@ -105,4 +127,5 @@ export const DisciplinasService = {
   getById,
   updateById,
   deleteById,
+  getAllDisciplinesByFaculdadeIdAndCursoId,
 };

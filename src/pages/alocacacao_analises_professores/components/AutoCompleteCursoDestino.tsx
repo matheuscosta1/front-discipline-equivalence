@@ -12,14 +12,14 @@ type TAutoCompleteOption = {
 
 interface IAutoCompleteCursoProps {
   faculdadeId?: number | undefined;
-  onCursoIdChange?: (cursoId: number | undefined) => void; // Adicione este prop
   isExternalLoading?: boolean;
+  onCursoIdChange?: (cursoId: number | undefined) => void; // Adicione este prop
 }
 
-export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
+export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
   isExternalLoading = false,
   faculdadeId,
-  onCursoIdChange,
+  onCursoIdChange
 }) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField('cursoId');
   const { debounce } = useDebounce();
@@ -29,10 +29,6 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [busca, setBusca] = useState('');
 
-  onCursoIdChange?.(selectedId); // Chame a função de callback, se estiver definida
-
-  console.log(selectedId);
-
   useEffect(() => {
     registerField({
       name: fieldName,
@@ -40,6 +36,8 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
       setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
     });
   }, [registerField, fieldName, selectedId]);
+
+  onCursoIdChange?.(selectedId); // Chame a função de callback, se estiver definida
 
   useEffect(() => {
     setIsLoading(true);
@@ -92,7 +90,7 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
         <TextField
           {...params}
 
-          label="Curso origem"
+          label="Curso destino"
           error={!!error}
           helperText={error}
         />
