@@ -30,3 +30,13 @@ interface IAppThemeProviderProps {
 }
 
 React.FC <IAppThemeProviderProps>
+
+
+## Executar
+
+```bash
+    npm install --global yarn
+    yarn install
+    yarn mock
+    yarn start
+```

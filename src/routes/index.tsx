@@ -4,14 +4,16 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useDrawerContext } from '../shared/contexts';
 import {
   Dashboard,
-  DetalheDePessoas,
-  ListagemDePessoas,
   DetalheDeFaculdades,
   ListagemDeFaculdades,
   DetalheDeCursos,
   ListagemDeCursos,
   ListagemDeDisciplinas,
-  DetalheDeDisciplinas
+  DetalheDeDisciplinas,
+  ListagemDeRegistroEquivalencia,
+  DetalheDeRegistroEquivalencia,
+  ListagemDeProfessores,
+  DetalheDeProfessores,
 } from '../pages';
 
 export const AppRoutes = () => {
@@ -27,7 +29,7 @@ export const AppRoutes = () => {
       {
         icon: 'location_city',
         path: '/faculdades',
-        label: 'Faculdades',
+        label: 'Faculdades - Persona Secretário',
       },
       // {
       //   icon: 'people',
@@ -37,12 +39,22 @@ export const AppRoutes = () => {
       {
         icon: 'location_city',
         path: '/cursos',
-        label: 'Cursos',
+        label: 'Cursos - Persona Secretário',
       },
       {
         icon: 'location_city',
         path: '/disciplinas',
-        label: 'Disciplinas',
+        label: 'Disciplinas - Persona Secretário ',
+      },
+      {
+        icon: 'location_city',
+        path: '/registro_equivalencia',
+        label: 'Registra equivalência - Persona Secretário',
+      },
+      {
+        icon: 'location_city',
+        path: '/professores',
+        label: 'Registro professores - Persona Secretário',
       },
     ]);
   }, []);
@@ -62,6 +74,12 @@ export const AppRoutes = () => {
 
       <Route path="/disciplinas" element={<ListagemDeDisciplinas />} />
       <Route path="/disciplinas/detalhe/:id" element={<DetalheDeDisciplinas />} />
+
+      <Route path="/registro_equivalencia" element={<ListagemDeRegistroEquivalencia />} />
+      <Route path="/registro_equivalencia/detalhe/:id" element={<DetalheDeRegistroEquivalencia />} />
+
+      <Route path="/professores" element={<ListagemDeProfessores />} />
+      <Route path="/professores/detalhe/:id" element={<DetalheDeProfessores />} />
 
       <Route path="*" element={<Navigate to="/pagina-inicial" />} />
     </Routes>
