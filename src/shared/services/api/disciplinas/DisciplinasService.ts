@@ -9,7 +9,7 @@ export interface IListagemDisciplina {
   codigoOrigem: string;
   ementa: string;
   programa: string;
-  cargaHoraria: string;
+  cargaHoraria: number;
   faculdadeId: number;
   cursoId: number;
 }
@@ -20,7 +20,7 @@ export interface IDetalheDisciplina {
   codigoOrigem: string;
   ementa: string;
   programa: string;
-  cargaHoraria: string;
+  cargaHoraria: number;
   faculdadeId: number;
   cursoId: number;
 }
