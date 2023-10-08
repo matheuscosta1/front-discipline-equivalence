@@ -88,6 +88,16 @@
       "faculdadeId": 2,
       "cursoId": 2,
       "id": 3
+    },
+    {
+      "nome": "Dança 2",
+      "codigoOrigem": "DANC123",
+      "ementa": "Ementa",
+      "programa": "Programa",
+      "cargaHoraria": "123",
+      "faculdadeId": 2,
+      "cursoId": 6,
+      "id": 4
     }
   ],
   "registro_equivalencia": [

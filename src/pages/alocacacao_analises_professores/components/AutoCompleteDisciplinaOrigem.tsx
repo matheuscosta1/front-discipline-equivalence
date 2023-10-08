@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Autocomplete, CircularProgress, TextField } from '@mui/material';
 
-import { CursosService } from '../../../shared/services/api/cursos/CursosService';
+import { DisciplinasService } from '../../../shared/services/api/disciplinas/DisciplinasService';
 import { useDebounce } from '../../../shared/hooks';
 import { useField } from '@unform/core';
 
@@ -12,14 +12,14 @@ type TAutoCompleteOption = {
 
 interface IAutoCompleteCursoProps {
   faculdadeId?: number | undefined;
-  onCursoIdChange?: (cursoId: number | undefined) => void; // Adicione este prop
+  cursoId?: number | undefined;
   isExternalLoading?: boolean;
 }
 
-export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
+export const AutoCompleteDisciplinaOrigem: React.FC<IAutoCompleteCursoProps> = ({
   isExternalLoading = false,
   faculdadeId,
-  onCursoIdChange,
+  cursoId,
 }) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField('cursoId');
   const { debounce } = useDebounce();
@@ -29,9 +29,8 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [busca, setBusca] = useState('');
 
-  onCursoIdChange?.(selectedId); // Chame a função de callback, se estiver definida
-
-  console.log(selectedId);
+  console.log("Faculdade origem: ", faculdadeId);
+  console.log("Curso origem: ", cursoId);
 
   useEffect(() => {
     registerField({
@@ -47,7 +46,7 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
     debounce(() => {
       console.log("Teste");
       // Utilize faculdadeId diretamente na chamada da API
-      CursosService.getByFaculdadeId(1, busca, faculdadeId)
+      DisciplinasService.getAllDisciplinesByFaculdadeIdAndCursoId(1, busca, faculdadeId, cursoId)
         .then((result) => {
           setIsLoading(false);
 
@@ -59,7 +58,7 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
           }
         });
     });
-  }, [busca, faculdadeId, debounce]);
+  }, [busca, faculdadeId, debounce, cursoId]);
 
   const autoCompleteSelectedOption = useMemo(() => {
     if (!selectedId) return null;
@@ -92,7 +91,7 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
         <TextField
           {...params}
 
-          label="Curso origem"
+          label="Disciplina do curso de origem"
           error={!!error}
           helperText={error}
         />
