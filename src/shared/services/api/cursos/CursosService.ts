@@ -54,6 +54,27 @@ const getById = async (id: number): Promise<IDetalheCurso | Error> => {
   }
 };
 
+
+const getByFaculdadeId = async (page = 1, filter = '', faculdadeId: any): Promise<TCursosComTotalCount | Error> => {
+  try {
+    const urlRelativa = `/cursos?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&faculdadeId_like=${faculdadeId}`;
+
+    const { data, headers } = await Api.get(urlRelativa);
+
+    if (data) {
+      return {
+        data,
+        totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
+      };
+    }
+
+    return new Error('Erro ao listar os registros.');
+  } catch (error) {
+    console.error(error);
+    return new Error((error as { message: string }).message || 'Erro ao listar os registros.');
+  }
+};
+
 const create = async (dados: Omit<IDetalheCurso, 'id'>): Promise<number | Error> => {
   try {
     const { data } = await Api.post<IDetalheCurso>('/cursos', dados);
@@ -94,4 +115,5 @@ export const CursosService = {
   getById,
   updateById,
   deleteById,
+  getByFaculdadeId
 };

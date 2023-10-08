@@ -51,6 +51,11 @@
       "nome": "Matheus",
       "faculdadeId": 2,
       "id": 7
+    },
+    {
+      "nome": "Engenharia Mecânica 2",
+      "faculdadeId": 3,
+      "id": 8
     }
   ],
   "disciplinas": [
@@ -95,6 +100,22 @@
     }
   ],
   "professores": [
+    {
+      "id": 1,
+      "nome": "Roberto",
+      "faculdadeId": 2,
+      "cursoId": 2,
+      "nomeFaculdade": "Universidade Federal de Minas Gerais",
+      "nomeCurso": "Engenharia Civil"
+    },
+    {
+      "nome": "Alberto",
+      "faculdadeId": 2,
+      "cursoId": 2,
+      "id": 2
+    }
+  ],
+  "alocacao-analises-professores": [
     {
       "id": 1,
       "nome": "Roberto",

@@ -11,4 +11,5 @@ export * from './registro_equivalencia/DetalheDeRegistroEquivalencia';
 export * from './registro_equivalencia/ListagemDeRegistroEquivalencia';
 export * from './professores/ListagemDeProfessores';
 export * from './professores/DetalheDeProfessores';
-
+export * from './alocacacao_analises_professores/ListagemDeAlocacaoAnalisesProfessores';
+export * from './alocacacao_analises_professores/DetalheDeAlocacaoAnalisesProfessores';
