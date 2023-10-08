@@ -7,6 +7,7 @@ import { ProfessoresService } from '../../shared/services/api/professores/Profes
 import { VTextField, VForm, useVForm, IVFormErrors } from '../../shared/forms';
 import { AutoCompleteFaculdade } from './components/AutoCompleteFaculdade';
 import { AutoCompleteCurso } from './components/AutoCompleteCurso';
+import { AutoCompleteDisciplina } from './components/AutoCompleteDisciplina';
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 
@@ -15,11 +16,13 @@ interface IFormData {
   nome: string;
   faculdadeId: number;
   cursoId: number;
+  disciplinaId: number;
 }
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   nome: yup.string().required().min(3),
   faculdadeId: yup.number().required(),
-  cursoId: yup.number().required()
+  cursoId: yup.number().required(),
+  disciplinaId: yup.number().required()
 });
 
 export const DetalheDeProfessores: React.FC = () => {
@@ -27,6 +30,17 @@ export const DetalheDeProfessores: React.FC = () => {
   const { id = 'nova' } = useParams<'id'>();
   const navigate = useNavigate();
 
+  const [faculdadeId, setFaculdadeId] = useState<number | undefined>(/* valor inicial */);
+
+  const [cursoId, setCursoId] = useState<number | undefined>(/* valor inicial */);
+
+  const handleFaculdadeIdChange = (novoFaculdadeId: number | undefined) => {
+    setFaculdadeId(novoFaculdadeId);
+  };
+
+  const handleCursoIdChange = (novoCursoId: number | undefined) => {
+    setCursoId(novoCursoId);
+  };
 
   const [isLoading, setIsLoading] = useState(false);
   const [nome, setNome] = useState('');
@@ -51,6 +65,8 @@ export const DetalheDeProfessores: React.FC = () => {
       formRef.current?.setData({
         nome: '',
         faculdadeId: undefined,
+        cursoId: undefined,
+        disciplinaId: undefined,
       });
     }
   }, [id]);
@@ -125,7 +141,7 @@ export const DetalheDeProfessores: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo={id === 'nova' ? 'Nova curso' : nome}
+      titulo={id === 'nova' ? 'Cadastro de professor' : nome}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo='Nova'
@@ -170,13 +186,19 @@ export const DetalheDeProfessores: React.FC = () => {
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <AutoCompleteFaculdade isExternalLoading={isLoading} />
+                <AutoCompleteFaculdade isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeIdChange}/>
               </Grid>
             </Grid>
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <AutoCompleteCurso isExternalLoading={isLoading} />
+                <AutoCompleteCurso isExternalLoading={isLoading} faculdadeId={faculdadeId} onCursoIdChange={handleCursoIdChange}/>
+              </Grid>
+            </Grid>
+
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <AutoCompleteDisciplina isExternalLoading={isLoading} faculdadeId={faculdadeId} cursoId={cursoId}/>
               </Grid>
             </Grid>
 

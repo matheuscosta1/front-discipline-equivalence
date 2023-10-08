@@ -14,14 +14,16 @@ interface IAutoCompleteCursoProps {
   faculdadeId?: number | undefined;
   cursoId?: number | undefined;
   isExternalLoading?: boolean;
+  onDiscipinaDestinoIdChange?: (disciplinaDestinoId: number | undefined) => void; // Adicione este prop
 }
 
 export const AutoCompleteDisciplinaDestino: React.FC<IAutoCompleteCursoProps> = ({
   isExternalLoading = false,
   faculdadeId,
   cursoId,
+  onDiscipinaDestinoIdChange,
 }) => {
-  const { fieldName, registerField, defaultValue, error, clearError } = useField('cursoId');
+  const { fieldName, registerField, defaultValue, error, clearError } = useField('disciplinaDestinoId');
   const { debounce } = useDebounce();
 
   const [selectedId, setSelectedId] = useState<number | undefined>(defaultValue);
@@ -29,8 +31,10 @@ export const AutoCompleteDisciplinaDestino: React.FC<IAutoCompleteCursoProps> = 
   const [isLoading, setIsLoading] = useState(false);
   const [busca, setBusca] = useState('');
 
-  console.log("Faculdade origem: ", faculdadeId);
-  console.log("Curso origem: ", cursoId);
+  onDiscipinaDestinoIdChange?.(selectedId); // Chame a função de callback, se estiver definida
+
+  console.log("Faculdade destino: ", faculdadeId);
+  console.log("Curso destino: ", cursoId);
 
   useEffect(() => {
     registerField({

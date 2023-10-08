@@ -16,7 +16,7 @@ interface IAutoCompleteFaculdadeProps {
   isExternalLoading?: boolean;
 }
 export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps> = ({ isExternalLoading = false, onFaculdadeIdChange }) => {
-  const { fieldName, registerField, defaultValue, error, clearError } = useField('faculdadeId');
+  const { fieldName, registerField, defaultValue, error, clearError } = useField('faculdadeDestinoId');
   const { debounce } = useDebounce();
 
   const [selectedId, setSelectedId] = useState<number | undefined>(defaultValue);
