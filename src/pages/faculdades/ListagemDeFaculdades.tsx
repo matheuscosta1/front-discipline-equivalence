@@ -24,7 +24,8 @@ export const ListagemDeFaculdades: React.FC = () => {
   }, [searchParams]);
 
   const pagina = useMemo(() => {
-    return Number(searchParams.get('pagina') || '1');
+    const page = Number(searchParams.get('pagina'));
+    return isNaN(page) || page < 0 ? 0 : page;
   }, [searchParams]);
 
 
@@ -39,10 +40,11 @@ export const ListagemDeFaculdades: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log(result);
-
+            console.log("Data: ", result.data);
+            console.log("Total Count: ", result.totalCount);
+            
             setTotalCount(result.totalCount);
-            setRows(result.data);
+            setRows(result.content);
           }
         });
     });
@@ -74,7 +76,7 @@ export const ListagemDeFaculdades: React.FC = () => {
           textoDaBusca={busca}
           textoBotaoNovo='Nova'
           aoClicarEmNovo={() => navigate('/faculdades/detalhe/nova')}
-          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}
+          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
         />
       }
     >
@@ -118,9 +120,9 @@ export const ListagemDeFaculdades: React.FC = () => {
               <TableRow>
                 <TableCell colSpan={3}>
                   <Pagination
-                    page={pagina}
-                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS)}
-                    onChange={(_, newPage) => setSearchParams({ busca, pagina: newPage.toString() }, { replace: true })}
+                    page={pagina+1}
+                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS+1)}
+                    onChange={(_, newPage) => setSearchParams({ busca, pagina: (newPage-1).toString() }, { replace: true })}
                   />
                 </TableCell>
               </TableRow>

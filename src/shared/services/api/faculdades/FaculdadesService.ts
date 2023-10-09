@@ -2,9 +2,15 @@ import { Environment } from '../../../environment';
 import { Api } from '../axios-config';
 
 
+type Data = {
+  content:  IListagemFaculdade
+  totalElements: number
+}
+
 export interface IListagemFaculdade {
   id: number;
   nome: string;
+  data: Data;
 }
 
 export interface IDetalheFaculdade {
@@ -14,19 +20,27 @@ export interface IDetalheFaculdade {
 
 type TFaculdadesComTotalCount = {
   data: IListagemFaculdade[];
+  content: IListagemFaculdade[];
   totalCount: number;
 }
 
-const getAll = async (page = 1, filter = ''): Promise<TFaculdadesComTotalCount | Error> => {
+const getAll = async (page = 0, filter = ''): Promise<TFaculdadesComTotalCount | Error> => {
   try {
-    const urlRelativa = `/faculdades?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&nome_like=${filter}`;
 
+    console.log(page);
+    const urlRelativa = `/faculdades?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&nome=${filter}`;
+
+    console.log(urlRelativa);
+    
     const { data, headers } = await Api.get(urlRelativa);
+
+    console.log("Data from axios: ", data);
 
     if (data) {
       return {
         data,
-        totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
+        totalCount: Number(headers['x-total-count'] || data.totalElements || Environment.LIMITE_DE_LINHAS),
+        content: data.content
       };
     }
 
