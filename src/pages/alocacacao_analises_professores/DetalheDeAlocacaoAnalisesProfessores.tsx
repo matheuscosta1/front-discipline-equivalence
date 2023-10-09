@@ -14,7 +14,9 @@ import { AutoCompleteDisciplinaDestino } from './components/AutoCompleteDiscipli
 import { AutoCompleteProfessorPorDisciplinaDestino } from './components/AutoCompleteProfessorPorDisciplinaDestino';
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { format } from 'date-fns';
 
 interface IFormData {
   faculdadeOrigemId: number;
@@ -24,6 +26,7 @@ interface IFormData {
   cursoDestinoId: number;
   disciplinaDestinoId: number;
   professorId: number;
+  dataMaxima: string;
 }
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   faculdadeOrigemId: yup.number().required(),
@@ -32,7 +35,14 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   faculdadeDestinoId: yup.number().required(),
   cursoDestinoId: yup.number().required(),
   disciplinaDestinoId: yup.number().required(),
-  professorId: yup.number().required()
+  professorId: yup.number().required(),
+  dataMaxima: yup
+    .string()
+    .required()
+    .matches(
+      /^(\d{2})-(\d{2})-(\d{4})$/,
+      'A data deve estar no formato DD-MM-YYYY'
+    ),
 });
 
 export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
@@ -53,6 +63,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
   
   const [disciplinaDestinoId, setDisciplinaDestinoId] = useState<number | undefined>(/* valor inicial */);
 
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [dataMaxima, setDataMaxima] = useState<string>('');
 
   const handleFaculdadeOrigemIdChange = (novoFaculdadeId: number | undefined) => {
     setFaculdadeOrigemId(novoFaculdadeId);
@@ -240,6 +252,20 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
               </Grid>
             </Grid>
 
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField
+                  fullWidth
+                  name='dataMaxima'
+                  label='Data máxima para análise'
+                  disabled={isLoading}
+                  onChange={e => setDataMaxima(e.target.value)}
+                  placeholder='Exemplo: 14/05/1999'
+                />
+              </Grid>
+            </Grid>
+
+          
           </Grid>
 
         </Box>
