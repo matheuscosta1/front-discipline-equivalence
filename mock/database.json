@@ -135,27 +135,26 @@
       "faculdadeId": 2,
       "cursoId": 2,
       "nomeFaculdade": "Universidade Federal de Minas Gerais",
-      "nomeCurso": "Engenharia Civil"
-    },
-    {
-      "nome": "Alberto",
-      "faculdadeId": 2,
-      "cursoId": 2,
-      "id": 2
+      "nomeCurso": "Engenharia Civil",
+      "disciplinaId": 3
     },
     {
       "nome": "André",
       "faculdadeId": 2,
       "cursoId": 2,
       "disciplinaId": 3,
-      "id": 3
+      "id": 3,
+      "nomeFaculdade": "Universidade Federal de Minas Gerais",
+      "nomeCurso": "Engenharia Civil"
     },
     {
       "nome": "Roberto",
       "faculdadeId": 2,
       "cursoId": 2,
       "disciplinaId": 3,
-      "id": 4
+      "id": 4,
+      "nomeFaculdade": "Universidade Federal de Minas Gerais",
+      "nomeCurso": "Engenharia Civil"
     }
   ],
   "alocacao-analises-professores": [
@@ -192,6 +191,17 @@
       "disciplinaDestinoId": 3,
       "professorId": 3,
       "id": 4
+    },
+    {
+      "faculdadeOrigemId": 2,
+      "cursoOrigemId": 2,
+      "disciplinaOrigemId": 3,
+      "faculdadeDestinoId": 2,
+      "cursoDestinoId": 2,
+      "disciplinaDestinoId": 3,
+      "professorId": 3,
+      "dataMaxima": "30/10/2023",
+      "id": 5
     }
   ]
 }

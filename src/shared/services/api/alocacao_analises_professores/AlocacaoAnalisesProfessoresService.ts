@@ -20,6 +20,7 @@ export interface IDetalheAlocacaoAnalisesProfessores {
   cursoDestinoId: number;
   disciplinaDestinoId: number;
   professorId: number;
+  dataMaxima: string;
 }
 
 
