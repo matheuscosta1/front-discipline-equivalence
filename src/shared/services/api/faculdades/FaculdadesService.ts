@@ -51,6 +51,34 @@ const getAll = async (page = 0, filter = ''): Promise<TFaculdadesComTotalCount |
   }
 };
 
+const getAllForAutoComplete = async (page = 0, filter = ''): Promise<TFaculdadesComTotalCount | Error> => {
+  try {
+
+    console.log(page);
+    const urlRelativa = `/faculdades?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS_ILIMITADO}&nome=${filter}`;
+
+    console.log(urlRelativa);
+    
+    const { data, headers } = await Api.get(urlRelativa);
+
+    console.log("Data from axios: ", data);
+
+    if (data) {
+      return {
+        data,
+        totalCount: Number(headers['x-total-count'] || data.totalElements || Environment.LIMITE_DE_LINHAS),
+        content: data.content
+      };
+    }
+
+    return new Error('Erro ao listar os registros.');
+  } catch (error) {
+    console.error(error);
+    return new Error((error as { message: string }).message || 'Erro ao listar os registros.');
+  }
+};
+
+
 const getById = async (id: number): Promise<IDetalheFaculdade | Error> => {
   try {
     const { data } = await Api.get(`/faculdades/${id}`);
@@ -106,4 +134,5 @@ export const FaculdadesService = {
   getById,
   updateById,
   deleteById,
+  getAllForAutoComplete
 };

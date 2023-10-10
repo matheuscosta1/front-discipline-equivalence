@@ -43,7 +43,7 @@ export const AutoCompleteDisciplina: React.FC<IAutoCompleteCursoProps> = ({
     debounce(() => {
       console.log("Teste");
       // Utilize faculdadeId diretamente na chamada da API
-      DisciplinasService.getAllDisciplinesByFaculdadeIdAndCursoId(1, busca, faculdadeId, cursoId)
+      DisciplinasService.getAllDisciplinesByFaculdadeIdAndCursoId(0, busca, faculdadeId, cursoId)
         .then((result) => {
           setIsLoading(false);
 
@@ -51,7 +51,7 @@ export const AutoCompleteDisciplina: React.FC<IAutoCompleteCursoProps> = ({
             // Trate o erro aqui
           } else {
             console.log(result);
-            setOpcoes(result.data.map(disciplina => ({ id: disciplina.id, label: disciplina.nome })));
+            setOpcoes(result.content.map(disciplina => ({ id: disciplina.id, label: disciplina.nome })));
           }
         });
     });
