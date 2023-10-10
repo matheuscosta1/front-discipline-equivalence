@@ -24,7 +24,7 @@ export const ListagemDeDisciplinas: React.FC = () => {
   }, [searchParams]);
 
   const pagina = useMemo(() => {
-    return Number(searchParams.get('pagina') || '1');
+    return Number(searchParams.get('pagina') || '0');
   }, [searchParams]);
 
 
@@ -40,13 +40,15 @@ export const ListagemDeDisciplinas: React.FC = () => {
             alert(result.message);
           } else {
             console.log(result);
+            console.log("Total count disciplinas", result.totalCount);
+            console.log("Content disciplinas", result.content);
 
             setTotalCount(result.totalCount);
-            setRows(result.data);
+            setRows(result.content);
           }
         });
     });
-  }, [busca, pagina]);
+  }, [busca, pagina, debounce]);
 
   const handleDelete = (id: number) => {
     if (window.confirm('Realmente deseja apagar?')) {
@@ -74,7 +76,7 @@ export const ListagemDeDisciplinas: React.FC = () => {
           textoDaBusca={busca}
           textoBotaoNovo='Nova'
           aoClicarEmNovo={() => navigate('/disciplinas/detalhe/nova')}
-          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}
+          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
         />
       }
     >
@@ -125,9 +127,9 @@ export const ListagemDeDisciplinas: React.FC = () => {
               <TableRow>
                 <TableCell colSpan={3}>
                   <Pagination
-                    page={pagina}
-                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS)}
-                    onChange={(_, newPage) => setSearchParams({ busca, pagina: newPage.toString() }, { replace: true })}
+                    page={pagina+1}
+                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS+1)}
+                    onChange={(_, newPage) => setSearchParams({ busca, pagina: (newPage-1).toString() }, { replace: true })}
                   />
                 </TableCell>
               </TableRow>

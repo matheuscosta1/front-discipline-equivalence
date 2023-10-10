@@ -36,7 +36,7 @@ export const AutoCompleteFaculdade: React.FC<IAutoCompleteFaculdadeProps> = ({ i
     setIsLoading(true);
 
     debounce(() => {
-      FaculdadesService.getAll(1, busca)
+      FaculdadesService.getAllForAutoComplete(0, busca)
         .then((result) => {
           setIsLoading(false);
 
@@ -45,11 +45,11 @@ export const AutoCompleteFaculdade: React.FC<IAutoCompleteFaculdadeProps> = ({ i
           } else {
             console.log(result);
 
-            setOpcoes(result.data.map(faculdade => ({ id: faculdade.id, label: faculdade.nome })));
+            setOpcoes(result.content.map(faculdade => ({ id: faculdade.id, label: faculdade.nome })));
           }
         });
     });
-  }, [busca]);
+  }, [busca, debounce]);
 
   const autoCompleteSelectedOption = useMemo(() => {
     if (!selectedId) return null;

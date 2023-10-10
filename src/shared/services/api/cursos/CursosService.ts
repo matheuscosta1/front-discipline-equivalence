@@ -16,19 +16,27 @@ export interface IDetalheCurso {
 
 type TCursosComTotalCount = {
   data: IListagemCurso[];
+  content: IListagemCurso[];
   totalCount: number;
 }
 
-const getAll = async (page = 1, filter = ''): Promise<TCursosComTotalCount | Error> => {
+const getAll = async (page = 0, filter = ''): Promise<TCursosComTotalCount | Error> => {
   try {
-    const urlRelativa = `/cursos?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&nome_like=${filter}`;
 
+    console.log(page);
+    const urlRelativa = `/cursos?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&nome=${filter}`;
+
+    console.log(urlRelativa);
+    
     const { data, headers } = await Api.get(urlRelativa);
+
+    console.log("Data from axios: ", data);
 
     if (data) {
       return {
         data,
-        totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
+        totalCount: Number(headers['x-total-count'] || data.totalElements || Environment.LIMITE_DE_LINHAS),
+        content: data.content
       };
     }
 
@@ -55,16 +63,17 @@ const getById = async (id: number): Promise<IDetalheCurso | Error> => {
 };
 
 
-const getByFaculdadeId = async (page = 1, filter = '', faculdadeId: any): Promise<TCursosComTotalCount | Error> => {
+const getByFaculdadeId = async (page = 0, filter = '', faculdadeId: any): Promise<TCursosComTotalCount | Error> => {
   try {
-    const urlRelativa = `/cursos?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&faculdadeId_like=${faculdadeId}`;
+    const urlRelativa = `/cursos?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS_ILIMITADO}&faculdadeId=${faculdadeId}`;
 
     const { data, headers } = await Api.get(urlRelativa);
 
     if (data) {
       return {
         data,
-        totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
+        totalCount: Number(headers['x-total-count'] || data.totalElements || Environment.LIMITE_DE_LINHAS),
+        content: data.content
       };
     }
 

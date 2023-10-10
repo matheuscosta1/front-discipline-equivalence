@@ -27,19 +27,21 @@ export interface IDetalheDisciplina {
 
 type TDisciplinasComTotalCount = {
   data: IListagemDisciplina[];
+  content: IListagemDisciplina[];
   totalCount: number;
 }
 
-const getAll = async (page = 1, filter = ''): Promise<TDisciplinasComTotalCount | Error> => {
+const getAll = async (page = 0, filter = ''): Promise<TDisciplinasComTotalCount | Error> => {
   try {
-    const urlRelativa = `/disciplinas?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&nome_like=${filter}`;
+    const urlRelativa = `/disciplinas?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&nome=${filter}`;
 
     const { data, headers } = await Api.get(urlRelativa);
 
     if (data) {
       return {
         data,
-        totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
+        totalCount: Number(headers['x-total-count'] || data.totalElements || Environment.LIMITE_DE_LINHAS),
+        content: data.content
       };
     }
 
@@ -54,14 +56,15 @@ const getAllDisciplinesByFaculdadeIdAndCursoId = async (page = 1, filter = '', f
   try {
     console.log("Faculdade: ", faculdadeId);
     console.log("Curso: ", cursoId);
-    const urlRelativa = `/disciplinas?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&faculdadeId_like=${faculdadeId}&cursoId_like=${cursoId}`;
+    const urlRelativa = `/disciplinas?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS_ILIMITADO}&faculdadeId=${faculdadeId}&cursoId=${cursoId}`;
 
     const { data, headers } = await Api.get(urlRelativa);
 
     if (data) {
       return {
         data,
-        totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
+        totalCount: Number(headers['x-total-count'] || data.totalElements || Environment.LIMITE_DE_LINHAS),
+        content: data.content
       };
     }
 
