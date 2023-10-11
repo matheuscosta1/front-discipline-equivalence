@@ -42,7 +42,7 @@ export const AutoCompleteProfessorPorDisciplinaDestino: React.FC<IAutoCompletePr
     setIsLoading(true);
 
     debounce(() => {
-      ProfessoresService.getProfessoresByDisciplinaId(1, busca, disciplinaId)
+      ProfessoresService.getProfessoresByDisciplinaId(0, busca, disciplinaId)
         .then((result) => {
           setIsLoading(false);
 
@@ -51,7 +51,7 @@ export const AutoCompleteProfessorPorDisciplinaDestino: React.FC<IAutoCompletePr
           } else {
             console.log(result);
 
-            setOpcoes(result.data.map(professor => ({ id: professor.id, label: professor.nome })));
+            setOpcoes(result.content.map(professor => ({ id: professor.id, label: professor.nome })));
           }
         });
     });

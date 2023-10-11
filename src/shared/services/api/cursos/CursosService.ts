@@ -86,9 +86,9 @@ const getByFaculdadeId = async (page = 0, filter = '', faculdadeId: any): Promis
 
 const create = async (dados: Omit<IDetalheCurso, 'id'>): Promise<number | Error> => {
   try {
-    const { data } = await Api.post<IDetalheCurso>('/cursos', dados);
+    const { data , status } = await Api.post<IDetalheCurso>('/cursos', dados);
 
-    if (data) {
+    if (status === 200) {
       return data.id;
     }
 
