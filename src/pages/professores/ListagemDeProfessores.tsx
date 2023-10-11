@@ -26,7 +26,7 @@ export const ListagemDeProfessores: React.FC = () => {
   }, [searchParams]);
 
   const pagina = useMemo(() => {
-    return Number(searchParams.get('pagina') || '1');
+    return Number(searchParams.get('pagina') || '0');
   }, [searchParams]);
 
 
@@ -41,10 +41,11 @@ export const ListagemDeProfessores: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log(result);
+            console.log("Data professores: ", result.data);
+            console.log("Total Count professores: ", result.totalCount);
 
             setTotalCount(result.totalCount);
-            setRows(result.data);
+            setRows(result.content);
           }
         });
     });
@@ -123,9 +124,9 @@ export const ListagemDeProfessores: React.FC = () => {
               <TableRow>
                 <TableCell colSpan={3}>
                   <Pagination
-                    page={pagina}
-                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS)}
-                    onChange={(_, newPage) => setSearchParams({ busca, pagina: newPage.toString() }, { replace: true })}
+                    page={pagina+1}
+                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS+1)}
+                    onChange={(_, newPage) => setSearchParams({ busca, pagina: (newPage-1).toString() }, { replace: true })}
                   />
                 </TableCell>
               </TableRow>

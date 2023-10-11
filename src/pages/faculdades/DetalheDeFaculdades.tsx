@@ -67,6 +67,7 @@ export const DetalheDeFaculdades: React.FC = () => {
                 if (isSaveAndClose()) {
                   navigate('/faculdades');
                 } else {
+                  console.log("Resultado Id", result)
                   navigate(`/faculdades/detalhe/${result}`);
                 }
               }

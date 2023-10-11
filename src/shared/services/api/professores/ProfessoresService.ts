@@ -24,19 +24,21 @@ export interface IDetalheProfessores {
 
 type TRegistroProfessorComTotalCount = {
   data: IListagemProfessores[];
+  content: IListagemProfessores[];
   totalCount: number;
 }
 
-const getAll = async (page = 1, filter = ''): Promise<TRegistroProfessorComTotalCount | Error> => {
+const getAll = async (page = 0, filter = ''): Promise<TRegistroProfessorComTotalCount | Error> => {
   try {
-    const urlRelativa = `/professores?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&nome_like=${filter}`;
+    const urlRelativa = `/professores?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&nome=${filter}`;
 
     const { data, headers } = await Api.get(urlRelativa);
 
     if (data) {
       return {
         data,
-        totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
+        totalCount: Number(headers['x-total-count'] || data.totalElements || Environment.LIMITE_DE_LINHAS),
+        content: data.content
       };
     }
 
@@ -47,16 +49,17 @@ const getAll = async (page = 1, filter = ''): Promise<TRegistroProfessorComTotal
   }
 };
 
-const getProfessoresByDisciplinaId = async (page = 1, filter = '', disciplinaId: any): Promise<TRegistroProfessorComTotalCount | Error> => {
+const getProfessoresByDisciplinaId = async (page = 0, filter = '', disciplinaId: any): Promise<TRegistroProfessorComTotalCount | Error> => {
   try {
-    const urlRelativa = `/professores?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&disciplinaId_like=${disciplinaId}`;
+    const urlRelativa = `/professores?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&disciplinaId=${disciplinaId}`;
 
     const { data, headers } = await Api.get(urlRelativa);
 
     if (data) {
       return {
         data,
-        totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
+        totalCount: Number(headers['x-total-count'] || data.totalElements || Environment.LIMITE_DE_LINHAS),
+        content: data.content
       };
     }
 
@@ -84,9 +87,9 @@ const getById = async (id: number): Promise<IDetalheProfessores | Error> => {
 
 const create = async (dados: Omit<IDetalheProfessores, 'id'>): Promise<number | Error> => {
   try {
-    const { data } = await Api.post<IDetalheProfessores>('/professores', dados);
+    const { data, status } = await Api.post<IDetalheProfessores>('/professores', dados);
 
-    if (data) {
+    if (status === 200) {
       return data.id;
     }
 

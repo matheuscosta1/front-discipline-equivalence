@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 
 import { FaculdadesService } from '../../shared/services/api/faculdades/FaculdadesService';
-import { PessoasService } from '../../shared/services/api/pessoas/PessoasService';
 import { CursosService } from '../../shared/services/api/cursos/CursosService';
 import { FerramentasDaListagem } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
@@ -11,14 +10,11 @@ import { LayoutBaseDePagina } from '../../shared/layouts';
 export const Dashboard = () => {
   const [isLoadingFaculdades, setIsLoadingFaculdades] = useState(true);
   const [totalCountFaculdades, setTotalCountFaculdades] = useState(0);
-  const [isLoadingPessoas, setIsLoadingPessoas] = useState(true);
-  const [totalCountPessoas, setTotalCountPessoas] = useState(0);
   const [isLoadingCursos, setIsLoadingCursos] = useState(true);
   const [totalCountCursos, setTotalCountCursos] = useState(0);
 
   useEffect(() => {
     setIsLoadingFaculdades(true);
-    setIsLoadingPessoas(true);
     setIsLoadingCursos(true);
 
     FaculdadesService.getAll(1)
@@ -41,16 +37,6 @@ export const Dashboard = () => {
           setTotalCountCursos(result.totalCount);
         }
       });  
-    // PessoasService.getAll(1)
-    //   .then((result) => {
-    //     setIsLoadingPessoas(false);
-
-    //     if (result instanceof Error) {
-    //       alert(result.message);
-    //     } else {
-    //       setTotalCountPessoas(result.totalCount);
-    //     }
-    //   });
 
   }, []);
 

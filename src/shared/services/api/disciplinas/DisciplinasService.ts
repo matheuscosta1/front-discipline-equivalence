@@ -92,9 +92,9 @@ const getById = async (id: number): Promise<IDetalheDisciplina | Error> => {
 
 const create = async (dados: Omit<IDetalheDisciplina, 'id'>): Promise<number | Error> => {
   try {
-    const { data } = await Api.post<IDetalheDisciplina>('/disciplinas', dados);
+    const { data, status } = await Api.post<IDetalheDisciplina>('/disciplinas', dados);
 
-    if (data) {
+    if (status === 200) {
       return data.id;
     }
 

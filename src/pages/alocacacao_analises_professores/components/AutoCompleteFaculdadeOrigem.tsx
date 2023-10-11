@@ -39,7 +39,7 @@ export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> 
     setIsLoading(true);
 
     debounce(() => {
-      FaculdadesService.getAll(1, busca)
+      FaculdadesService.getAll(0, busca)
         .then((result) => {
           setIsLoading(false);
 
@@ -48,7 +48,7 @@ export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> 
           } else {
             console.log(result);
 
-            setOpcoes(result.data.map(faculdade => ({ id: faculdade.id, label: faculdade.nome })));
+            setOpcoes(result.content.map(faculdade => ({ id: faculdade.id, label: faculdade.nome })));
           }
         });
     });

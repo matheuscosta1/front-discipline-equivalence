@@ -59,9 +59,9 @@ const getById = async (id: number): Promise<IDetalheRegistroEquivalencia | Error
 
 const create = async (dados: Omit<IDetalheRegistroEquivalencia, 'id'>): Promise<number | Error> => {
   try {
-    const { data } = await Api.post<IDetalheRegistroEquivalencia>('/registro_equivalencia', dados);
+    const { data, status } = await Api.post<IDetalheRegistroEquivalencia>('/registro_equivalencia', dados);
 
-    if (data) {
+    if (status === 200) {
       return data.id;
     }
 
