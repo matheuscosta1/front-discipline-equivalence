@@ -14,9 +14,6 @@ import { AutoCompleteDisciplinaDestino } from './components/AutoCompleteDiscipli
 import { AutoCompleteProfessorPorDisciplinaDestino } from './components/AutoCompleteProfessorPorDisciplinaDestino';
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { format } from 'date-fns';
 
 interface IFormData {
   faculdadeOrigemId: number;
@@ -96,7 +93,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
           if (result instanceof Error) {
             alert(result.message);
-            navigate('/alocacao-analises-professores');
+            navigate('/analises');
           } else {
             formRef.current?.setData(result);
           }
@@ -127,9 +124,9 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 alert(result.message);
               } else {
                 if (isSaveAndClose()) {
-                  navigate('/alocacao-analises-professores');
+                  navigate('/analises');
                 } else {
-                  navigate(`/alocacao-analises-professores/detalhe/${result}`);
+                  navigate(`/analises/detalhe/${result}`);
                 }
               }
             });
@@ -143,7 +140,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 alert(result.message);
               } else {
                 if (isSaveAndClose()) {
-                  navigate('/alocacao-analises-professores');
+                  navigate('/analises');
                 }
               }
             });
@@ -170,7 +167,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
             alert(result.message);
           } else {
             alert('Registro apagado com sucesso!');
-            navigate('/alocacao-analises-professores');
+            navigate('/analises');
           }
         });
     }
@@ -189,9 +186,9 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
           aoClicarEmSalvar={save}
           aoClicarEmSalvarEFechar={saveAndClose}
-          aoClicarEmVoltar={() => navigate('/alocacao-analises-professores')}
+          aoClicarEmVoltar={() => navigate('/analises')}
           aoClicarEmApagar={() => handleDelete(Number(id))}
-          aoClicarEmNovo={() => navigate('/alocacao-analises-professores/detalhe/nova')}
+          aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
         />
       }
     >

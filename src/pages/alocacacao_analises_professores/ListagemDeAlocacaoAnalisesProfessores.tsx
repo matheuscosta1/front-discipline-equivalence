@@ -24,7 +24,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
   }, [searchParams]);
 
   const pagina = useMemo(() => {
-    return Number(searchParams.get('pagina') || '1');
+    return Number(searchParams.get('pagina') || '0');
   }, [searchParams]);
 
 
@@ -42,7 +42,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
             console.log(result);
 
             setTotalCount(result.totalCount);
-            setRows(result.data);
+            setRows(result.content);
           }
         });
     });
@@ -72,8 +72,9 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
           mostrarInputBusca
           textoDaBusca={busca}
           textoBotaoNovo='Nova'
-          aoClicarEmNovo={() => navigate('/alocacao-analises-professores/detalhe/nova')}
-          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}
+          aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
+          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
+          inputBusca = 'Pesquisar por professor...'
         />
       }
     >
@@ -82,9 +83,14 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
           <TableHead>
             <TableRow>
               <TableCell width={100}>Ações</TableCell>
-              <TableCell>Nome</TableCell>
-              <TableCell>Faculdade</TableCell>
-              <TableCell>Curso</TableCell>
+              <TableCell>Professor</TableCell>
+              <TableCell>Faculdade Origem</TableCell>
+              <TableCell>Curso Origem</TableCell>
+              <TableCell>Disciplina Origem</TableCell>
+              <TableCell>Faculdade Destino</TableCell>
+              <TableCell>Curso Destino</TableCell>
+              <TableCell>Disciplina Destino</TableCell>
+              <TableCell>Data máxima</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -94,13 +100,18 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
                   <IconButton size="small" onClick={() => handleDelete(row.id)}>
                     <Icon>delete</Icon>
                   </IconButton>
-                  <IconButton size="small" onClick={() => navigate(`/alocacao-analises-professores/detalhe/${row.id}`)}>
+                  <IconButton size="small" onClick={() => navigate(`/analises/detalhe/${row.id}`)}>
                     <Icon>edit</Icon>
                   </IconButton>
                 </TableCell>
-                <TableCell>{row.nome}</TableCell>
-                <TableCell>{row.nomeFaculdade}</TableCell>
-                <TableCell>{row.nomeCurso}</TableCell>
+                <TableCell>{row.nomeProfessor}</TableCell>
+                <TableCell>{row.nomeFaculdadeOrigem}</TableCell>
+                <TableCell>{row.nomeCursoOrigem}</TableCell>
+                <TableCell>{row.nomeDisciplinaOrigem}</TableCell>
+                <TableCell>{row.nomeFaculdadeDestino}</TableCell>
+                <TableCell>{row.nomeCursoDestino}</TableCell>
+                <TableCell>{row.nomeDisciplinaDestino}</TableCell>
+                <TableCell>{row.dataMaxima}</TableCell>
               </TableRow>
             ))}
           </TableBody>

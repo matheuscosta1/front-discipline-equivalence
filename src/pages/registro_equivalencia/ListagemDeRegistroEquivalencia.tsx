@@ -75,6 +75,7 @@ export const ListagemDeRegistroEquivalencia: React.FC = () => {
           textoBotaoNovo='Nova'
           aoClicarEmNovo={() => navigate('/registro_equivalencia/detalhe/nova')}
           aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}
+          inputBusca = 'Pesquisar...'
         />
       }
     >
