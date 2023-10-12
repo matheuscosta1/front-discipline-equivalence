@@ -60,7 +60,7 @@ export const AppRoutes = () => {
       },
       {
         icon: 'location_city',
-        path: '/alocacao-analises-professores',
+        path: '/analises',
         label: 'Registro alocacao analises professores - Persona Secretário',
       },
     ]);
@@ -88,8 +88,8 @@ export const AppRoutes = () => {
       <Route path="/professores" element={<ListagemDeProfessores />} />
       <Route path="/professores/detalhe/:id" element={<DetalheDeProfessores />} />
 
-      <Route path="/alocacao-analises-professores" element={<ListagemDeAlocacaoAnalisesProfessores />} />
-      <Route path="/alocacao-analises-professores/detalhe/:id" element={<DetalheDeAlocacaoAnalisesProfessores />} />
+      <Route path="/analises" element={<ListagemDeAlocacaoAnalisesProfessores />} />
+      <Route path="/analises/detalhe/:id" element={<DetalheDeAlocacaoAnalisesProfessores />} />
 
       <Route path="*" element={<Navigate to="/pagina-inicial" />} />
     </Routes>

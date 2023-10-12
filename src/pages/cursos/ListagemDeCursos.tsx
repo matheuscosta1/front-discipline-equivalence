@@ -79,6 +79,7 @@ export const ListagemDeCursos: React.FC = () => {
           textoBotaoNovo='Nova'
           aoClicarEmNovo={() => navigate('/cursos/detalhe/nova')}
           aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
+          inputBusca = 'Pesquisar por curso...'
         />
       }
     >

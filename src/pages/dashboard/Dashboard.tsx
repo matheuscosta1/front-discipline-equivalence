@@ -44,7 +44,9 @@ export const Dashboard = () => {
   return (
     <LayoutBaseDePagina
       titulo='Página inicial'
-      barraDeFerramentas={<FerramentasDaListagem mostrarBotaoNovo={false} />}
+      barraDeFerramentas={<FerramentasDaListagem mostrarBotaoNovo={false}
+        inputBusca = 'Pesquisar...'
+      />}
     >
       <Box width='100%' display='flex'>
         <Grid container margin={2}>

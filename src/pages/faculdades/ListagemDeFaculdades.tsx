@@ -77,6 +77,7 @@ export const ListagemDeFaculdades: React.FC = () => {
           textoBotaoNovo='Nova'
           aoClicarEmNovo={() => navigate('/faculdades/detalhe/nova')}
           aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
+          inputBusca = 'Pesquisar por faculdade...'
         />
       }
     >

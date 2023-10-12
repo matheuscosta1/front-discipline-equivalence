@@ -77,6 +77,8 @@ export const ListagemDeDisciplinas: React.FC = () => {
           textoBotaoNovo='Nova'
           aoClicarEmNovo={() => navigate('/disciplinas/detalhe/nova')}
           aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
+          inputBusca = 'Pesquisar por disciplina...'
+
         />
       }
     >
