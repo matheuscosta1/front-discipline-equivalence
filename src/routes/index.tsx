@@ -50,11 +50,6 @@ export const AppRoutes = () => {
       },
       {
         icon: 'location_city',
-        path: '/registro_equivalencia',
-        label: 'Registra equivalência - Persona Secretário',
-      },
-      {
-        icon: 'location_city',
         path: '/professores',
         label: 'Registro professores - Persona Secretário',
       },
@@ -62,6 +57,11 @@ export const AppRoutes = () => {
         icon: 'location_city',
         path: '/analises',
         label: 'Registro alocacao analises professores - Persona Secretário',
+      },
+      {
+        icon: 'location_city',
+        path: '/registro_equivalencia',
+        label: 'Registra equivalência - Persona Professor',
       },
     ]);
   }, []);
@@ -82,14 +82,14 @@ export const AppRoutes = () => {
       <Route path="/disciplinas" element={<ListagemDeDisciplinas />} />
       <Route path="/disciplinas/detalhe/:id" element={<DetalheDeDisciplinas />} />
 
-      <Route path="/registro_equivalencia" element={<ListagemDeRegistroEquivalencia />} />
-      <Route path="/registro_equivalencia/detalhe/:id" element={<DetalheDeRegistroEquivalencia />} />
-
       <Route path="/professores" element={<ListagemDeProfessores />} />
       <Route path="/professores/detalhe/:id" element={<DetalheDeProfessores />} />
 
       <Route path="/analises" element={<ListagemDeAlocacaoAnalisesProfessores />} />
       <Route path="/analises/detalhe/:id" element={<DetalheDeAlocacaoAnalisesProfessores />} />
+
+      <Route path="/registro_equivalencia" element={<ListagemDeRegistroEquivalencia />} />
+      <Route path="/registro_equivalencia/detalhe/:id" element={<DetalheDeRegistroEquivalencia />} />
 
       <Route path="*" element={<Navigate to="/pagina-inicial" />} />
     </Routes>
