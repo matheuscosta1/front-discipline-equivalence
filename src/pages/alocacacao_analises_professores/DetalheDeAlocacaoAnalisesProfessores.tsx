@@ -34,12 +34,12 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   disciplinaDestinoId: yup.number().required(),
   professorId: yup.number().required(),
   dataMaxima: yup
-    .string()
-    .required()
-    .matches(
-      /^(\d{2})-(\d{2})-(\d{4})$/,
-      'A data deve estar no formato DD-MM-YYYY'
-    ),
+  .string()
+  .required()
+  .matches(
+    /^(\d{2})\/(\d{2})\/(\d{4})$/, // Use a barra (/) em vez do hífen (-)
+    'A data deve estar no formato DD/MM/YYYY'
+    )
 });
 
 export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
