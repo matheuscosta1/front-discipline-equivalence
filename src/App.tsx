@@ -2,22 +2,30 @@ import { BrowserRouter } from 'react-router-dom';
 
 import './shared/forms/TraducoesYup';
 
-import { AppThemeProvider, DrawerProvider } from './shared/contexts';
-import { MenuLateral } from './shared/components';
+import { AppThemeProvider, AuthProvider, DrawerProvider } from './shared/contexts';
+import { Login, MenuLateral } from './shared/components';
 import { AppRoutes } from './routes';
+import { ToastContainer } from 'react-toastify'; // Importe o ToastContainer
+import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {
   return (
-    <AppThemeProvider>
-      <DrawerProvider>
-        <BrowserRouter>
+    <AuthProvider>
+      <AppThemeProvider>
+          <Login>
+            <DrawerProvider>
+              <BrowserRouter>
 
-          <MenuLateral>
-            <AppRoutes />
-          </MenuLateral>
+                <MenuLateral>
+                  <AppRoutes />
+                </MenuLateral>
 
-        </BrowserRouter>
-      </DrawerProvider>
-    </AppThemeProvider>
+              </BrowserRouter>
+            </DrawerProvider>
+            
+          </Login>
+        <ToastContainer />
+      </AppThemeProvider>
+    </AuthProvider>
   );
 };
