@@ -43,7 +43,6 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({children}) => {
     };
 
     const result = await AuthService.auth(dados);
-
     if(result instanceof Error) {
       return result.message;
     } else {
