@@ -4,7 +4,6 @@ import jwt_decode from 'jwt-decode';
 import { DashboardProfessor } from '../pages/dashboard/DashboardProfessor';
 
 import { useDrawerContext } from '../shared/contexts';
-
 import {
   Dashboard,
   DetalheDeFaculdades,
@@ -72,6 +71,11 @@ export const AppRoutes = () => {
       icon: 'location_city',
       path: '/faculdades',
       label: 'Faculdades - Persona Secretário',
+    },
+    { 
+      icon: 'location_city',
+      path: '/analises',
+      label: 'Registro alocacao analises professores - Persona Secretário',
     }
   ];
 

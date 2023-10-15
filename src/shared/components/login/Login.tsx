@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, CircularProgress, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
 import { useAuthContext } from "../../contexts";
 import { useState } from "react";
 import * as yup from 'yup'
@@ -14,7 +14,7 @@ const loginSchema = yup.object().shape({
 
 export const Login: React.FC<ILoginProps> = ({ children }) => {
 
-    const { isAuthenticated, login } = useAuthContext();
+    const { isAuthenticated, login, forgot } = useAuthContext();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,6 +24,24 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false);
+    const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
+    const [forgotPasswordSuccess, setForgotPasswordSuccess] = useState(false);
+
+    const handleOpenForgotPasswordModal = () => {
+        setIsForgotPasswordModalOpen(true);
+    };
+
+    const handleCloseForgotPasswordModal = () => {
+        setIsForgotPasswordModalOpen(false);
+    }
+
+    const handleForgotPassword = () => {
+        setIsLoading(true);
+
+        forgot(forgotPasswordEmail).then(() => setIsLoading(false));
+    }
+
     const handleSubmit = () => {
 
         setIsLoading(true);
@@ -31,7 +49,7 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
         loginSchema.validate({ email, password}, { abortEarly: false } )
         .then(dadosValidados => {
             setIsLoading(true);
-            
+
             login(dadosValidados.email, dadosValidados.password).then( () => setIsLoading(false))
         }).catch ((errors: yup.ValidationError) => {
             setIsLoading(false)
@@ -61,12 +79,51 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
                 </CardContent>
                 <CardActions>
                      <Box width='100%' display = 'flex' justifyContent='center'>
-                        <Button variant='contained' onClick = { handleSubmit } disabled = {isLoading} endIcon={isLoading? <CircularProgress variant = 'indeterminate' size = {20} color='inherit'></CircularProgress> : undefined}>
+                        <Button variant='contained' onClick = { handleSubmit } disabled = {isLoading && !setIsForgotPasswordModalOpen} endIcon={isLoading && !setIsForgotPasswordModalOpen? <CircularProgress variant = 'indeterminate' size = {20} color='inherit'></CircularProgress> : undefined}>
                             Entrar
                         </Button>
+
                      </Box>
+                     <Box width='100%' display = 'flex' justifyContent='center'>
+
+                        <Button onClick={handleOpenForgotPasswordModal} >
+                                Esqueci minha senha
+                        </Button>
+                    </Box>
+
                 </CardActions>            
             </Card>
+
+            <Dialog open={isForgotPasswordModalOpen} onClose={handleCloseForgotPasswordModal}>
+            <DialogTitle>Esqueci minha senha</DialogTitle>
+            <DialogContent >
+
+                <>
+                    <TextField
+                    label='Email'
+                    type='email'
+                    fullWidth
+                    value={forgotPasswordEmail}
+                    onChange={(e) => setForgotPasswordEmail(e.target.value)}
+                    style={{ width: '200px', height: 50}}
+                    />
+                </>
+                
+            </DialogContent>
+            <DialogActions>
+                {forgotPasswordSuccess ? (
+                <Button onClick={handleCloseForgotPasswordModal}>Fechar</Button>
+                ) : (
+                <>
+                    <Button onClick={handleCloseForgotPasswordModal}>Cancelar</Button>
+                    <Button onClick={handleForgotPassword} disabled={isLoading} endIcon={isLoading? <CircularProgress variant = 'indeterminate' size = {20} color='inherit'></CircularProgress> : undefined}>
+                    Enviar
+                    </Button>
+                </>
+                )}
+            </DialogActions>
+            </Dialog>
+
         </Box>
     );
 }

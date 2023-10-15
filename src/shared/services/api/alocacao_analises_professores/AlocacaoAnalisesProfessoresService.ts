@@ -64,6 +64,30 @@ const getAll = async (page = 0, filter = ''): Promise<TRegistroAlocacaoAnalisesP
   }
 };
 
+const getAllByProfessorLogado = async (page = 0, filter = '', emailProfessor: string): Promise<TRegistroAlocacaoAnalisesProfessoresComTotalCount | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
+  try {
+    const urlRelativa = `/analises?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&emailProfessor=${emailProfessor}`;
+
+    const { data, headers } = await Api.get(urlRelativa, headersConfig);
+
+    if (data) {
+      return {
+        data,
+        totalCount: Number(headers['x-total-count'] || data.totalElements || Environment.LIMITE_DE_LINHAS),
+        content: data.content
+      };
+    }
+
+    return new Error('Erro ao listar os registros.');
+  } catch (error) {
+    console.error(error);
+    return new Error((error as { message: string }).message || 'Erro ao listar os registros.');
+  }
+};
+
 const getById = async (id: number): Promise<IDetalheAlocacaoAnalisesProfessores | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
@@ -142,4 +166,5 @@ export const AlocacaoAnalisesProfessoresService = {
   getById,
   updateById,
   deleteById,
+  getAllByProfessorLogado,
 };

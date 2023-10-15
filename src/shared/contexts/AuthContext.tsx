@@ -1,13 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { AuthService, IAuthorizationDados } from "../services/api/autenticacao/AutenticacaoService";
-
-
+import { AuthService, IAuthorizationDados, IForgotPasswordDados } from "../services/api/autenticacao/AutenticacaoService";
 
 interface IAuthContextData {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<string | void> //espera a sessao do usuario acontecer, por isso é uma promise
   logout: () => void;
-
+  forgot: (email: string) => Promise<string | void>;
 }
 
 const AuthContext = createContext({} as IAuthContextData)
@@ -51,6 +49,21 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({children}) => {
     }
 
   }, []);
+
+  const handleForgotPassword = useCallback(async (email: string) => {
+
+    const dados: IForgotPasswordDados = {
+      email: email
+    };
+
+    const result = await AuthService.forgot(dados);
+    if(result instanceof Error) {
+      return result.message;
+    } else {
+      return result;
+    }
+
+  }, []);
   
   const handleLogout = useCallback( () => {
     localStorage.removeItem(LOCAL_STORAGE_KEY_ACCESS_TOKEN);
@@ -60,7 +73,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({children}) => {
   const isAuthenticated = useMemo(() => accessToken !== undefined, [accessToken]);
 
   return (
-    <AuthContext.Provider value={{isAuthenticated, login: handleLogin, logout: handleLogout}}>
+    <AuthContext.Provider value={{isAuthenticated, login: handleLogin, logout: handleLogout, forgot: handleForgotPassword}}>
       {children}
     </AuthContext.Provider>
   );
