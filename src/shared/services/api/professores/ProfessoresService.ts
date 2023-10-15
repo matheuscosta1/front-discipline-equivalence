@@ -16,6 +16,7 @@ export interface IListagemProfessores {
 export interface IDetalheProfessores {
   id: number;
   nome: string;
+  email: string;
   faculdadeId: number;
   cursoId: number;
   disciplinaId: number;

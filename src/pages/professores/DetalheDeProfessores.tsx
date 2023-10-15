@@ -14,12 +14,14 @@ import { LayoutBaseDePagina } from '../../shared/layouts';
 
 interface IFormData {
   nome: string;
+  email: string;
   faculdadeId: number;
   cursoId: number;
   disciplinaId: number;
 }
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   nome: yup.string().required().min(3),
+  email: yup.string().email().required(),
   faculdadeId: yup.number().required(),
   cursoId: yup.number().required(),
   disciplinaId: yup.number().required()
@@ -44,6 +46,7 @@ export const DetalheDeProfessores: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     if (id !== 'nova') {
@@ -180,6 +183,18 @@ export const DetalheDeProfessores: React.FC = () => {
                   disabled={isLoading}
                   label='Nome'
                   onChange={e => setNome(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField
+                  fullWidth
+                  name='email'
+                  disabled={isLoading}
+                  label='Email'
+                  onChange={e => setEmail(e.target.value)}
                 />
               </Grid>
             </Grid>
