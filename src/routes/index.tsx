@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
+import { DashboardProfessor } from '../pages/dashboard/DashboardProfessor';
 
 import { useDrawerContext } from '../shared/contexts';
+
 import {
   Dashboard,
   DetalheDeFaculdades,
@@ -21,54 +24,65 @@ import {
 export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();
 
+  const adminItems = [
+    {
+      icon: 'home',
+      path: '/pagina-inicial',
+      label: 'Página inicial',
+    },
+    {
+      icon: 'location_city',
+      path: '/faculdades',
+      label: 'Faculdades - Persona Secretário',
+    },
+    {
+      icon: 'location_city',
+      path: '/cursos',
+      label: 'Cursos - Persona Secretário',
+    },
+    {
+      icon: 'location_city',
+      path: '/disciplinas',
+      label: 'Disciplinas - Persona Secretário ',
+    },
+    {
+      icon: 'location_city',
+      path: '/professores',
+      label: 'Registro professores - Persona Secretário',
+    },
+    {
+      icon: 'location_city',
+      path: '/analises',
+      label: 'Registro alocacao analises professores - Persona Secretário',
+    },
+    {
+      icon: 'location_city',
+      path: '/registro_equivalencia',
+      label: 'Registra equivalência - Persona Professor',
+    },
+  ];
+
+  const professorItems = [
+    {
+      icon: 'home',
+      path: '/pagina-inicial',
+      label: 'Página inicial',
+    },
+    {
+      icon: 'location_city',
+      path: '/faculdades',
+      label: 'Faculdades - Persona Secretário',
+    }
+  ];
+
+
   useEffect(() => {
-    setDrawerOptions([
-      {
-        icon: 'home',
-        path: '/pagina-inicial',
-        label: 'Página inicial',
-      },
-      {
-        icon: 'location_city',
-        path: '/faculdades',
-        label: 'Faculdades - Persona Secretário',
-      },
-      // {
-      //   icon: 'people',
-      //   path: '/pessoas',
-      //   label: 'Pessoas',
-      // },
-      {
-        icon: 'location_city',
-        path: '/cursos',
-        label: 'Cursos - Persona Secretário',
-      },
-      {
-        icon: 'location_city',
-        path: '/disciplinas',
-        label: 'Disciplinas - Persona Secretário ',
-      },
-      {
-        icon: 'location_city',
-        path: '/professores',
-        label: 'Registro professores - Persona Secretário',
-      },
-      {
-        icon: 'location_city',
-        path: '/analises',
-        label: 'Registro alocacao analises professores - Persona Secretário',
-      },
-      {
-        icon: 'location_city',
-        path: '/registro_equivalencia',
-        label: 'Registra equivalência - Persona Professor',
-      },
-    ]);
+    setDrawerOptions(verifyIsProfessorRole() ? professorItems : adminItems);
   }, []);
 
   return (
     <Routes>
-      <Route path="/pagina-inicial" element={<Dashboard />} />
+      <Route path="/pagina-inicial" element={verifyIsProfessorRole() ? <DashboardProfessor /> : <Dashboard />} />
 
       {/* <Route path="/pessoas" element={<ListagemDePessoas />} />
       <Route path="/pessoas/detalhe/:id" element={<DetalheDePessoas />} /> */}
@@ -95,3 +109,37 @@ export const AppRoutes = () => {
     </Routes>
   );
 };
+
+interface DecodedToken {
+  sub: string;
+  exp: number;
+  roles: string[]; // Adicione a propriedade 'roles' com o tipo apropriado
+}
+
+function verifyIsProfessorRole() {
+  // Obtenha o token JWT armazenado no localStorage
+  const token = localStorage.getItem('APP_ACCESS_TOKEN');
+
+  // Verifique se o token existe
+  if (token) {
+    try {
+      // Decodifique o token JWT e atribua o tipo DecodedToken ao resultado
+      const decodedToken: DecodedToken = jwt_decode(token);
+
+      // Verifique se o token tem a propriedade 'roles' no payload
+      if (decodedToken.roles && Array.isArray(decodedToken.roles)) {
+        // Verifique se a role 'ROLE_PROFESSOR' está presente no array de roles
+        if (decodedToken.roles.includes('ROLE_PROFESSOR')) {
+          // O usuário possui a role 'ROLE_PROFESSOR'
+          return 'ROLE_PROFESSOR';
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao decodificar o token:', error);
+    }
+  }
+
+  // Se não houver token ou a role 'ROLE_PROFESSOR' não estiver presente, retorne null ou outra indicação apropriada
+  return null;
+}
+
