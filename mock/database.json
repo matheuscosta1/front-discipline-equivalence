@@ -203,5 +203,8 @@
       "dataMaxima": "30/10/2023",
       "id": 5
     }
-  ]
+  ],
+  "auth": {
+    "accessToken": "aaaaabbbbbcccc"
+  }
 }

@@ -37,7 +37,7 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   .string()
   .required()
   .matches(
-    /^(\d{2})\/(\d{2})\/(\d{4})$/, // Use a barra (/) em vez do hífen (-)
+    /^(\d{2})\/(\d{2})\/(\d{4})$/,
     'A data deve estar no formato DD/MM/YYYY'
     )
 });
