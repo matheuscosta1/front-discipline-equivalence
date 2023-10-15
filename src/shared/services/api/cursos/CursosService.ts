@@ -22,13 +22,16 @@ type TCursosComTotalCount = {
 
 const getAll = async (page = 0, filter = ''): Promise<TCursosComTotalCount | Error> => {
   try {
+    const headersConfig = {
+      headers: getAuthorizationHeaders(),
+    };
 
     console.log(page);
     const urlRelativa = `/cursos?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&nome=${filter}`;
 
     console.log(urlRelativa);
     
-    const { data, headers } = await Api.get(urlRelativa);
+    const { data, headers } = await Api.get(urlRelativa, headersConfig);
 
     console.log("Data from axios: ", data);
 
@@ -48,9 +51,11 @@ const getAll = async (page = 0, filter = ''): Promise<TCursosComTotalCount | Err
 };
 
 const getById = async (id: number): Promise<IDetalheCurso | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
   try {
-    const { data } = await Api.get(`/cursos/${id}`);
-
+    const { data } = await Api.get(`/cursos/${id}`, headersConfig);
     if (data) {
       return data;
     }
@@ -64,10 +69,13 @@ const getById = async (id: number): Promise<IDetalheCurso | Error> => {
 
 
 const getByFaculdadeId = async (page = 0, filter = '', faculdadeId: any): Promise<TCursosComTotalCount | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
   try {
     const urlRelativa = `/cursos?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS_ILIMITADO}&faculdadeId=${faculdadeId}`;
 
-    const { data, headers } = await Api.get(urlRelativa);
+    const { data, headers } = await Api.get(urlRelativa, headersConfig);
 
     if (data) {
       return {
@@ -85,8 +93,11 @@ const getByFaculdadeId = async (page = 0, filter = '', faculdadeId: any): Promis
 };
 
 const create = async (dados: Omit<IDetalheCurso, 'id'>): Promise<number | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
   try {
-    const { data , status } = await Api.post<IDetalheCurso>('/cursos', dados);
+    const { data , status } = await Api.post<IDetalheCurso>('/cursos', dados, headersConfig);
 
     if (status === 200) {
       return data.id;
@@ -100,8 +111,11 @@ const create = async (dados: Omit<IDetalheCurso, 'id'>): Promise<number | Error>
 };
 
 const updateById = async (id: number, dados: IDetalheCurso): Promise<void | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
   try {
-    await Api.put(`/cursos/${id}`, dados);
+    await Api.put(`/cursos/${id}`, dados, headersConfig);
   } catch (error) {
     console.error(error);
     return new Error((error as { message: string }).message || 'Erro ao atualizar o registro.');
@@ -109,14 +123,28 @@ const updateById = async (id: number, dados: IDetalheCurso): Promise<void | Erro
 };
 
 const deleteById = async (id: number): Promise<void | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
   try {
-    await Api.delete(`/cursos/${id}`);
+    await Api.delete(`/cursos/${id}`, headersConfig);
   } catch (error) {
     console.error(error);
     return new Error((error as { message: string }).message || 'Erro ao apagar o registro.');
   }
 };
 
+function getAuthorizationHeaders() {
+  const token = localStorage.getItem('APP_ACCESS_TOKEN');
+
+  if (token) {
+    return {
+      Authorization: `Bearer ${JSON.parse(token || '')}`,
+    };
+  }
+
+  return undefined;
+}
 
 export const CursosService = {
   getAll,

@@ -41,10 +41,13 @@ type TRegistroAlocacaoAnalisesProfessoresComTotalCount = {
 }
 
 const getAll = async (page = 0, filter = ''): Promise<TRegistroAlocacaoAnalisesProfessoresComTotalCount | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
   try {
     const urlRelativa = `/analises?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&nomeProfessor=${filter}`;
 
-    const { data, headers } = await Api.get(urlRelativa);
+    const { data, headers } = await Api.get(urlRelativa, headersConfig);
 
     if (data) {
       return {
@@ -62,8 +65,11 @@ const getAll = async (page = 0, filter = ''): Promise<TRegistroAlocacaoAnalisesP
 };
 
 const getById = async (id: number): Promise<IDetalheAlocacaoAnalisesProfessores | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
   try {
-    const { data } = await Api.get(`/analises/${id}`);
+    const { data } = await Api.get(`/analises/${id}`, headersConfig);
 
     if (data) {
       return data;
@@ -77,8 +83,11 @@ const getById = async (id: number): Promise<IDetalheAlocacaoAnalisesProfessores 
 };
 
 const create = async (dados: Omit<IDetalheAlocacaoAnalisesProfessores, 'id'>): Promise<number | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
   try {
-    const { data, status } = await Api.post<IDetalheAlocacaoAnalisesProfessores>('/analises', dados);
+    const { data, status } = await Api.post<IDetalheAlocacaoAnalisesProfessores>('/analises', dados, headersConfig);
 
     if (status === 200) {
       return data.id;
@@ -92,8 +101,11 @@ const create = async (dados: Omit<IDetalheAlocacaoAnalisesProfessores, 'id'>): P
 };
 
 const updateById = async (id: number, dados: IDetalheAlocacaoAnalisesProfessores): Promise<void | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
   try {
-    await Api.put(`/analises/${id}`, dados);
+    await Api.put(`/analises/${id}`, dados, headersConfig);
   } catch (error) {
     console.error(error);
     return new Error((error as { message: string }).message || 'Erro ao atualizar o registro.');
@@ -101,14 +113,28 @@ const updateById = async (id: number, dados: IDetalheAlocacaoAnalisesProfessores
 };
  
 const deleteById = async (id: number): Promise<void | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
   try {
-    await Api.delete(`/analises/${id}`);
+    await Api.delete(`/analises/${id}`, headersConfig);
   } catch (error) {
     console.error(error);
     return new Error((error as { message: string }).message || 'Erro ao apagar o registro.');
   }
 };
 
+function getAuthorizationHeaders() {
+  const token = localStorage.getItem('APP_ACCESS_TOKEN');
+
+  if (token) {
+    return {
+      Authorization: `Bearer ${JSON.parse(token || '')}`,
+    };
+  }
+
+  return undefined;
+}
 
 export const AlocacaoAnalisesProfessoresService = {
   getAll,
