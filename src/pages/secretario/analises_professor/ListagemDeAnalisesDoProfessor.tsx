@@ -1,16 +1,43 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
+import { Box, Button, Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDebounce } from '../../../shared/hooks';
 import { FerramentasDaListagem } from '../../../shared/components';
 import { Environment } from '../../../shared/environment';
 import { LayoutBaseDePagina } from '../../../shared/layouts';
 import { IListagemAlocacaoAnalisesProfessores, AlocacaoAnalisesProfessoresService } from '../../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
+import jwt_decode from 'jwt-decode';
+
+
+interface DecodedToken {
+  sub: string;
+  exp: number;
+  roles: string[]; // Adicione a propriedade 'roles' com o tipo apropriado
+}
+
+function getEmailDoUsuarioLogado() {
+  // Obtenha o token JWT armazenado no localStorage
+  const token = localStorage.getItem('APP_ACCESS_TOKEN');
+
+  // Verifique se o token existe
+  if (token) {
+    try {
+      // Decodifique o token JWT e atribua o tipo DecodedToken ao resultado
+      const decodedToken: DecodedToken = jwt_decode(token);
+
+      return decodedToken.sub;
+    } catch (error) {
+      console.error('Erro ao decodificar o token:', error);
+    }
+  }
+
+  // Se não houver token ou a role 'ROLE_PROFESSOR' não estiver presente, retorne null ou outra indicação apropriada
+  return '';
+}
 
 
 
-
-export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
+export const ListagemDeAnalisesDoProfessor: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce();
   const navigate = useNavigate();
@@ -31,9 +58,9 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
 
   useEffect(() => {
     setIsLoading(true);
-
+    const email = getEmailDoUsuarioLogado();
     debounce(() => {
-      AlocacaoAnalisesProfessoresService.getAllByProfessorLogado(pagina, busca, "matheus.costa@tutanota.com")
+      AlocacaoAnalisesProfessoresService.getAllByProfessorLogado(pagina, busca,  email)
         .then((result) => {
           setIsLoading(false);
 
@@ -67,13 +94,13 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo='Listagem de alocacao analises professores'
+      titulo='Listagem de análises'
       barraDeFerramentas={
         <FerramentasDaListagem
           mostrarInputBusca
           textoDaBusca={busca}
           textoBotaoNovo='Nova'
-          aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
+          aoClicarEmNovo={() => navigate('/analises-professor/detalhe/nova')}
           aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
           inputBusca = 'Pesquisar por professor...'
         />
@@ -98,13 +125,11 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
             {rows.map(row => (
               <TableRow key={row.id}>
                 <TableCell>
-                  <IconButton size="small" onClick={() => handleDelete(row.id)}>
-                    <Icon>delete</Icon>
-                  </IconButton>
-                  <IconButton size="small" onClick={() => navigate(`/analises/detalhe/${row.id}`)}>
-                    <Icon>edit</Icon>
+                  <IconButton size="small" onClick={() => navigate(`/analises-professor/detalhe/${row.id}`)}>
+                    <Icon>build</Icon>
                   </IconButton>
                 </TableCell>
+              
                 <TableCell>{row.nomeProfessor}</TableCell>
                 <TableCell>{row.nomeFaculdadeOrigem}</TableCell>
                 <TableCell>{row.nomeCursoOrigem}</TableCell>

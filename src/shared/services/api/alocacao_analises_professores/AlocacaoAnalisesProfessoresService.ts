@@ -69,7 +69,7 @@ const getAllByProfessorLogado = async (page = 0, filter = '', emailProfessor: st
     headers: getAuthorizationHeaders(),
   };
   try {
-    const urlRelativa = `/analises?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&emailProfessor=${emailProfessor}`;
+    const urlRelativa = `/analises-professor?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&emailProfessor=${emailProfessor}`;
 
     const { data, headers } = await Api.get(urlRelativa, headersConfig);
 
@@ -94,6 +94,24 @@ const getById = async (id: number): Promise<IDetalheAlocacaoAnalisesProfessores 
   };
   try {
     const { data } = await Api.get(`/analises/${id}`, headersConfig);
+
+    if (data) {
+      return data;
+    }
+
+    return new Error('Erro ao consultar o registro.');
+  } catch (error) {
+    console.error(error);
+    return new Error((error as { message: string }).message || 'Erro ao consultar o registro.');
+  }
+};
+
+const getByIdParaRelatorio = async (id: number): Promise<IDetalheAlocacaoAnalisesProfessores | Error> => {
+  const headersConfig = {
+    headers: getAuthorizationHeaders(),
+  };
+  try {
+    const { data } = await Api.get(`/analises-professor/${id}`, headersConfig);
 
     if (data) {
       return data;
@@ -167,4 +185,5 @@ export const AlocacaoAnalisesProfessoresService = {
   updateById,
   deleteById,
   getAllByProfessorLogado,
+  getByIdParaRelatorio,
 };

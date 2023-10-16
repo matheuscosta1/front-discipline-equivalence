@@ -2,6 +2,35 @@ import { Environment } from '../../../environment';
 import { Api } from '../axios-config';
 
 
+export interface IDisciplineResponse {
+  id: number;
+  nome: string;
+  codigoOrigem: string;
+  ementa: string;
+  programa: string;
+  cargaHoraria: string;
+  faculdadeId: number;
+  cursoId: number;
+  nomeFaculdade: string;
+  nomeCurso: string;
+}
+
+export interface IMenuEquivalenceResponse {
+  ementaEquivalente: string[];
+  ementaNaoEquivalente: string[];
+}
+
+export interface EquivalenciaDisciplinaResponse {
+  disciplinaOrigem: IDisciplineResponse,
+  disciplinaDestino: IDisciplineResponse,
+  cargaHorariaValida: boolean,
+  equivalenciaEmenta: IMenuEquivalenceResponse,
+  percentualEquivalencia: number,
+  ementaEquivalente: string
+  ementaNaoEquivalente: string
+}
+
+
 export interface IListagemRegistroEquivalencia {
   id: number;
   cursoOrigem: string;
@@ -12,14 +41,15 @@ export interface IListagemRegistroEquivalencia {
 
 export interface IDetalheRegistroEquivalencia {
   id: number;
-  cursoOrigem: string;
-  cursoDestino: string;
+  idDisciplinaOrigem: number;
+  idDisciplinaDestino: number;
 }
 
 
 type TRegistroEquivalenciaComTotalCount = {
   data: IListagemRegistroEquivalencia[];
   totalCount: number;
+  content: EquivalenciaDisciplinaResponse
 }
 
 const getAll = async (page = 1, filter = ''): Promise<TRegistroEquivalenciaComTotalCount | Error> => {
@@ -27,7 +57,7 @@ const getAll = async (page = 1, filter = ''): Promise<TRegistroEquivalenciaComTo
     headers: getAuthorizationHeaders(),
   };
   try {
-    const urlRelativa = `/registro_equivalencia?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&cursoOrigem_like=${filter}`;
+    const urlRelativa = `/relatorio-equivalencia?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&cursoOrigem_like=${filter}`;
 
     const { data, headers } = await Api.get(urlRelativa, headersConfig);
 
@@ -35,6 +65,7 @@ const getAll = async (page = 1, filter = ''): Promise<TRegistroEquivalenciaComTo
       return {
         data,
         totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
+        content: data.content
       };
     }
 
@@ -50,7 +81,7 @@ const getById = async (id: number): Promise<IDetalheRegistroEquivalencia | Error
     headers: getAuthorizationHeaders(),
   };
   try {
-    const { data } = await Api.get(`/registro_equivalencia/${id}`, headersConfig);
+    const { data } = await Api.get(`/relatorio-equivalencia/${id}`, headersConfig);
 
     if (data) {
       return data;
@@ -63,15 +94,15 @@ const getById = async (id: number): Promise<IDetalheRegistroEquivalencia | Error
   }
 };
 
-const create = async (dados: Omit<IDetalheRegistroEquivalencia, 'id'>): Promise<number | Error> => {
+const create = async (dados: Omit<IDetalheRegistroEquivalencia, 'id'>): Promise<EquivalenciaDisciplinaResponse | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };
   try {
-    const { data, status } = await Api.post<IDetalheRegistroEquivalencia>('/registro_equivalencia', dados, headersConfig);
+    const { data, status } = await Api.post<EquivalenciaDisciplinaResponse>('/relatorio-equivalencia', dados, headersConfig);
 
     if (status === 200) {
-      return data.id;
+      return data;
     }
 
     return new Error('Erro ao criar o registro.');
