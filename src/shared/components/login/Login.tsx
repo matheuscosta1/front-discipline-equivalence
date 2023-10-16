@@ -43,7 +43,6 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
     }
 
     const handleSubmit = () => {
-
         setIsLoading(true);
 
         loginSchema.validate({ email, password}, { abortEarly: false } )
@@ -79,7 +78,7 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
                 </CardContent>
                 <CardActions>
                      <Box width='100%' display = 'flex' justifyContent='center'>
-                        <Button variant='contained' onClick = { handleSubmit } disabled = {isLoading && !setIsForgotPasswordModalOpen} endIcon={isLoading && !setIsForgotPasswordModalOpen? <CircularProgress variant = 'indeterminate' size = {20} color='inherit'></CircularProgress> : undefined}>
+                        <Button variant='contained' onClick = { handleSubmit } disabled = {isLoading && !isForgotPasswordModalOpen} endIcon={isLoading && !isForgotPasswordModalOpen? <CircularProgress variant = 'indeterminate' size = {20} color='inherit'></CircularProgress> : undefined}>
                             Entrar
                         </Button>
 
