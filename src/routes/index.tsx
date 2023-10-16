@@ -4,7 +4,6 @@ import jwt_decode from 'jwt-decode';
 import { DashboardProfessor } from '../pages/dashboard/DashboardProfessor';
 
 import { useDrawerContext } from '../shared/contexts';
-
 import {
   Dashboard,
   DetalheDeFaculdades,
@@ -13,13 +12,14 @@ import {
   ListagemDeCursos,
   ListagemDeDisciplinas,
   DetalheDeDisciplinas,
-  ListagemDeRegistroEquivalencia,
-  DetalheDeRegistroEquivalencia,
   ListagemDeProfessores,
   DetalheDeProfessores,
   ListagemDeAlocacaoAnalisesProfessores, 
   DetalheDeAlocacaoAnalisesProfessores
 } from '../pages';
+import { ListagemDeAnalisesDoProfessor } from '../pages/secretario/analises_professor/ListagemDeAnalisesDoProfessor';
+import { ListagemRelatorioEquivalencia } from '../pages/secretario/analises_professor/ListagemRelatorioEquivalencia';
+
 
 export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();
@@ -72,6 +72,11 @@ export const AppRoutes = () => {
       icon: 'location_city',
       path: '/faculdades',
       label: 'Faculdades - Persona Secretário',
+    },
+    { 
+      icon: 'location_city',
+      path: '/analises-professor',
+      label: 'Análises equivalência',
     }
   ];
 
@@ -102,8 +107,10 @@ export const AppRoutes = () => {
       <Route path="/analises" element={<ListagemDeAlocacaoAnalisesProfessores />} />
       <Route path="/analises/detalhe/:id" element={<DetalheDeAlocacaoAnalisesProfessores />} />
 
-      <Route path="/registro_equivalencia" element={<ListagemDeRegistroEquivalencia />} />
-      <Route path="/registro_equivalencia/detalhe/:id" element={<DetalheDeRegistroEquivalencia />} />
+
+      <Route path="/analises-professor" element={<ListagemDeAnalisesDoProfessor />} />
+      <Route path="/analises-professor/detalhe/:id" element={<ListagemRelatorioEquivalencia />} />
+
 
       <Route path="*" element={<Navigate to="/pagina-inicial" />} />
     </Routes>

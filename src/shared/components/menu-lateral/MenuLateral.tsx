@@ -83,6 +83,7 @@ export const MenuLateral: React.FC = ({ children }) => {
                 </ListItemIcon>
                 <ListItemText primary="Logout" />
               </ListItemButton>
+              
             </List>
           </Box>
         </Box>
