@@ -7,6 +7,10 @@ interface IAuth {
   accessToken: string;
 }
 
+export interface IForgotPasswordDados {
+  email: string;
+}
+
 export interface IAuthorizationDados {
   email: string;
   password: string;
@@ -33,6 +37,24 @@ const auth =  async (dados: Omit<IAuthorizationDados, 'id'>): Promise <IAuth | E
   }
 };
 
+const forgot =  async (dados: Omit<IForgotPasswordDados, 'id'>): Promise <void | Error>=> {
+  try {
+    const { status} = await Api.post(`/auth/forgot`, dados)
+
+    if (status === 204) { 
+      return
+    }
+
+    return new Error('Erro ao gerar novo password.');
+  } catch (error) {
+    console.error(error);
+
+    return new Error((error as { message: string }).message || 'Erro no login.');
+  }
+};
+
+
 export const AuthService = {
   auth,
+  forgot,
 };
