@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useDebounce } from '../../../shared/hooks';
-import { FerramentasDaListagem } from '../../../shared/components';
-import { Environment } from '../../../shared/environment';
-import { LayoutBaseDePagina } from '../../../shared/layouts';
-import { IListagemAlocacaoAnalisesProfessores, AlocacaoAnalisesProfessoresService } from '../../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
+import { useDebounce } from '../../shared/hooks';
+import { FerramentasDaListagem } from '../../shared/components';
+import { Environment } from '../../shared/environment';
+import { LayoutBaseDePagina } from '../../shared/layouts';
+import { IListagemAlocacaoAnalisesProfessores, AlocacaoAnalisesProfessoresService } from '../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
 import jwt_decode from 'jwt-decode';
 
 
@@ -94,7 +94,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo='Listagem de análises'
+      titulo='Análises de equivalência'
       barraDeFerramentas={
         <FerramentasDaListagem
           mostrarInputBusca

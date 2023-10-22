@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { ThemeProvider } from '@mui/material';
 import { Box } from '@mui/system';
 
@@ -16,18 +16,29 @@ export const useAppThemeContext = () => {
 };
 
 export const AppThemeProvider: React.FC = ({ children }) => {
-  const [themeName, setThemeName] = useState<'light' | 'dark'>('light');
+  // Verifica se há um tema armazenado no localStorage ao carregar a página
+  const storedTheme = localStorage.getItem('theme');
+  const [themeName, setThemeName] = useState<'light' | 'dark'>(() => {
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      return storedTheme;
+    } else {
+      return 'light'; // Ou o valor padrão que você preferir
+    }
+  });
 
   const toggleTheme = useCallback(() => {
-    setThemeName(oldThemeName => oldThemeName === 'light' ? 'dark' : 'light');
+    setThemeName((oldThemeName) => (oldThemeName === 'light' ? 'dark' : 'light'));
   }, []);
 
   const theme = useMemo(() => {
     if (themeName === 'light') return LightTheme;
-
     return DarkTheme;
   }, [themeName]);
 
+  // Salva o tema no localStorage ao alterá-lo
+  useEffect(() => {
+    localStorage.setItem('theme', themeName);
+  }, [themeName]);
 
   return (
     <ThemeContext.Provider value={{ themeName, toggleTheme }}>
@@ -39,3 +50,5 @@ export const AppThemeProvider: React.FC = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
+
+

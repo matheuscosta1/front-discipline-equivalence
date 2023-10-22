@@ -17,8 +17,8 @@ import {
   ListagemDeAlocacaoAnalisesProfessores, 
   DetalheDeAlocacaoAnalisesProfessores
 } from '../pages';
-import { ListagemDeAnalisesDoProfessor } from '../pages/secretario/analises_professor/ListagemDeAnalisesDoProfessor';
-import { ListagemRelatorioEquivalencia } from '../pages/secretario/analises_professor/ListagemRelatorioEquivalencia';
+import { ListagemDeAnalisesDoProfessor } from '../pages/analises_professor/ListagemDeAnalisesDoProfessor';
+import { ListagemRelatorioEquivalencia } from '../pages/analises_professor/ListagemRelatorioEquivalencia';
 
 
 export const AppRoutes = () => {
@@ -31,35 +31,35 @@ export const AppRoutes = () => {
       label: 'Página inicial',
     },
     {
-      icon: 'location_city',
-      path: '/faculdades',
-      label: 'Faculdades - Persona Secretário',
-    },
-    {
-      icon: 'location_city',
-      path: '/cursos',
-      label: 'Cursos - Persona Secretário',
-    },
-    {
-      icon: 'location_city',
-      path: '/disciplinas',
-      label: 'Disciplinas - Persona Secretário ',
-    },
-    {
-      icon: 'location_city',
-      path: '/professores',
-      label: 'Registro professores - Persona Secretário',
-    },
-    {
-      icon: 'location_city',
+      icon: 'school',
       path: '/analises',
-      label: 'Registro alocacao analises professores - Persona Secretário',
+      label: 'Análises de equivalência',
     },
     {
-      icon: 'location_city',
+      icon: 'school',
       path: '/registro_equivalencia',
-      label: 'Registra equivalência - Persona Professor',
+      label: 'Equivalências',
     },
+    {
+      icon: 'school',
+      path: '/faculdades',
+      label: 'Faculdades',
+    },
+    {
+      icon: 'school',
+      path: '/cursos',
+      label: 'Cursos',
+    },
+    {
+      icon: 'school',
+      path: '/disciplinas',
+      label: 'Disciplinas',
+    },
+    {
+      icon: 'school',
+      path: '/professores',
+      label: 'Professores',
+    }
   ];
 
   const professorItems = [
@@ -68,13 +68,8 @@ export const AppRoutes = () => {
       path: '/pagina-inicial',
       label: 'Página inicial',
     },
-    {
-      icon: 'location_city',
-      path: '/faculdades',
-      label: 'Faculdades - Persona Secretário',
-    },
     { 
-      icon: 'location_city',
+      icon: 'school',
       path: '/analises-professor',
       label: 'Análises equivalência',
     }
@@ -85,7 +80,7 @@ export const AppRoutes = () => {
     setDrawerOptions(verifyIsProfessorRole() ? professorItems : adminItems);
   }, []);
 
-  return (
+  const rotasSecretario = (
     <Routes>
       <Route path="/pagina-inicial" element={verifyIsProfessorRole() ? <DashboardProfessor /> : <Dashboard />} />
 
@@ -107,14 +102,22 @@ export const AppRoutes = () => {
       <Route path="/analises" element={<ListagemDeAlocacaoAnalisesProfessores />} />
       <Route path="/analises/detalhe/:id" element={<DetalheDeAlocacaoAnalisesProfessores />} />
 
+      <Route path="*" element={<Navigate to="/pagina-inicial" />} />
+    </Routes>
+  );
+
+  const rotasProfessor = (
+    <Routes>
+      <Route path="/pagina-inicial" element={verifyIsProfessorRole() ? <DashboardProfessor /> : <Dashboard />} />
 
       <Route path="/analises-professor" element={<ListagemDeAnalisesDoProfessor />} />
       <Route path="/analises-professor/detalhe/:id" element={<ListagemRelatorioEquivalencia />} />
 
-
       <Route path="*" element={<Navigate to="/pagina-inicial" />} />
     </Routes>
   );
+
+  return verifyIsProfessorRole() ? rotasProfessor : rotasSecretario ; 
 };
 
 interface DecodedToken {
