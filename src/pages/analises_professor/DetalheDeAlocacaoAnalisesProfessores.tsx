@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import { IVFormErrors, VForm, VTextField, useVForm } from '../../../shared/forms';
-import { AlocacaoAnalisesProfessoresService } from '../../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
-import { FerramentasDeDetalhe } from '../../../shared/components';
-import { LayoutBaseDePagina } from '../../../shared/layouts';
-import { AutoCompleteCursoDestino } from '../../alocacacao_analises_professores/components/AutoCompleteCursoDestino';
-import { AutoCompleteCursoOrigem } from '../../alocacacao_analises_professores/components/AutoCompleteCursoOrigem';
-import { AutoCompleteDisciplinaDestino } from '../../alocacacao_analises_professores/components/AutoCompleteDisciplinaDestino';
-import { AutoCompleteDisciplinaOrigem } from '../../alocacacao_analises_professores/components/AutoCompleteDisciplinaOrigem';
-import { AutoCompleteFaculdadeDestino } from '../../alocacacao_analises_professores/components/AutoCompleteFaculdadeDestino';
-import { AutoCompleteFaculdadeOrigem } from '../../alocacacao_analises_professores/components/AutoCompleteFaculdadeOrigem';
-import { AutoCompleteProfessorPorDisciplinaDestino } from '../../alocacacao_analises_professores/components/AutoCompleteProfessorPorDisciplinaDestino';
+import { IVFormErrors, VForm, VTextField, useVForm } from '../../shared/forms';
+import { AlocacaoAnalisesProfessoresService } from '../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
+import { FerramentasDeDetalhe } from '../../shared/components';
+import { LayoutBaseDePagina } from '../../shared/layouts';
+import { AutoCompleteCursoDestino } from '../alocacacao_analises_professores/components/AutoCompleteCursoDestino';
+import { AutoCompleteCursoOrigem } from '../alocacacao_analises_professores/components/AutoCompleteCursoOrigem';
+import { AutoCompleteDisciplinaDestino } from '../alocacacao_analises_professores/components/AutoCompleteDisciplinaDestino';
+import { AutoCompleteDisciplinaOrigem } from '../alocacacao_analises_professores/components/AutoCompleteDisciplinaOrigem';
+import { AutoCompleteFaculdadeDestino } from '../alocacacao_analises_professores/components/AutoCompleteFaculdadeDestino';
+import { AutoCompleteFaculdadeOrigem } from '../alocacacao_analises_professores/components/AutoCompleteFaculdadeOrigem';
+import { AutoCompleteProfessorPorDisciplinaDestino } from '../alocacacao_analises_professores/components/AutoCompleteProfessorPorDisciplinaDestino';
 
 
 interface IFormData {

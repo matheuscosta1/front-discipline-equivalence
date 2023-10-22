@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, Box, Button, Card, CardActions, CardContent, Checkbox, CircularProgress, FormControlLabel, Grid, Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow, TextField, Typography, makeStyles } from '@mui/material';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { useDebounce } from '../../../shared/hooks';
-import { FerramentasDaListagem } from '../../../shared/components';
-import { Environment } from '../../../shared/environment';
-import { LayoutBaseDePagina } from '../../../shared/layouts';
-import { IListagemAlocacaoAnalisesProfessores, AlocacaoAnalisesProfessoresService } from '../../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
-import { EquivalenciaDisciplinaResponse, IDetalheRelatorioEquivalencia, RelatorioEquivalenciaService } from '../../../shared/services/api/relatorio_equivalencia/RelatorioEquivalenciaService';
+import { useDebounce } from '../../shared/hooks';
+import { FerramentasDaListagem } from '../../shared/components';
+import { Environment } from '../../shared/environment';
+import { LayoutBaseDePagina } from '../../shared/layouts';
+import { IListagemAlocacaoAnalisesProfessores, AlocacaoAnalisesProfessoresService } from '../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
+import { EquivalenciaDisciplinaResponse, IDetalheRelatorioEquivalencia, RelatorioEquivalenciaService } from '../../shared/services/api/relatorio_equivalencia/RelatorioEquivalenciaService';
 import { TableRows } from '@mui/icons-material';
-import { IDetalheRegistroEquivalencia, RegistroEquivalenciaService } from '../../../shared/services/api/registro_equivalencia/RegistroEquivalenciaService';
+import { IDetalheRegistroEquivalencia, RegistroEquivalenciaService } from '../../shared/services/api/registro_equivalencia/RegistroEquivalenciaService';
 
 
 
