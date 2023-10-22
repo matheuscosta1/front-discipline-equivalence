@@ -2,51 +2,43 @@ import { Environment } from '../../../environment';
 import { Api } from '../axios-config';
 
 
-export interface IListagemAlocacaoAnalisesProfessores {
+export interface IListagemRegistroEquivalencia {
   id: number;
-  faculdadeOrigemId: number;
-  cursoOrigemId: number;
-  disciplinaOrigemId: number;
-  faculdadeDestinoId: number;
-  cursoDestinoId: number;
-  disciplinaDestinoId: number;
-  professorId: number;
-  dataMaxima: string;
-  nomeFaculdadeOrigem: string;
-  nomeCursoOrigem: string;
+  codigoDisciplinaOrigem: string;
   nomeDisciplinaOrigem: string;
-  nomeFaculdadeDestino: string;
-  nomeCursoDestino: string;
+  faculdadeOrigem: string;
+  cursoOrigem: string;
+  codigoDisciplinaDestino: string;
   nomeDisciplinaDestino: string;
+  faculdadeDestino: string;
+  cursoDestino: string;
   nomeProfessor: string;
-  status: string;
+  equivalente: string;
+  dataCriacao: string;
 }
 
-export interface IDetalheAlocacaoAnalisesProfessores {
+export interface IDetalheRegistroEquivalencia {
   id: number;
+  justificativa: string;
+  equivalente: boolean;
   faculdadeOrigemId: number;
-  cursoOrigemId: number;
-  disciplinaOrigemId: number;
   faculdadeDestinoId: number;
-  cursoDestinoId: number;
+  disciplinaOrigemId: number;
   disciplinaDestinoId: number;
-  professorId: number;
-  dataMaxima: string;
 }
 
-
-type TRegistroAlocacaoAnalisesProfessoresComTotalCount = {
-  data: IListagemAlocacaoAnalisesProfessores[];
-  content: IListagemAlocacaoAnalisesProfessores[];
+type TRegistroEquivalenciaComTotalCount = {
+  data: IListagemRegistroEquivalencia[];
+  content: IListagemRegistroEquivalencia[];
   totalCount: number;
 }
 
-const getAll = async (page = 0, filter = ''): Promise<TRegistroAlocacaoAnalisesProfessoresComTotalCount | Error> => {
+const getAll = async (page = 0, filter = ''): Promise<TRegistroEquivalenciaComTotalCount | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };
   try {
-    const urlRelativa = `/analises?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&nomeProfessor=${filter}`;
+    const urlRelativa = `/registro-equivalencia?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&nome=${filter}`;
 
     const { data, headers } = await Api.get(urlRelativa, headersConfig);
 
@@ -65,12 +57,12 @@ const getAll = async (page = 0, filter = ''): Promise<TRegistroAlocacaoAnalisesP
   }
 };
 
-const getAllByProfessorLogado = async (page = 0, filter = '', emailProfessor: string): Promise<TRegistroAlocacaoAnalisesProfessoresComTotalCount | Error> => {
+const getProfessoresByDisciplinaId = async (page = 0, filter = '', disciplinaId: any): Promise<TRegistroEquivalenciaComTotalCount | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };
   try {
-    const urlRelativa = `/analises-professor?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&emailProfessor=${emailProfessor}`;
+    const urlRelativa = `/registro-equivalencia?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&disciplinaId=${disciplinaId}`;
 
     const { data, headers } = await Api.get(urlRelativa, headersConfig);
 
@@ -89,12 +81,12 @@ const getAllByProfessorLogado = async (page = 0, filter = '', emailProfessor: st
   }
 };
 
-const getById = async (id: number): Promise<IDetalheAlocacaoAnalisesProfessores | Error> => {
+const getById = async (id: number): Promise<IDetalheRegistroEquivalencia | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };
   try {
-    const { data } = await Api.get(`/analises/${id}`, headersConfig);
+    const { data } = await Api.get(`/registro-equivalencia/${id}`, headersConfig);
 
     if (data) {
       return data;
@@ -107,30 +99,12 @@ const getById = async (id: number): Promise<IDetalheAlocacaoAnalisesProfessores 
   }
 };
 
-const getByIdParaRelatorio = async (id: number): Promise<IDetalheAlocacaoAnalisesProfessores | Error> => {
+const create = async (dados: Omit<IDetalheRegistroEquivalencia, 'id'>): Promise<number | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };
   try {
-    const { data } = await Api.get(`/analises-professor/${id}`, headersConfig);
-
-    if (data) {
-      return data;
-    }
-
-    return new Error('Erro ao consultar o registro.');
-  } catch (error) {
-    console.error(error);
-    return new Error((error as { message: string }).message || 'Erro ao consultar o registro.');
-  }
-};
-
-const create = async (dados: Omit<IDetalheAlocacaoAnalisesProfessores, 'id'>): Promise<number | Error> => {
-  const headersConfig = {
-    headers: getAuthorizationHeaders(),
-  };
-  try {
-    const { data, status } = await Api.post<IDetalheAlocacaoAnalisesProfessores>('/analises', dados, headersConfig);
+    const { data, status } = await Api.post<IDetalheRegistroEquivalencia>('/registro-equivalencia', dados, headersConfig);
 
     if (status === 200) {
       return data.id;
@@ -143,24 +117,24 @@ const create = async (dados: Omit<IDetalheAlocacaoAnalisesProfessores, 'id'>): P
   }
 };
 
-const updateById = async (id: number, dados: IDetalheAlocacaoAnalisesProfessores): Promise<void | Error> => {
+const updateById = async (id: number, dados: IDetalheRegistroEquivalencia): Promise<void | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };
   try {
-    await Api.put(`/analises/${id}`, dados, headersConfig);
+    await Api.put(`/registro-equivalencia/${id}`, dados, headersConfig);
   } catch (error) {
     console.error(error);
     return new Error((error as { message: string }).message || 'Erro ao atualizar o registro.');
   }
 };
- 
+
 const deleteById = async (id: number): Promise<void | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };
   try {
-    await Api.delete(`/analises/${id}`, headersConfig);
+    await Api.delete(`/registro-equivalencia/${id}`, headersConfig);
   } catch (error) {
     console.error(error);
     return new Error((error as { message: string }).message || 'Erro ao apagar o registro.');
@@ -179,12 +153,11 @@ function getAuthorizationHeaders() {
   return undefined;
 }
 
-export const AlocacaoAnalisesProfessoresService = {
+export const RegistroEquivalenciaService = {
   getAll,
   create,
   getById,
   updateById,
   deleteById,
-  getAllByProfessorLogado,
-  getByIdParaRelatorio,
+  getProfessoresByDisciplinaId
 };
