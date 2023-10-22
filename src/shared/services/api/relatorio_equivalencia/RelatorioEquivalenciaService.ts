@@ -26,12 +26,12 @@ export interface EquivalenciaDisciplinaResponse {
   cargaHorariaValida: boolean,
   equivalenciaEmenta: IMenuEquivalenceResponse,
   percentualEquivalencia: number,
-  ementaEquivalente: string
+  ementaEquivalente: string,
   ementaNaoEquivalente: string
 }
 
 
-export interface IListagemRegistroEquivalencia {
+export interface IListagemRelatorioEquivalencia {
   id: number;
   cursoOrigem: string;
   cursoDestino: string;
@@ -39,20 +39,20 @@ export interface IListagemRegistroEquivalencia {
   status: string;
 }
 
-export interface IDetalheRegistroEquivalencia {
+export interface IDetalheRelatorioEquivalencia {
   id: number;
   idDisciplinaOrigem: number;
   idDisciplinaDestino: number;
 }
 
 
-type TRegistroEquivalenciaComTotalCount = {
-  data: IListagemRegistroEquivalencia[];
+type TRelatorioEquivalenciaComTotalCount = {
+  data: IListagemRelatorioEquivalencia[];
   totalCount: number;
   content: EquivalenciaDisciplinaResponse
 }
 
-const getAll = async (page = 1, filter = ''): Promise<TRegistroEquivalenciaComTotalCount | Error> => {
+const getAll = async (page = 1, filter = ''): Promise<TRelatorioEquivalenciaComTotalCount | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };
@@ -76,7 +76,7 @@ const getAll = async (page = 1, filter = ''): Promise<TRegistroEquivalenciaComTo
   }
 };
 
-const getById = async (id: number): Promise<IDetalheRegistroEquivalencia | Error> => {
+const getById = async (id: number): Promise<IDetalheRelatorioEquivalencia | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };
@@ -94,7 +94,7 @@ const getById = async (id: number): Promise<IDetalheRegistroEquivalencia | Error
   }
 };
 
-const create = async (dados: Omit<IDetalheRegistroEquivalencia, 'id'>): Promise<EquivalenciaDisciplinaResponse | Error> => {
+const create = async (dados: Omit<IDetalheRelatorioEquivalencia, 'id'>): Promise<EquivalenciaDisciplinaResponse | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };
@@ -112,30 +112,6 @@ const create = async (dados: Omit<IDetalheRegistroEquivalencia, 'id'>): Promise<
   }
 };
 
-const updateById = async (id: number, dados: IDetalheRegistroEquivalencia): Promise<void | Error> => {
-  const headersConfig = {
-    headers: getAuthorizationHeaders(),
-  };
-  try {
-    await Api.put(`/registro_equivalencia/${id}`, dados, headersConfig);
-  } catch (error) {
-    console.error(error);
-    return new Error((error as { message: string }).message || 'Erro ao atualizar o registro.');
-  }
-};
-
-const deleteById = async (id: number): Promise<void | Error> => {
-  const headersConfig = {
-    headers: getAuthorizationHeaders(),
-  };
-  try {
-    await Api.delete(`/registro_equivalencia/${id}`, headersConfig);
-  } catch (error) {
-    console.error(error);
-    return new Error((error as { message: string }).message || 'Erro ao apagar o registro.');
-  }
-};
-
 function getAuthorizationHeaders() {
   const token = localStorage.getItem('APP_ACCESS_TOKEN');
 
@@ -148,10 +124,8 @@ function getAuthorizationHeaders() {
   return undefined;
 }
 
-export const RegistroEquivalenciaService = {
+export const RelatorioEquivalenciaService = {
   getAll,
   create,
-  getById,
-  updateById,
-  deleteById,
+  getById
 };

@@ -91,6 +91,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
               <TableCell>Curso Destino</TableCell>
               <TableCell>Disciplina Destino</TableCell>
               <TableCell>Data máxima</TableCell>
+              <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -112,6 +113,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
                 <TableCell>{row.nomeCursoDestino}</TableCell>
                 <TableCell>{row.nomeDisciplinaDestino}</TableCell>
                 <TableCell>{row.dataMaxima}</TableCell>
+                <TableCell>{row.status}</TableCell>
               </TableRow>
             ))}
           </TableBody>
