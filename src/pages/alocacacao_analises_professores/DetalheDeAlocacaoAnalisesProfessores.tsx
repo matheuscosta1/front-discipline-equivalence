@@ -14,6 +14,7 @@ import { AutoCompleteDisciplinaDestino } from './components/AutoCompleteDiscipli
 import { AutoCompleteProfessorPorDisciplinaDestino } from './components/AutoCompleteProfessorPorDisciplinaDestino';
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
+import jwt_decode from 'jwt-decode';
 
 interface IFormData {
   faculdadeOrigemId: number;
@@ -24,6 +25,7 @@ interface IFormData {
   disciplinaDestinoId: number;
   professorId: number;
   dataMaxima: string;
+  emailAdministrador: string;
 }
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   faculdadeOrigemId: yup.number().required(),
@@ -33,6 +35,7 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   cursoDestinoId: yup.number().required(),
   disciplinaDestinoId: yup.number().required(),
   professorId: yup.number().required(),
+  emailAdministrador: yup.string().required(),
   dataMaxima: yup
   .string()
   .required()
@@ -41,6 +44,33 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
     'A data deve estar no formato DD/MM/YYYY'
     )
 });
+
+interface DecodedToken {
+  sub: string;
+  exp: number;
+  roles: string[]; // Adicione a propriedade 'roles' com o tipo apropriado
+}
+
+function getEmailDoUsuarioLogado() {
+  // Obtenha o token JWT armazenado no localStorage
+  const token = localStorage.getItem('APP_ACCESS_TOKEN');
+
+  // Verifique se o token existe
+  if (token) {
+    try {
+      // Decodifique o token JWT e atribua o tipo DecodedToken ao resultado
+      const decodedToken: DecodedToken = jwt_decode(token);
+
+      return decodedToken.sub;
+    } catch (error) {
+      console.error('Erro ao decodificar o token:', error);
+    }
+  }
+
+  // Se não houver token ou a role 'ROLE_PROFESSOR' não estiver presente, retorne null ou outra indicação apropriada
+  return '';
+}
+
 
 export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
   const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
@@ -108,9 +138,10 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
 
   const handleSave = (dados: IFormData) => {
-
-    formValidationSchema.
-      validate(dados, { abortEarly: false })
+    dados.emailAdministrador = getEmailDoUsuarioLogado();
+    console.log("Dados analise equivalencia: ", dados)
+    formValidationSchema
+      .validate(dados, { abortEarly: false })
       .then((dadosValidados) => {
         setIsLoading(true);
 

@@ -49,7 +49,9 @@ export const Login: React.FC<ILoginProps> = ({ children }) => {
         .then(dadosValidados => {
             setIsLoading(true);
 
-            login(dadosValidados.email, dadosValidados.password).then( () => setIsLoading(false))
+            login(dadosValidados.email, dadosValidados.password).then( 
+                () => setIsLoading(false)
+            )
         }).catch ((errors: yup.ValidationError) => {
             setIsLoading(false)
             errors.inner.forEach(
