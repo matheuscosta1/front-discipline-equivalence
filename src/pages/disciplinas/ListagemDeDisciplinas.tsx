@@ -69,7 +69,7 @@ export const ListagemDeDisciplinas: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo='Listagem de disciplinas'
+      titulo='Disciplinas'
       barraDeFerramentas={
         <FerramentasDaListagem
           mostrarInputBusca

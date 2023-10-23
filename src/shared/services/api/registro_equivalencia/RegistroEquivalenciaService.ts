@@ -38,31 +38,7 @@ const getAll = async (page = 0, filter = ''): Promise<TRegistroEquivalenciaComTo
     headers: getAuthorizationHeaders(),
   };
   try {
-    const urlRelativa = `/registro-equivalencia?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&nome=${filter}`;
-
-    const { data, headers } = await Api.get(urlRelativa, headersConfig);
-
-    if (data) {
-      return {
-        data,
-        totalCount: Number(headers['x-total-count'] || data.totalElements || Environment.LIMITE_DE_LINHAS),
-        content: data.content
-      };
-    }
-
-    return new Error('Erro ao listar os registros.');
-  } catch (error) {
-    console.error(error);
-    return new Error((error as { message: string }).message || 'Erro ao listar os registros.');
-  }
-};
-
-const getProfessoresByDisciplinaId = async (page = 0, filter = '', disciplinaId: any): Promise<TRegistroEquivalenciaComTotalCount | Error> => {
-  const headersConfig = {
-    headers: getAuthorizationHeaders(),
-  };
-  try {
-    const urlRelativa = `/registro-equivalencia?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&disciplinaId=${disciplinaId}`;
+    const urlRelativa = `/equivalencias?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&codigo=${filter}`;
 
     const { data, headers } = await Api.get(urlRelativa, headersConfig);
 
@@ -86,7 +62,7 @@ const getById = async (id: number): Promise<IDetalheRegistroEquivalencia | Error
     headers: getAuthorizationHeaders(),
   };
   try {
-    const { data } = await Api.get(`/registro-equivalencia/${id}`, headersConfig);
+    const { data } = await Api.get(`/equivalencias/${id}`, headersConfig);
 
     if (data) {
       return data;
@@ -134,7 +110,7 @@ const deleteById = async (id: number): Promise<void | Error> => {
     headers: getAuthorizationHeaders(),
   };
   try {
-    await Api.delete(`/registro-equivalencia/${id}`, headersConfig);
+    await Api.delete(`/equivalencias/${id}`, headersConfig);
   } catch (error) {
     console.error(error);
     return new Error((error as { message: string }).message || 'Erro ao apagar o registro.');
@@ -159,5 +135,4 @@ export const RegistroEquivalenciaService = {
   getById,
   updateById,
   deleteById,
-  getProfessoresByDisciplinaId
 };

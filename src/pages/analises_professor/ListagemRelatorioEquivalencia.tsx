@@ -39,7 +39,6 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
       justificativa: justificativa,
       equivalente: equivalente,
     };
-    // Mova a chamada para RegistroEquivalenciaService.create para dentro deste bloco
     RegistroEquivalenciaService.create(detalhe)
       .then((result) => {
         if (result instanceof Error) {
@@ -82,7 +81,6 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
             const { id, disciplinaOrigemId, disciplinaDestinoId } = result;
   
             if (id !== undefined && disciplinaOrigemId !== undefined && disciplinaDestinoId !== undefined) {
-              console.log("Entrou aqui")
               const detalhe: IDetalheRelatorioEquivalencia = {
                 id: id,
                 idDisciplinaOrigem: disciplinaOrigemId,
@@ -113,7 +111,7 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo='Listagem de análises'
+      titulo='Análises'
       barraDeFerramentas={
         <FerramentasDaListagem
           mostrarInputBusca={false}
