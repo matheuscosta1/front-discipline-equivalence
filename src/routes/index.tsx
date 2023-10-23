@@ -112,7 +112,7 @@ export const AppRoutes = () => {
 
   const rotasProfessor = (
     <Routes>
-      <Route path="/pagina-inicial" element={verifyIsProfessorRole() ? <ListagemDeAlocacaoAnalisesProfessores /> : <ListagemDeEquivalencias />} />
+      <Route path="/pagina-inicial" element={verifyIsProfessorRole() ? <ListagemDeAnalisesDoProfessor /> : <ListagemDeEquivalencias />} />
 
       <Route path="/analises-professor" element={<ListagemDeAnalisesDoProfessor />} />
       <Route path="/analises-professor/detalhe/:id" element={<ListagemRelatorioEquivalencia />} />
