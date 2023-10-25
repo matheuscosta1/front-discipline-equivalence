@@ -57,30 +57,34 @@ export const ListagemDeEquivalencias: React.FC = () => {
   }, [busca, pagina, filtroEquivalente]);
 
   return (
-    <LayoutBaseDePagina
-      titulo='Equivalências'
-      barraDeFerramentas={
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <FerramentasDaListagem
-            mostrarInputBusca
-            textoDaBusca={busca}
-            mostrarBotaoNovo={false}
-            aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
-            inputBusca="Pesquisar por código..."
-          />
-          <Select
-            value={filtroEquivalente}
-            onChange={(event) => setFiltroEquivalente(event.target.value as string)}
-            displayEmpty
-            style={{ marginLeft: '8px' }}
-          >
-            <MenuItem value="todos">Todos</MenuItem>
-            <MenuItem value="equivalente">Equivalente</MenuItem>
-            <MenuItem value="nao_equivalente">Não Equivalente</MenuItem>
-          </Select>
-        </div>
-      }
-    >
+      <LayoutBaseDePagina
+        titulo='Equivalências'
+        barraDeFerramentas={
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ flex: 1, marginLeft: '8px' }}> {/* Barra de pesquisa ocupa boa parte da tela */}
+              <FerramentasDaListagem
+                mostrarInputBusca
+                textoDaBusca={busca}
+                mostrarBotaoNovo={false}
+                aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
+                inputBusca="Pesquisar por código..."
+              />
+            </div>
+            <div style={{ marginRight: '8px' }}> {/* Filtro de seleção à direita */}
+              <Select
+                value={filtroEquivalente}
+                onChange={(event) => setFiltroEquivalente(event.target.value as string)}
+                displayEmpty
+                style={{ marginLeft: '8px' }}
+              >
+                <MenuItem value="todos">Todos</MenuItem>
+                <MenuItem value="equivalente">Equivalente</MenuItem>
+                <MenuItem value="nao_equivalente">Não Equivalente</MenuItem>
+              </Select>
+            </div>
+          </div>
+        }
+      >
       <TableContainer component={Paper} variant="outlined" sx={{ m: 1, width: 'auto' }}>
         <Table>
           <TableHead>

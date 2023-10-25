@@ -78,25 +78,29 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
     <LayoutBaseDePagina
       titulo='Análises de equivalência dos professores'
       barraDeFerramentas={
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <FerramentasDaListagem
-            mostrarInputBusca
-            textoDaBusca={busca}
-            textoBotaoNovo='Nova'
-            aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
-            aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
-            inputBusca="Pesquisar por código..."
-          />
-          <Select
-            value={filtroStatus}
-            onChange={(event) => setFiltroStatus(event.target.value as string)}
-            displayEmpty
-            style={{ marginLeft: '8px' }}
-          >
-            <MenuItem value="todos">Todos</MenuItem>
-            <MenuItem value="pendente">Pendente</MenuItem>
-            <MenuItem value="analisado">Analisado</MenuItem>
-          </Select>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ flex: 1, marginLeft: '8px' }}> {/* Barra de pesquisa ocupa boa parte da tela */}
+            <FerramentasDaListagem
+              mostrarInputBusca
+              textoDaBusca={busca}
+              textoBotaoNovo='Nova'
+              aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
+              aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
+              inputBusca="Pesquisar por código..."
+            />
+          </div>
+          <div style={{ marginRight: '8px' }}> {/* Filtro de seleção no lado direito */}
+            <Select
+              value={filtroStatus}
+              onChange={(event) => setFiltroStatus(event.target.value as string)}
+              displayEmpty
+              style={{ marginLeft: '8px' }}
+            >
+              <MenuItem value="todos">Todos</MenuItem>
+              <MenuItem value="pendente">Pendente</MenuItem>
+              <MenuItem value="analisado">Analisado</MenuItem>
+            </Select>
+          </div>
         </div>
       }
     >
