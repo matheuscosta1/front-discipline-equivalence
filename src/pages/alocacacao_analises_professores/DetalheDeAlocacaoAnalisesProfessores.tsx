@@ -287,7 +287,17 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                   name='dataMaxima'
                   label='Data máxima para análise'
                   disabled={isLoading}
-                  onChange={e => setDataMaxima(e.target.value)}
+                  onInput={e => {
+                    const input = e.target as HTMLInputElement;
+                    const value = input.value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+                    if (value.length <= 8) {
+                      const formattedValue = value
+                        .slice(0, 8) // Limita a entrada a 8 caracteres (DDMMAAAA)
+                        .replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3'); // Adiciona barras automaticamente
+                      input.value = formattedValue;
+                      setDataMaxima(formattedValue);
+                    }
+                  }}
                   placeholder='Exemplo: 14/05/1999'
                 />
               </Grid>
