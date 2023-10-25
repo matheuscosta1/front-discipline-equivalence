@@ -7,7 +7,9 @@ import { FerramentasDaListagem } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 import { useDebounce } from '../../shared/hooks';
 import { Environment } from '../../shared/environment';
+import { differenceInDays, parse} from 'date-fns';
 
+const dataAtual = new Date();
 
 export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -95,8 +97,22 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.id}>
+            {rows.map(row => {
+              const dataMaximaDate = parse(row.dataMaxima, 'dd/MM/yyyy', new Date());
+
+              const diasRestantes = differenceInDays(dataMaximaDate, dataAtual);
+
+              let corDataMaxima = '';
+
+              if (diasRestantes <= 0) {
+                corDataMaxima = 'red'; 
+              } else if (diasRestantes === 1) {
+                corDataMaxima = 'coral'; 
+              } else if (diasRestantes <= 7) {
+                corDataMaxima = 'orange'; 
+              }
+
+              return (<TableRow key={row.id}>
                 <TableCell>
                   <IconButton size="small" onClick={() => handleDelete(row.id)}>
                     <Icon>delete</Icon>
@@ -112,10 +128,13 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
                 <TableCell>{row.nomeFaculdadeDestino}</TableCell>
                 <TableCell>{row.nomeCursoDestino}</TableCell>
                 <TableCell>{row.nomeDisciplinaDestino}</TableCell>
-                <TableCell>{row.dataMaxima}</TableCell>
-                <TableCell>{row.status}</TableCell>
-              </TableRow>
-            ))}
+                <TableCell style={{ color: corDataMaxima }}> {row.dataMaxima} </TableCell>
+                <TableCell style={{ color: row.status === 'PENDENTE' ? 'royalblue' : 'green'}}>
+                  {row.status}
+                </TableCell>              
+                </TableRow>
+              );
+            })}
           </TableBody>
 
           {totalCount === 0 && !isLoading && (

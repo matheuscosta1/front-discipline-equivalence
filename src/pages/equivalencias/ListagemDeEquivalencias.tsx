@@ -88,7 +88,9 @@ export const ListagemDeEquivalencias: React.FC = () => {
                 <TableCell>{row.codigoDisciplinaDestino}</TableCell>
                 <TableCell>{row.nomeProfessor}</TableCell>
                 <TableCell>{row.dataCriacao}</TableCell>
-                <TableCell>{row.equivalente}</TableCell>
+                <TableCell style={{ color: row.equivalente === 'EQUIVALENTE' ? 'green' : 'red'}}>
+                    {row.equivalente}
+                  </TableCell>
               </TableRow>
             ))}
           </TableBody>

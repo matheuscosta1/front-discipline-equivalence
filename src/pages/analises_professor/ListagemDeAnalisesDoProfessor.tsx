@@ -7,7 +7,9 @@ import { Environment } from '../../shared/environment';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 import { IListagemAlocacaoAnalisesProfessores, AlocacaoAnalisesProfessoresService } from '../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
 import jwt_decode from 'jwt-decode';
+import { differenceInDays, parse} from 'date-fns';
 
+const dataAtual = new Date();
 
 interface DecodedToken {
   sub: string;
@@ -102,7 +104,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
           textoBotaoNovo='Nova'
           aoClicarEmNovo={() => navigate('/analises-professor/detalhe/nova')}
           aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
-          inputBusca = 'Pesquisar por professor...'
+          inputBusca='Pesquisar por professor...'
         />
       }
     >
@@ -120,35 +122,51 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
               <TableCell>Disciplina Destino</TableCell>
               <TableCell>Data máxima</TableCell>
               <TableCell>Status</TableCell>
-
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.id}>
-                <TableCell>
-                  <IconButton size="small" onClick={() => navigate(`/analises-professor/detalhe/${row.id}`)}>
-                    <Icon>build</Icon>
-                  </IconButton>
-                </TableCell>
-              
-                <TableCell>{row.nomeProfessor}</TableCell>
-                <TableCell>{row.nomeFaculdadeOrigem}</TableCell>
-                <TableCell>{row.nomeCursoOrigem}</TableCell>
-                <TableCell>{row.nomeDisciplinaOrigem}</TableCell>
-                <TableCell>{row.nomeFaculdadeDestino}</TableCell>
-                <TableCell>{row.nomeCursoDestino}</TableCell>
-                <TableCell>{row.nomeDisciplinaDestino}</TableCell>
-                <TableCell>{row.dataMaxima}</TableCell>
-                <TableCell>{row.status}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+            {rows.map(row => {
+              const dataMaximaDate = parse(row.dataMaxima, 'dd/MM/yyyy', new Date());
 
+              const diasRestantes = differenceInDays(dataMaximaDate, dataAtual);
+
+              let corDataMaxima = '';
+  
+              if (diasRestantes <= 0) {
+                corDataMaxima = 'red'; 
+              } else if (diasRestantes === 1) {
+                corDataMaxima = 'coral'; 
+              } else if (diasRestantes <= 7) {
+                corDataMaxima = 'orange'; 
+              }
+  
+              return (
+                <TableRow key={row.id}>
+                  <TableCell>
+                    <IconButton size="small" onClick={() => navigate(`/analises-professor/detalhe/${row.id}`)} disabled={row.status !== 'Pendente'}>
+                      <Icon>build</Icon>
+                    </IconButton>
+                  </TableCell>
+                  <TableCell>{row.nomeProfessor}</TableCell>
+                  <TableCell>{row.nomeFaculdadeOrigem}</TableCell>
+                  <TableCell>{row.nomeCursoOrigem}</TableCell>
+                  <TableCell>{row.nomeDisciplinaOrigem}</TableCell>
+                  <TableCell>{row.nomeFaculdadeDestino}</TableCell>
+                  <TableCell>{row.nomeCursoDestino}</TableCell>
+                  <TableCell>{row.nomeDisciplinaDestino}</TableCell>
+                  <TableCell style={{ color: corDataMaxima }}> {row.dataMaxima} </TableCell>
+                  <TableCell style={{ color: row.status === 'PENDENTE' ? 'royalblue' : 'green'}}>
+                    {row.status}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+  
           {totalCount === 0 && !isLoading && (
             <caption>{Environment.LISTAGEM_VAZIA}</caption>
           )}
-
+  
           <TableFooter>
             {isLoading && (
               <TableRow>
@@ -157,7 +175,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
                 </TableCell>
               </TableRow>
             )}
-            {(totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS) && (
+            {totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS && (
               <TableRow>
                 <TableCell colSpan={3}>
                   <Pagination

@@ -67,12 +67,12 @@ export const AppRoutes = () => {
     {
       icon: 'home',
       path: '/pagina-inicial',
-      label: 'Página inicial',
+      label: 'Análises de equivalência pendentes',
     },
     { 
       icon: 'school',
       path: '/analises-professor',
-      label: 'Análises equivalência',
+      label: 'Histórico de análises de equivalência',
     }
   ];
 
