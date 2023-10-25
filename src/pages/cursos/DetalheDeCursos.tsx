@@ -8,7 +8,6 @@ import { VTextField, VForm, useVForm, IVFormErrors } from '../../shared/forms';
 import { AutoCompleteFaculdade } from './components/AutoCompleteFaculdade';
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
-import { FaculdadesService, IDetalheFaculdade } from '../../shared/services/api/faculdades/FaculdadesService';
 
 
 interface IFormData {
@@ -24,9 +23,6 @@ export const DetalheDeCursos: React.FC = () => {
   const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
   const { id = 'nova' } = useParams<'id'>();
   const navigate = useNavigate();
-
-  const [isFaculdadeModalOpen, setIsFaculdadeModalOpen] = useState(false);
-  const [novaFaculdade, setNovaFaculdade] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
   const [nome, setNome] = useState('');
@@ -55,42 +51,6 @@ export const DetalheDeCursos: React.FC = () => {
     }
   }, [id]);
 
-const handleOpenFaculdadeModal = () => {
-    setIsFaculdadeModalOpen(true);
-  };
-
-  const handleCloseFaculdadeModal = () => {
-    setIsFaculdadeModalOpen(false);
-  };
-
-  const handleSaveFaculdade = () => {
-    // Lógica para salvar a nova faculdade aqui
-    // Após salvar, atualize o campo "Faculdade" e feche a modal
-
-    const detalhe: IDetalheFaculdade = {
-      id: Number(id),
-      nome: novaFaculdade
-    };
-    setIsLoading(true);
-
-    FaculdadesService.create(detalhe)
-                .then((result) => {
-  
-                  if (result instanceof Error) {
-                    alert(result.message);
-                    handleCloseFaculdadeModal();
-                    setIsLoading(false);
-                  } else {
-
-                    setTimeout(() => {
-                      setIsLoading(false);
-                      alert("Faculdade registrada com sucesso.")
-                      handleCloseFaculdadeModal();
-                    }, 2000);
-                  }
-                });
-
-  };
   
   const handleSave = (dados: IFormData) => {
 
@@ -209,56 +169,10 @@ const handleOpenFaculdadeModal = () => {
                 <AutoCompleteFaculdade isExternalLoading={isLoading} />
                 
               </Grid>
-
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2} >
-                  <Button variant="outlined" style={{ marginTop: '2px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}  onClick={handleOpenFaculdadeModal}>
-                        +
-                  </Button>
-              </Grid>
             </Grid>
           </Grid>
         </Box>
       </VForm>
-      
-      {/* Modal para registro de faculdades */}
-      <Dialog open={isFaculdadeModalOpen}>
-      <DialogTitle>Registrar Nova Faculdade</DialogTitle>
-      <DialogContent>
-        <form>
-          <TextField
-            fullWidth
-            label="Nome da Faculdade"
-            value={novaFaculdade}
-            onChange={e => setNovaFaculdade(e.target.value)}
-          />
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginTop: '10px', marginLeft: '10px' }}
-              onClick={handleSaveFaculdade}
-            >
-              Salvar
-            </Button>
-
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginTop: '10px', marginLeft: '10px' }}
-              onClick={handleCloseFaculdadeModal}
-            >
-              Cancelar
-            </Button>
-          </div>
-        </form>
-      </DialogContent>
-
-      {isLoading && (
-          <Grid item>
-            <LinearProgress variant="indeterminate" />
-          </Grid>
-        )}
-    </Dialog>
 
     </LayoutBaseDePagina>
   );

@@ -90,7 +90,7 @@ export const ListagemDeDisciplinas: React.FC = () => {
               <TableCell>Nome</TableCell>
               <TableCell>Codigo Origem</TableCell>
               <TableCell>Ementa</TableCell>
-              <TableCell>Carga Horaria</TableCell>
+              <TableCell>Carga Horária</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

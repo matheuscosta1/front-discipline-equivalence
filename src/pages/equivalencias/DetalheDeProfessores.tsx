@@ -58,6 +58,7 @@ export const DetalheDeProfessores: React.FC = () => {
             navigate('/professores');
           } else {
             setNome(result.nome);
+            console.log("Result professores: ", result)
             formRef.current?.setData(result);
           }
         });
@@ -67,6 +68,7 @@ export const DetalheDeProfessores: React.FC = () => {
         faculdadeId: undefined,
         cursoId: undefined,
         disciplinaId: undefined,
+        email: undefined
       });
     }
   }, [id]);
