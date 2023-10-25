@@ -1,6 +1,4 @@
-import { Box, Button, Icon, Paper, TextField, useTheme } from '@mui/material';
-
-import { Environment } from '../../environment';
+import { Box, Button, Icon, Paper, TextField, Typography, useTheme } from '@mui/material';
 
 
 interface IFerramentasDaListagemProps {
@@ -9,7 +7,9 @@ interface IFerramentasDaListagemProps {
   aoMudarTextoDeBusca?: (novoTexto: string) => void;
   textoBotaoNovo?: string;
   mostrarBotaoNovo?: boolean;
+  mostrarBotaoVoltar?: boolean;
   aoClicarEmNovo?: () => void;
+  aoClicarEmVoltar?: () => void;
   inputBusca: string;
 }
 export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
@@ -19,6 +19,8 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
   aoClicarEmNovo,
   textoBotaoNovo = 'Novo',
   mostrarBotaoNovo = true,
+  mostrarBotaoVoltar = false,
+  aoClicarEmVoltar,
   inputBusca = ''
 }) => {
   const theme = useTheme();
@@ -54,6 +56,20 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
           >{textoBotaoNovo}</Button>
         )}
       </Box>
+
+      {(mostrarBotaoVoltar ) && (
+        <Button
+          color='primary'
+          disableElevation
+          variant='outlined'
+          onClick={aoClicarEmVoltar}
+          startIcon={<Icon>arrow_back</Icon>}
+        >
+          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
+            Voltar
+          </Typography>
+        </Button>
+      )}
     </Box>
   );
 };
