@@ -117,7 +117,9 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
           mostrarInputBusca={false}
           textoDaBusca={busca}
           mostrarBotaoNovo={false}
+          mostrarBotaoVoltar={true}
           aoClicarEmNovo={() => navigate('/analises-professor/detalhe/nova')}
+          aoClicarEmVoltar={() => navigate('/analises-professor')}
           aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
           inputBusca='Pesquisar por professor...'
         />
