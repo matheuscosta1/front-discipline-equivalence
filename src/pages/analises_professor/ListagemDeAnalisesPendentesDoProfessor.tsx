@@ -37,9 +37,7 @@ function getEmailDoUsuarioLogado() {
   return '';
 }
 
-
-
-export const ListagemDeAnalisesDoProfessor: React.FC = () => {
+export const ListagemDeAnalisesPendentesDoProfessor: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce();
   const navigate = useNavigate();
@@ -96,23 +94,14 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
   };
 
   const filteredRows = rows.filter(row => {
-    if (filtroStatus === 'todos') {
-      return true;
-    } else if (filtroStatus === 'pendente') {
-      return row.status === 'PENDENTE';
-    } else if (filtroStatus === 'analisado') {
-      return row.status === 'ANALISADO';
-    }
-    return true;
+    return row.status === 'PENDENTE'
   });
 
   return (
     <LayoutBaseDePagina
-      titulo='Histórico de análises de equivalência'
+      titulo='Análises de equivalência pendentes'
       barraDeFerramentas={
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ flex: 1, marginLeft: '8px' }}> {/* Barra de pesquisa ocupa boa parte da tela */}
-            <FerramentasDaListagem
+        <FerramentasDaListagem
               mostrarInputBusca
               textoDaBusca={busca}
               textoBotaoNovo='Nova'
@@ -120,21 +109,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
               aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
               aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
               inputBusca="Pesquisar por código..."
-            />
-          </div>
-          <div style={{ marginRight: '8px' }}> {/* Filtro de seleção no lado direito */}
-            <Select
-              value={filtroStatus}
-              onChange={(event) => setFiltroStatus(event.target.value as string)}
-              displayEmpty
-              style={{ marginLeft: '8px' }}
-            >
-              <MenuItem value="todos">Todos</MenuItem>
-              <MenuItem value="pendente">Pendente</MenuItem>
-              <MenuItem value="analisado">Analisado</MenuItem>
-            </Select>
-          </div>
-        </div>
+        />
       }
     >
       <TableContainer component={Paper} variant="outlined" sx={{ m: 1, width: 'auto' }}>

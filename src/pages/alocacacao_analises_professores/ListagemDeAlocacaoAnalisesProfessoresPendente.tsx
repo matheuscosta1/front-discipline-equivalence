@@ -1,45 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Box, Button, Icon, IconButton, LinearProgress, MenuItem, Pagination, Paper, Select, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Icon, IconButton, LinearProgress, MenuItem, Pagination, Paper, Select, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useDebounce } from '../../shared/hooks';
-import { FerramentasDaListagem } from '../../shared/components';
-import { Environment } from '../../shared/environment';
-import { LayoutBaseDePagina } from '../../shared/layouts';
+
 import { IListagemAlocacaoAnalisesProfessores, AlocacaoAnalisesProfessoresService } from '../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
-import jwt_decode from 'jwt-decode';
+import { FerramentasDaListagem } from '../../shared/components';
+import { LayoutBaseDePagina } from '../../shared/layouts';
+import { useDebounce } from '../../shared/hooks';
+import { Environment } from '../../shared/environment';
 import { differenceInDays, parse} from 'date-fns';
 
 const dataAtual = new Date();
 
-interface DecodedToken {
-  sub: string;
-  exp: number;
-  roles: string[]; // Adicione a propriedade 'roles' com o tipo apropriado
-}
-
-function getEmailDoUsuarioLogado() {
-  // Obtenha o token JWT armazenado no localStorage
-  const token = localStorage.getItem('APP_ACCESS_TOKEN');
-
-  // Verifique se o token existe
-  if (token) {
-    try {
-      // Decodifique o token JWT e atribua o tipo DecodedToken ao resultado
-      const decodedToken: DecodedToken = jwt_decode(token);
-
-      return decodedToken.sub;
-    } catch (error) {
-      console.error('Erro ao decodificar o token:', error);
-    }
-  }
-
-  // Se não houver token ou a role 'ROLE_PROFESSOR' não estiver presente, retorne null ou outra indicação apropriada
-  return '';
-}
-
-
-
-export const ListagemDeAnalisesDoProfessor: React.FC = () => {
+export const ListagemDeAlocacaoAnalisesProfessoresPendente: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { debounce } = useDebounce();
   const navigate = useNavigate();
@@ -49,7 +21,6 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [filtroStatus, setFiltroStatus] = useState('todos'); // Pode ser 'todos', 'pendente' ou 'analisado'
 
-
   const busca = useMemo(() => {
     return searchParams.get('busca') || '';
   }, [searchParams]);
@@ -58,20 +29,17 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
     return Number(searchParams.get('pagina') || '0');
   }, [searchParams]);
 
-
   useEffect(() => {
     setIsLoading(true);
-    const email = getEmailDoUsuarioLogado();
+
     debounce(() => {
-      AlocacaoAnalisesProfessoresService.getAllByProfessorLogado(pagina, busca,  email)
+      AlocacaoAnalisesProfessoresService.getAll(pagina, busca)
         .then((result) => {
           setIsLoading(false);
 
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log(result);
-
             setTotalCount(result.totalCount);
             setRows(result.content);
           }
@@ -96,45 +64,21 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
   };
 
   const filteredRows = rows.filter(row => {
-    if (filtroStatus === 'todos') {
-      return true;
-    } else if (filtroStatus === 'pendente') {
-      return row.status === 'PENDENTE';
-    } else if (filtroStatus === 'analisado') {
-      return row.status === 'ANALISADO';
-    }
-    return true;
+    return row.status === 'PENDENTE';
   });
 
   return (
     <LayoutBaseDePagina
-      titulo='Histórico de análises de equivalência'
+      titulo='Análises de equivalência pendentes'
       barraDeFerramentas={
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ flex: 1, marginLeft: '8px' }}> {/* Barra de pesquisa ocupa boa parte da tela */}
-            <FerramentasDaListagem
+        <FerramentasDaListagem
               mostrarInputBusca
               textoDaBusca={busca}
               textoBotaoNovo='Nova'
-              mostrarBotaoNovo={false}
               aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
               aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
               inputBusca="Pesquisar por código..."
             />
-          </div>
-          <div style={{ marginRight: '8px' }}> {/* Filtro de seleção no lado direito */}
-            <Select
-              value={filtroStatus}
-              onChange={(event) => setFiltroStatus(event.target.value as string)}
-              displayEmpty
-              style={{ marginLeft: '8px' }}
-            >
-              <MenuItem value="todos">Todos</MenuItem>
-              <MenuItem value="pendente">Pendente</MenuItem>
-              <MenuItem value="analisado">Analisado</MenuItem>
-            </Select>
-          </div>
-        </div>
       }
     >
       <TableContainer component={Paper} variant="outlined" sx={{ m: 1, width: 'auto' }}>
@@ -160,7 +104,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
               const diasRestantes = differenceInDays(dataMaximaDate, dataAtual);
 
               let corDataMaxima = '';
-  
+
               if (diasRestantes <= 0) {
                 corDataMaxima = 'red'; 
               } else if (diasRestantes === 1) {
@@ -168,16 +112,15 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
               } else if (diasRestantes <= 7) {
                 corDataMaxima = 'orange'; 
               }
-  
+
               return (
-                <TableRow 
-                  key={row.id}
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => navigate(`/analises-professor/detalhe/${row.id}`)}
-                >
+                <TableRow key={row.id}>
                   <TableCell>
-                    <IconButton size="small" onClick={() => navigate(`/analises-professor/detalhe/${row.id}`)} disabled={row.status !== 'PENDENTE'}>
-                      <Icon>build</Icon>
+                    <IconButton size="small" onClick={() => handleDelete(row.id)}>
+                      <Icon>delete</Icon>
+                    </IconButton>
+                    <IconButton size="small" onClick={() => navigate(`/analises/detalhe/${row.id}`)}>
+                      <Icon>edit</Icon>
                     </IconButton>
                   </TableCell>
                   <TableCell>{row.nomeProfessor}</TableCell>
@@ -195,11 +138,11 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
               );
             })}
           </TableBody>
-  
+
           {totalCount === 0 && !isLoading && (
             <caption>{Environment.LISTAGEM_VAZIA}</caption>
           )}
-  
+
           <TableFooter>
             {isLoading && (
               <TableRow>
@@ -208,7 +151,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
                 </TableCell>
               </TableRow>
             )}
-            {totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS && (
+            {(totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS) && (
               <TableRow>
                 <TableCell colSpan={3}>
                   <Pagination
