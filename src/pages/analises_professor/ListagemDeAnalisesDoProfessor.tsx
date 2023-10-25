@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Box, Button, Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
+import { Box, Button, Icon, IconButton, LinearProgress, MenuItem, Pagination, Paper, Select, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDebounce } from '../../shared/hooks';
 import { FerramentasDaListagem } from '../../shared/components';
@@ -47,6 +47,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
   const [rows, setRows] = useState<IListagemAlocacaoAnalisesProfessores[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
+  const [filtroStatus, setFiltroStatus] = useState('todos'); // Pode ser 'todos', 'pendente' ou 'analisado'
 
 
   const busca = useMemo(() => {
@@ -94,18 +95,46 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
     }
   };
 
+  const filteredRows = rows.filter(row => {
+    if (filtroStatus === 'todos') {
+      return true;
+    } else if (filtroStatus === 'pendente') {
+      return row.status === 'PENDENTE';
+    } else if (filtroStatus === 'analisado') {
+      return row.status === 'ANALISADO';
+    }
+    return true;
+  });
+
   return (
     <LayoutBaseDePagina
-      titulo='Análises de equivalência'
+      titulo='Análises de equivalência dos professores'
       barraDeFerramentas={
-        <FerramentasDaListagem
-          mostrarInputBusca
-          textoDaBusca={busca}
-          textoBotaoNovo='Nova'
-          aoClicarEmNovo={() => navigate('/analises-professor/detalhe/nova')}
-          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
-          inputBusca='Pesquisar por professor...'
-        />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ flex: 1, marginLeft: '8px' }}> {/* Barra de pesquisa ocupa boa parte da tela */}
+            <FerramentasDaListagem
+              mostrarInputBusca
+              textoDaBusca={busca}
+              textoBotaoNovo='Nova'
+              mostrarBotaoNovo={false}
+              aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
+              aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
+              inputBusca="Pesquisar por código..."
+            />
+          </div>
+          <div style={{ marginRight: '8px' }}> {/* Filtro de seleção no lado direito */}
+            <Select
+              value={filtroStatus}
+              onChange={(event) => setFiltroStatus(event.target.value as string)}
+              displayEmpty
+              style={{ marginLeft: '8px' }}
+            >
+              <MenuItem value="todos">Todos</MenuItem>
+              <MenuItem value="pendente">Pendente</MenuItem>
+              <MenuItem value="analisado">Analisado</MenuItem>
+            </Select>
+          </div>
+        </div>
       }
     >
       <TableContainer component={Paper} variant="outlined" sx={{ m: 1, width: 'auto' }}>
@@ -125,7 +154,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => {
+            {filteredRows.map(row => {
               const dataMaximaDate = parse(row.dataMaxima, 'dd/MM/yyyy', new Date());
 
               const diasRestantes = differenceInDays(dataMaximaDate, dataAtual);
