@@ -138,24 +138,26 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
           <Divider variant='middle' orientation='vertical' />
         )
       }
+      
+      <div style={{ marginLeft: 'auto' }}>
+        {(mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando) && (
+          <Button
+            color='primary'
+            disableElevation
+            variant='outlined'
+            onClick={aoClicarEmVoltar}
+            startIcon={<Icon>arrow_back</Icon>}
+          >
+            <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
+              Voltar
+            </Typography>
+          </Button>
+        )}
 
-      {(mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando) && (
-        <Button
-          color='primary'
-          disableElevation
-          variant='outlined'
-          onClick={aoClicarEmVoltar}
-          startIcon={<Icon>arrow_back</Icon>}
-        >
-          <Typography variant='button' whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
-            Voltar
-          </Typography>
-        </Button>
-      )}
-
-      {mostrarBotaoVoltarCarregando && (
-        <Skeleton width={110} height={60} />
-      )}
-    </Box >
+        {mostrarBotaoVoltarCarregando && (
+          <Skeleton width={110} height={60} />
+        )}
+      </div>
+    </Box>
   );
 };
