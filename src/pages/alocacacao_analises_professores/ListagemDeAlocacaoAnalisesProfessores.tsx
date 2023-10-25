@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Icon, IconButton, LinearProgress, MenuItem, Pagination, Paper, Select, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { IListagemAlocacaoAnalisesProfessores, AlocacaoAnalisesProfessoresService, } from '../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
+import { IListagemAlocacaoAnalisesProfessores, AlocacaoAnalisesProfessoresService } from '../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
 import { FerramentasDaListagem } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 import { useDebounce } from '../../shared/hooks';
@@ -19,7 +19,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
   const [rows, setRows] = useState<IListagemAlocacaoAnalisesProfessores[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
-
+  const [filtroStatus, setFiltroStatus] = useState('todos'); // Pode ser 'todos', 'pendente' ou 'analisado'
 
   const busca = useMemo(() => {
     return searchParams.get('busca') || '';
@@ -28,7 +28,6 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
   const pagina = useMemo(() => {
     return Number(searchParams.get('pagina') || '0');
   }, [searchParams]);
-
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,8 +40,6 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log(result);
-
             setTotalCount(result.totalCount);
             setRows(result.content);
           }
@@ -66,18 +63,41 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
     }
   };
 
+  const filteredRows = rows.filter(row => {
+    if (filtroStatus === 'todos') {
+      return true;
+    } else if (filtroStatus === 'pendente') {
+      return row.status === 'PENDENTE';
+    } else if (filtroStatus === 'analisado') {
+      return row.status === 'ANALISADO';
+    }
+    return true;
+  });
+
   return (
     <LayoutBaseDePagina
       titulo='Análises de equivalência dos professores'
       barraDeFerramentas={
-        <FerramentasDaListagem
-          mostrarInputBusca
-          textoDaBusca={busca}
-          textoBotaoNovo='Nova'
-          aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
-          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
-          inputBusca = 'Pesquisar por professor...'
-        />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <FerramentasDaListagem
+            mostrarInputBusca
+            textoDaBusca={busca}
+            textoBotaoNovo='Nova'
+            aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
+            aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
+            inputBusca="Pesquisar por código..."
+          />
+          <Select
+            value={filtroStatus}
+            onChange={(event) => setFiltroStatus(event.target.value as string)}
+            displayEmpty
+            style={{ marginLeft: '8px' }}
+          >
+            <MenuItem value="todos">Todos</MenuItem>
+            <MenuItem value="pendente">Pendente</MenuItem>
+            <MenuItem value="analisado">Analisado</MenuItem>
+          </Select>
+        </div>
       }
     >
       <TableContainer component={Paper} variant="outlined" sx={{ m: 1, width: 'auto' }}>
@@ -97,7 +117,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => {
+            {filteredRows.map(row => {
               const dataMaximaDate = parse(row.dataMaxima, 'dd/MM/yyyy', new Date());
 
               const diasRestantes = differenceInDays(dataMaximaDate, dataAtual);
@@ -112,26 +132,27 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
                 corDataMaxima = 'orange'; 
               }
 
-              return (<TableRow key={row.id}>
-                <TableCell>
-                  <IconButton size="small" onClick={() => handleDelete(row.id)}>
-                    <Icon>delete</Icon>
-                  </IconButton>
-                  <IconButton size="small" onClick={() => navigate(`/analises/detalhe/${row.id}`)}>
-                    <Icon>edit</Icon>
-                  </IconButton>
-                </TableCell>
-                <TableCell>{row.nomeProfessor}</TableCell>
-                <TableCell>{row.nomeFaculdadeOrigem}</TableCell>
-                <TableCell>{row.nomeCursoOrigem}</TableCell>
-                <TableCell>{row.nomeDisciplinaOrigem}</TableCell>
-                <TableCell>{row.nomeFaculdadeDestino}</TableCell>
-                <TableCell>{row.nomeCursoDestino}</TableCell>
-                <TableCell>{row.nomeDisciplinaDestino}</TableCell>
-                <TableCell style={{ color: corDataMaxima }}> {row.dataMaxima} </TableCell>
-                <TableCell style={{ color: row.status === 'PENDENTE' ? 'royalblue' : 'green'}}>
-                  {row.status}
-                </TableCell>              
+              return (
+                <TableRow key={row.id}>
+                  <TableCell>
+                    <IconButton size="small" onClick={() => handleDelete(row.id)}>
+                      <Icon>delete</Icon>
+                    </IconButton>
+                    <IconButton size="small" onClick={() => navigate(`/analises/detalhe/${row.id}`)}>
+                      <Icon>edit</Icon>
+                    </IconButton>
+                  </TableCell>
+                  <TableCell>{row.nomeProfessor}</TableCell>
+                  <TableCell>{row.nomeFaculdadeOrigem}</TableCell>
+                  <TableCell>{row.nomeCursoOrigem}</TableCell>
+                  <TableCell>{row.nomeDisciplinaOrigem}</TableCell>
+                  <TableCell>{row.nomeFaculdadeDestino}</TableCell>
+                  <TableCell>{row.nomeCursoDestino}</TableCell>
+                  <TableCell>{row.nomeDisciplinaDestino}</TableCell>
+                  <TableCell style={{ color: corDataMaxima }}> {row.dataMaxima} </TableCell>
+                  <TableCell style={{ color: row.status === 'PENDENTE' ? 'royalblue' : 'green'}}>
+                    {row.status}
+                  </TableCell>
                 </TableRow>
               );
             })}
