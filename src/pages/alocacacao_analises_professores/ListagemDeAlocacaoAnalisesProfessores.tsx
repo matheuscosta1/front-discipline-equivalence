@@ -76,7 +76,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo='Análises de equivalência dos professores'
+      titulo='Análises de equivalência'
       barraDeFerramentas={
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ flex: 1, marginLeft: '8px' }}> {/* Barra de pesquisa ocupa boa parte da tela */}

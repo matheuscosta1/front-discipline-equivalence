@@ -31,7 +31,7 @@ export const AppRoutes = () => {
     {
       icon: 'home',
       path: '/pagina-inicial',
-      label: 'Análises de equivalência pendentes',
+      label: 'Página inicial',
     },
     {
       icon: 'school',
@@ -42,7 +42,7 @@ export const AppRoutes = () => {
     {
       icon: 'school',
       path: '/analises',
-      label: 'Histórico de análises de equivalência',
+      label: 'Análises de equivalência',
     },
     {
       icon: 'school',
