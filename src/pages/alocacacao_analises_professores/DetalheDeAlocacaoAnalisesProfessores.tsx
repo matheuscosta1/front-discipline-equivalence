@@ -26,6 +26,8 @@ interface IFormData {
   professorId: number;
   dataMaxima: string;
   emailAdministrador: string;
+  nomeAluno: string;
+  emailAluno: string;
 }
 const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   faculdadeOrigemId: yup.number().required(),
@@ -36,6 +38,8 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
   disciplinaDestinoId: yup.number().required(),
   professorId: yup.number().required(),
   emailAdministrador: yup.string().required(),
+  nomeAluno: yup.string().required(),
+  emailAluno: yup.string().required(),
   dataMaxima: yup
   .string()
   .required()
@@ -89,6 +93,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
   const [cursoDestinoId, setCursoDestinoId] = useState<number | undefined>(/* valor inicial */);
   
   const [disciplinaDestinoId, setDisciplinaDestinoId] = useState<number | undefined>(/* valor inicial */);
+  const [nomeAluno, setNomeAluno] = useState('');
+  const [emailAluno, setEmailAluno] = useState('');
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [dataMaxima, setDataMaxima] = useState<string>('');
@@ -236,6 +242,30 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
             <Grid item>
               <Typography variant='h6'>Geral</Typography>
+            </Grid>
+
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField
+                  fullWidth
+                  name='nomeAluno'
+                  disabled={isLoading}
+                  label='Nome do aluno solicitante'
+                  onChange={e => setNomeAluno(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container item direction="row" spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <VTextField
+                  fullWidth
+                  name='emailAluno'
+                  disabled={isLoading}
+                  label='E-mail do aluno solicitante'
+                  onChange={e => setEmailAluno(e.target.value)}
+                />
+              </Grid>
             </Grid>
 
             <Grid container item direction="row" spacing={2}>
