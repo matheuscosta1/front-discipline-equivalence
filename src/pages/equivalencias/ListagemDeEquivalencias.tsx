@@ -1,13 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
+import React, { useEffect, useMemo, useState } from 'react';
+import { IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow, Select, MenuItem } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { IListagemRegistroEquivalencia, RegistroEquivalenciaService, } from '../../shared/services/api/registro_equivalencia/RegistroEquivalenciaService';
+import { IListagemRegistroEquivalencia, RegistroEquivalenciaService } from '../../shared/services/api/registro_equivalencia/RegistroEquivalenciaService';
 import { FerramentasDaListagem } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 import { useDebounce } from '../../shared/hooks';
 import { Environment } from '../../shared/environment';
-
 
 export const ListagemDeEquivalencias: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,7 +17,6 @@ export const ListagemDeEquivalencias: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
 
-
   const busca = useMemo(() => {
     return searchParams.get('busca') || '';
   }, [searchParams]);
@@ -27,6 +25,18 @@ export const ListagemDeEquivalencias: React.FC = () => {
     return Number(searchParams.get('pagina') || '0');
   }, [searchParams]);
 
+  const [filtroEquivalente, setFiltroEquivalente] = useState('todos'); // Pode ser 'todos', 'equivalente' ou 'nao_equivalente'
+
+  const filtrarEquivalencias = (equivalente: string) => {
+    if (filtroEquivalente === 'todos') {
+      return true; // Mostrar todos os registros
+    } else if (filtroEquivalente === 'equivalente') {
+      return equivalente === 'EQUIVALENTE';
+    } else if (filtroEquivalente === 'nao_equivalente') {
+      return equivalente === 'NÃO EQUIVALENTE';
+    }
+    return true;
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -39,27 +49,36 @@ export const ListagemDeEquivalencias: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log("Data equivalencias: ", result.data);
-            console.log("Total Count equivalencias: ", result.totalCount);
-
             setTotalCount(result.totalCount);
             setRows(result.content);
           }
         });
     });
-  }, [busca, pagina]);
+  }, [busca, pagina, filtroEquivalente]);
 
   return (
     <LayoutBaseDePagina
       titulo='Equivalências'
       barraDeFerramentas={
-        <FerramentasDaListagem
-          mostrarInputBusca
-          textoDaBusca={busca}
-          mostrarBotaoNovo={false}
-          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
-          inputBusca = 'Pesquisar por código...'
-        />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <FerramentasDaListagem
+            mostrarInputBusca
+            textoDaBusca={busca}
+            mostrarBotaoNovo={false}
+            aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
+            inputBusca="Pesquisar por código..."
+          />
+          <Select
+            value={filtroEquivalente}
+            onChange={(event) => setFiltroEquivalente(event.target.value as string)}
+            displayEmpty
+            style={{ marginLeft: '8px' }}
+          >
+            <MenuItem value="todos">Todos</MenuItem>
+            <MenuItem value="equivalente">Equivalente</MenuItem>
+            <MenuItem value="nao_equivalente">Não Equivalente</MenuItem>
+          </Select>
+        </div>
       }
     >
       <TableContainer component={Paper} variant="outlined" sx={{ m: 1, width: 'auto' }}>
@@ -78,21 +97,25 @@ export const ListagemDeEquivalencias: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.id}>
-                <TableCell>{row.faculdadeOrigem}</TableCell>
-                <TableCell>{row.cursoOrigem}</TableCell>
-                <TableCell>{row.codigoDisciplinaOrigem}</TableCell>
-                <TableCell>{row.faculdadeDestino}</TableCell>
-                <TableCell>{row.cursoDestino}</TableCell>
-                <TableCell>{row.codigoDisciplinaDestino}</TableCell>
-                <TableCell>{row.nomeProfessor}</TableCell>
-                <TableCell>{row.dataCriacao}</TableCell>
-                <TableCell style={{ color: row.equivalente === 'EQUIVALENTE' ? 'green' : 'red'}}>
-                    {row.equivalente}
+            {rows
+              .filter((row) => filtrarEquivalencias(row.equivalente))
+              .map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.faculdadeOrigem}</TableCell>
+                  <TableCell>{row.cursoOrigem}</TableCell>
+                  <TableCell>{row.codigoDisciplinaOrigem}</TableCell>
+                  <TableCell>{row.faculdadeDestino}</TableCell>
+                  <TableCell>{row.cursoDestino}</TableCell>
+                  <TableCell>{row.codigoDisciplinaDestino}</TableCell>
+                  <TableCell>{row.nomeProfessor}</TableCell>
+                  <TableCell>{row.dataCriacao}</TableCell>
+                  <TableCell>
+                    <span style={{ color: row.equivalente === 'EQUIVALENTE' ? 'green' : 'red' }}>
+                      {row.equivalente}
+                    </span>
                   </TableCell>
-              </TableRow>
-            ))}
+                </TableRow>
+              ))}
           </TableBody>
 
           {totalCount === 0 && !isLoading && (
@@ -102,18 +125,18 @@ export const ListagemDeEquivalencias: React.FC = () => {
           <TableFooter>
             {isLoading && (
               <TableRow>
-                <TableCell colSpan={3}>
+                <TableCell colSpan={9}>
                   <LinearProgress variant='indeterminate' />
                 </TableCell>
               </TableRow>
             )}
-            {(totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS) && (
+            {totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS && (
               <TableRow>
-                <TableCell colSpan={3}>
+                <TableCell colSpan={9}>
                   <Pagination
-                    page={pagina+1}
-                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS+1)}
-                    onChange={(_, newPage) => setSearchParams({ busca, pagina: (newPage-1).toString() }, { replace: true })}
+                    page={pagina + 1}
+                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS + 1)}
+                    onChange={(_, newPage) => setSearchParams({ busca, pagina: (newPage - 1).toString() }, { replace: true })}
                   />
                 </TableCell>
               </TableRow>
