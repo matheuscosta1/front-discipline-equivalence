@@ -16,7 +16,9 @@ import {
   DetalheDeProfessores,
   ListagemDeAlocacaoAnalisesProfessores, 
   DetalheDeAlocacaoAnalisesProfessores,
-  ListagemDeEquivalencias
+  ListagemDeEquivalencias,
+  ListagemDeAnalisesPendentesDoProfessor,
+  ListagemDeAlocacaoAnalisesProfessoresPendente
 } from '../pages';
 import { ListagemDeAnalisesDoProfessor } from '../pages/analises_professor/ListagemDeAnalisesDoProfessor';
 import { ListagemRelatorioEquivalencia } from '../pages/analises_professor/ListagemRelatorioEquivalencia';
@@ -29,17 +31,18 @@ export const AppRoutes = () => {
     {
       icon: 'home',
       path: '/pagina-inicial',
-      label: 'Página inicial',
-    },
-    {
-      icon: 'school',
-      path: '/analises',
-      label: 'Análises de equivalência',
+      label: 'Análises de equivalência pendentes',
     },
     {
       icon: 'school',
       path: '/equivalencias',
       label: 'Equivalências',
+    },
+
+    {
+      icon: 'school',
+      path: '/analises',
+      label: 'Histórico de análises de equivalência',
     },
     {
       icon: 'school',
@@ -83,7 +86,7 @@ export const AppRoutes = () => {
 
   const rotasSecretario = (
     <Routes>
-      <Route path="/pagina-inicial" element={verifyIsProfessorRole() ? <ListagemDeAlocacaoAnalisesProfessores /> : <ListagemDeEquivalencias />} />
+      <Route path="/pagina-inicial" element={<ListagemDeAlocacaoAnalisesProfessoresPendente />} />
 
       {/* <Route path="/pessoas" element={<ListagemDePessoas />} />
       <Route path="/pessoas/detalhe/:id" element={<DetalheDePessoas />} /> */}
@@ -112,7 +115,7 @@ export const AppRoutes = () => {
 
   const rotasProfessor = (
     <Routes>
-      <Route path="/pagina-inicial" element={verifyIsProfessorRole() ? <ListagemDeAnalisesDoProfessor /> : <ListagemDeEquivalencias />} />
+      <Route path="/pagina-inicial" element={verifyIsProfessorRole() ? <ListagemDeAnalisesPendentesDoProfessor /> : <ListagemDeEquivalencias />} />
 
       <Route path="/analises-professor" element={<ListagemDeAnalisesDoProfessor />} />
       <Route path="/analises-professor/detalhe/:id" element={<ListagemRelatorioEquivalencia />} />

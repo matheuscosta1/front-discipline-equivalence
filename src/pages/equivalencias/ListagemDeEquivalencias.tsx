@@ -78,8 +78,8 @@ export const ListagemDeEquivalencias: React.FC = () => {
                 style={{ marginLeft: '8px' }}
               >
                 <MenuItem value="todos">Todos</MenuItem>
-                <MenuItem value="equivalente">Equivalente</MenuItem>
-                <MenuItem value="nao_equivalente">Não Equivalente</MenuItem>
+                <MenuItem value="equivalente">Equivalentes</MenuItem>
+                <MenuItem value="nao_equivalente">Não Equivalentes</MenuItem>
               </Select>
             </div>
           </div>
