@@ -141,9 +141,13 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
               }
   
               return (
-                <TableRow key={row.id}>
+                <TableRow 
+                  key={row.id}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate(`/analises-professor/detalhe/${row.id}`)}
+                >
                   <TableCell>
-                    <IconButton size="small" onClick={() => navigate(`/analises-professor/detalhe/${row.id}`)} disabled={row.status !== 'Pendente'}>
+                    <IconButton size="small" onClick={() => navigate(`/analises-professor/detalhe/${row.id}`)} disabled={row.status !== 'PENDENTE'}>
                       <Icon>build</Icon>
                     </IconButton>
                   </TableCell>
