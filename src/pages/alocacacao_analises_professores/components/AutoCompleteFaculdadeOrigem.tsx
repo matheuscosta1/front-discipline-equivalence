@@ -87,6 +87,7 @@ export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> 
           label="Faculdade origem"
           error={!!error}
           helperText={error}
+          disabled={isExternalLoading}
         />
       )}
     />

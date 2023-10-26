@@ -129,15 +129,6 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
       {(mostrarBotaoNovoCarregando && !smDown) && (
         <Skeleton width={110} height={60} />
       )}
-
-      {
-        (
-          mostrarBotaoVoltar &&
-          (mostrarBotaoNovo || mostrarBotaoApagar || mostrarBotaoSalvar || mostrarBotaoSalvarEFechar)
-        ) && (
-          <Divider variant='middle' orientation='vertical' />
-        )
-      }
       
       <div style={{ marginLeft: 'auto' }}>
         {(mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando) && (

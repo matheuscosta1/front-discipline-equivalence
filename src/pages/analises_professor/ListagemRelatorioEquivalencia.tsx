@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Alert, Box, Button, Card, CardActions, CardContent, Checkbox, CircularProgress, FormControlLabel, Grid, Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow, TextField, Typography, makeStyles } from '@mui/material';
+import { Alert, Box, Button, Card, CardActions, CardContent, Checkbox, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Grid, Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow, TextField, Typography, makeStyles } from '@mui/material';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useDebounce } from '../../shared/hooks';
 import { FerramentasDaListagem } from '../../shared/components';
@@ -7,7 +7,7 @@ import { Environment } from '../../shared/environment';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 import { IListagemAlocacaoAnalisesProfessores, AlocacaoAnalisesProfessoresService } from '../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
 import { EquivalenciaDisciplinaResponse, IDetalheRelatorioEquivalencia, RelatorioEquivalenciaService } from '../../shared/services/api/relatorio_equivalencia/RelatorioEquivalenciaService';
-import { TableRows } from '@mui/icons-material';
+import { ErrorOutline, TableRows } from '@mui/icons-material';
 import { IDetalheRegistroEquivalencia, RegistroEquivalenciaService } from '../../shared/services/api/registro_equivalencia/RegistroEquivalenciaService';
 
 
@@ -27,6 +27,22 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
     setEquivalente(e.target.checked); 
   };
 
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+  };
+
   const handleSubmit = () => {
     setIsLoading(true);
 
@@ -42,12 +58,20 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
     RegistroEquivalenciaService.create(detalhe)
       .then((result) => {
         if (result instanceof Error) {
-          alert(result.message);
-        } else {
-          console.log(result);
-          setTimeout(() => {
+          if(result.message.includes('422')) {
             setIsLoading(false);
-            alert("Registro de equivalência realizado com sucesso.")
+            setErrorMessage('Equivalência já foi registrada.');
+            setIsErrorModalOpen(true);
+          } else {
+            alert(result.message);
+          }
+        } else {
+          setSuccessMessage('Equivalência cadastrada com sucesso.');
+          setIsSuccessModalOpen(true);          
+          
+          setTimeout(() => {
+            
+            setIsLoading(false);
             navigate('/analises-professor');
           }, 2000);
         }
@@ -65,7 +89,6 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
   }, [searchParams]);
 
 
-  console.log("Teste...")
   useEffect(() => {
     setIsLoading(true);
     debounce(() => {
@@ -91,13 +114,12 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
               RelatorioEquivalenciaService.create(detalhe)
                 .then((result) => {
                   setIsLoading(false);
-  
+
                   if (result instanceof Error) {
-                    alert(result.message);
+                    console.log(result.message)
                   } else {
                     console.log(result);
                     setRows(result);
-                    console.log("Rows",rows)
                   }
                 });
             } else {
@@ -224,8 +246,34 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
               </Grid>
             )}
         </Grid>
-      </Grid>      
-      
+        <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
+          <DialogTitle>
+            Erro
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>{errorMessage}</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeErrorModal} color="primary" autoFocus>
+              Fechar
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
+          <DialogTitle>
+            Cadastro realizado com sucesso!
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>{successMessage}</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeSuccessModal}  color="primary" autoFocus>
+              Fechar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
       
     </LayoutBaseDePagina>
   );

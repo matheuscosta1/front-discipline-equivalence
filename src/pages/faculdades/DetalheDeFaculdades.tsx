@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, LinearProgress, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -24,6 +24,22 @@ export const DetalheDeFaculdades: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [nome, setNome] = useState('');
+
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+  };
 
   useEffect(() => {
     if (id !== 'nova') {
@@ -62,12 +78,20 @@ export const DetalheDeFaculdades: React.FC = () => {
               setIsLoading(false);
 
               if (result instanceof Error) {
-                alert(result.message);
+                if(result.message.includes('422')) {
+                  setErrorMessage('Faculdade já registrada.');
+                  setIsErrorModalOpen(true);
+                } else {
+                  alert(result.message);
+                }
               } else {
                 if (isSaveAndClose()) {
+                  setSuccessMessage('Faculdade cadastrada com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate('/faculdades');
                 } else {
-                  console.log("Resultado Id", result)
+                  setSuccessMessage('Faculdade cadastrada com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate(`/faculdades/detalhe/${result}`);
                 }
               }
@@ -82,6 +106,8 @@ export const DetalheDeFaculdades: React.FC = () => {
                 alert(result.message);
               } else {
                 if (isSaveAndClose()) {
+                  setSuccessMessage('Faculdade cadastrada com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate('/faculdades');
                 }
               }
@@ -165,6 +191,34 @@ export const DetalheDeFaculdades: React.FC = () => {
 
         </Box>
       </VForm>
+
+      <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
+        <DialogTitle>
+          Error
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{errorMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeErrorModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
+        <DialogTitle>
+          Registro realizado!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{successMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeSuccessModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </LayoutBaseDePagina>
   );
 };
