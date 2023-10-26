@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Icon, LinearProgress, Modal, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -15,6 +15,7 @@ import { AutoCompleteProfessorPorDisciplinaDestino } from './components/AutoComp
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 import jwt_decode from 'jwt-decode';
+import { ErrorOutline } from '@mui/icons-material';
 
 interface IFormData {
   faculdadeOrigemId: number;
@@ -119,6 +120,22 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
     setDisciplinaDestinoId(novaDisciplinaId);
   };
 
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+  };
+
   useEffect(() => {
     if (id !== 'nova') {
       setIsLoading(true);
@@ -145,7 +162,6 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
   const handleSave = (dados: IFormData) => {
     dados.emailAdministrador = getEmailDoUsuarioLogado();
-    console.log("Dados analise equivalencia: ", dados)
     formValidationSchema
       .validate(dados, { abortEarly: false })
       .then((dadosValidados) => {
@@ -158,11 +174,21 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
               setIsLoading(false);
 
               if (result instanceof Error) {
-                alert(result.message);
+                if(result.message.includes('422')) {
+                  //alert('Análise de equivalência já foi registrada.');
+                  setErrorMessage('Análise de equivalência já foi registrada.');
+                  setIsErrorModalOpen(true);
+                } else {
+                  alert(result.message);
+                }
               } else {
                 if (isSaveAndClose()) {
+                  setSuccessMessage('Análise de equivalência cadastrada com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate('/analises');
                 } else {
+                  setSuccessMessage('Análise de equivalência cadastrada com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate(`/analises/detalhe/${result}`);
                 }
               }
@@ -177,6 +203,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 alert(result.message);
               } else {
                 if (isSaveAndClose()) {
+                  setSuccessMessage('Análise de equivalência cadastrada com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate('/analises');
                 }
               }
@@ -213,7 +241,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo={id === 'nova' ? 'Nova alocacao analises professores' : "Novo alocacao professores"}
+      titulo={id === 'nova' ? 'Nova alocacao analises professores' : "Atualização de análise de equivalência"}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo='Nova'
@@ -331,13 +359,52 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                   placeholder='Exemplo: 14/05/1999'
                 />
               </Grid>
+
+              <Grid container justifyContent="space-between" padding={2}>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    onClick={save}
+                    startIcon={<Icon>save</Icon>}
+                  >
+                    Salvar
+                  </Button>
+                </Grid>
+              </Grid>
+
             </Grid>
-
-          
           </Grid>
-
         </Box>
       </VForm>
+      
+      <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
+        <DialogTitle>
+          Error
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{errorMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeErrorModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
+        <DialogTitle>
+        Cadastro realizado com sucesso!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{successMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeSuccessModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </LayoutBaseDePagina>
   );
 };

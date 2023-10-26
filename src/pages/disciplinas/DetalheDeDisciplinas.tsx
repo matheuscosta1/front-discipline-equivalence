@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
+import { Box, Button, CardActions, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Icon, LinearProgress, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -9,7 +9,6 @@ import { AutoCompleteFaculdade } from './components/AutoCompleteFaculdade';
 import { AutoCompleteCurso } from './components/AutoCompleteCurso';
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
-
 
 interface IFormData {
   nome: string;
@@ -43,12 +42,26 @@ export const DetalheDeDisciplinas: React.FC = () => {
   const [cargaHoraria, setCargaHoraria] = useState('');
   const [codigoOrigem, setCodigoOrigem] = useState('');
 
-
   const [faculdadeId, setFaculdadeId] = useState<number | undefined>(/* valor inicial */);
-
 
   const handleFaculdadeIdChange = (novoFaculdadeId: number | undefined) => {
     setFaculdadeId(novoFaculdadeId);
+  };
+
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
   };
 
   useEffect(() => {
@@ -98,11 +111,20 @@ export const DetalheDeDisciplinas: React.FC = () => {
               setIsLoading(false);
 
               if (result instanceof Error) {
-                alert(result.message);
+                if(result.message.includes('422')) {
+                  setErrorMessage('Disciplina já registrada.');
+                  setIsErrorModalOpen(true);
+                } else {
+                  alert(result.message);
+                }
               } else {
                 if (isSaveAndClose()) {
+                  setSuccessMessage('Disciplina cadastrada com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate('/disciplinas');
                 } else {
+                  setSuccessMessage('Disciplina cadastrada com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate(`/disciplinas/detalhe/${result}`);
                 }
               }
@@ -117,6 +139,8 @@ export const DetalheDeDisciplinas: React.FC = () => {
                 alert(result.message);
               } else {
                 if (isSaveAndClose()) {
+                  setSuccessMessage('Disciplina cadastrada com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate('/disciplinas');
                 }
               }
@@ -258,9 +282,49 @@ export const DetalheDeDisciplinas: React.FC = () => {
               </Grid>
             </Grid>
 
+            <Grid container justifyContent="space-between" padding={2}>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  onClick={save}
+                  startIcon={<Icon>save</Icon>}
+                >
+                  Salvar
+                </Button>
+              </Grid>
+            </Grid>
+
           </Grid>
         </Box>
       </VForm>
+
+      <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
+        <DialogTitle>
+          Error
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{errorMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeErrorModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
+        <DialogTitle>
+        Registro realizado!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{successMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeSuccessModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </LayoutBaseDePagina>
   );
 };

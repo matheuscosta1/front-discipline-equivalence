@@ -20,6 +20,8 @@ export interface IListagemAlocacaoAnalisesProfessores {
   nomeDisciplinaDestino: string;
   nomeProfessor: string;
   status: string;
+  emailAluno: string;
+  nomeAluno: string;
 }
 
 export interface IDetalheAlocacaoAnalisesProfessores {

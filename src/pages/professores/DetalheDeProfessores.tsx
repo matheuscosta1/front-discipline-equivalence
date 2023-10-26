@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Icon, LinearProgress, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -48,6 +48,22 @@ export const DetalheDeProfessores: React.FC = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
 
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+  };
+
   useEffect(() => {
     if (id !== 'nova') {
       setIsLoading(true);
@@ -89,11 +105,20 @@ export const DetalheDeProfessores: React.FC = () => {
               setIsLoading(false);
 
               if (result instanceof Error) {
-                alert(result.message);
+                if(result.message.includes('422')) {
+                  setErrorMessage('Professor já registrado.');
+                  setIsErrorModalOpen(true);
+                } else {
+                  alert(result.message);
+                }
               } else {
                 if (isSaveAndClose()) {
+                  setSuccessMessage('Professor cadastrado com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate('/professores');
                 } else {
+                  setSuccessMessage('Professor cadastrado com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate(`/professores/detalhe/${result}`);
                 }
               }
@@ -108,6 +133,8 @@ export const DetalheDeProfessores: React.FC = () => {
                 alert(result.message);
               } else {
                 if (isSaveAndClose()) {
+                  setSuccessMessage('Professor atualizado com sucesso.');
+                  setIsSuccessModalOpen(true); 
                   navigate('/professores');
                 }
               }
@@ -217,10 +244,50 @@ export const DetalheDeProfessores: React.FC = () => {
               </Grid>
             </Grid>
 
+            <Grid container justifyContent="space-between" padding={2}>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  onClick={save}
+                  startIcon={<Icon>save</Icon>}
+                >
+                  Salvar
+                </Button>
+              </Grid>
+            </Grid>
+
           </Grid>
 
         </Box>
       </VForm>
+
+      <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
+        <DialogTitle>
+          Error
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{errorMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeErrorModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
+        <DialogTitle>
+        Registro realizado!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{successMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeSuccessModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </LayoutBaseDePagina>
   );
 };
