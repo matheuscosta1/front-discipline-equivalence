@@ -14,8 +14,9 @@ type TAutoCompleteOption = {
 interface IAutoCompleteFaculdadeProps {
   onFaculdadeIdChange?: (faculdadeId: number | undefined) => void; // Adicione este prop
   isExternalLoading?: boolean;
+  disableField?: boolean;
 }
-export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> = ({ isExternalLoading = false, onFaculdadeIdChange }) => {
+export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> = ({ isExternalLoading = false, onFaculdadeIdChange, disableField = false }) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField('faculdadeOrigemId');
   const { debounce } = useDebounce();
 
@@ -75,7 +76,7 @@ export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> 
 
       options={opcoes}
       loading={isLoading}
-      disabled={isExternalLoading}
+      disabled={disableField ? disableField : isExternalLoading}
       value={autoCompleteSelectedOption}
       onInputChange={(_, newValue) => setBusca(newValue)}
       onChange={(_, newValue) => { setSelectedId(newValue?.id); setBusca(''); clearError(); }}
@@ -87,7 +88,7 @@ export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> 
           label="Faculdade origem"
           error={!!error}
           helperText={error}
-          disabled={isExternalLoading}
+          disabled={disableField}
         />
       )}
     />
