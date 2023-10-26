@@ -12,6 +12,8 @@ export interface IListagemDisciplina {
   cargaHoraria: number;
   faculdadeId: number;
   cursoId: number;
+  nomeFaculdade: string;
+  nomeCurso: string;
 }
 
 export interface IDetalheDisciplina {

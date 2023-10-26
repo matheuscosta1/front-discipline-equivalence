@@ -6,6 +6,7 @@ export interface IListagemCurso {
   id: number;
   faculdadeId: number;
   nome: string;
+  nomeFaculdade: string;
 }
 
 export interface IDetalheCurso {

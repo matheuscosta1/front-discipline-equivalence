@@ -14,12 +14,14 @@ interface IAutoCompleteCursoProps {
   faculdadeId?: number | undefined;
   isExternalLoading?: boolean;
   onCursoIdChange?: (cursoId: number | undefined) => void; // Adicione este prop
+  disableField?: boolean;
 }
 
 export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
   isExternalLoading = false,
   faculdadeId,
-  onCursoIdChange
+  onCursoIdChange,
+  disableField = false
 }) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField('cursoDestinoId');
   const { debounce } = useDebounce();
@@ -81,7 +83,7 @@ export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
 
       options={opcoes}
       loading={isLoading}
-      disabled={isExternalLoading}
+      disabled={disableField ? disableField : isExternalLoading}
       value={autoCompleteSelectedOption}
       onInputChange={(_, newValue) => setBusca(newValue)}
       onChange={(_, newValue) => { setSelectedId(newValue?.id); setBusca(''); clearError(); }}
@@ -93,6 +95,7 @@ export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
           label="Curso destino"
           error={!!error}
           helperText={error}
+          disabled={disableField}
         />
       )}
     />

@@ -89,6 +89,8 @@ export const ListagemDeDisciplinas: React.FC = () => {
               <TableCell width={100}>Ações</TableCell>
               <TableCell>Nome</TableCell>
               <TableCell>Codigo Origem</TableCell>
+              <TableCell>Faculdade</TableCell>
+              <TableCell>Curso</TableCell>
               <TableCell>Ementa</TableCell>
               <TableCell>Carga Horária</TableCell>
             </TableRow>
@@ -106,6 +108,8 @@ export const ListagemDeDisciplinas: React.FC = () => {
                 </TableCell>
                 <TableCell>{row.nome}</TableCell>
                 <TableCell>{row.codigoOrigem}</TableCell>
+                <TableCell>{row.nomeFaculdade}</TableCell>
+                <TableCell>{row.nomeCurso}</TableCell>
                 <TableCell>{row.ementa}</TableCell>
                 <TableCell>{row.cargaHoraria}</TableCell>
 
