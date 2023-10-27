@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Icon, LinearProgress, Paper, Typography } from '@mui/material';
+import { Backdrop, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Icon, LinearProgress, Paper, TextField, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -10,6 +10,9 @@ import { AutoCompleteCurso } from './components/AutoCompleteCurso';
 import { AutoCompleteDisciplina } from './components/AutoCompleteDisciplina';
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
+import { IDetalheCurso, CursosService } from '../../shared/services/api/cursos/CursosService';
+import { IDetalheFaculdade, FaculdadesService } from '../../shared/services/api/faculdades/FaculdadesService';
+import { DisciplinasService, IDetalheDisciplina } from '../../shared/services/api/disciplinas/DisciplinasService';
 
 
 interface IFormData {
@@ -62,6 +65,197 @@ export const DetalheDeProfessores: React.FC = () => {
 
   const closeSuccessModal = () => {
     setIsSuccessModalOpen(false);
+  };
+
+  const handleDisciplinaIdChange = (novaDisciplinaId: number | undefined) => {
+    setDisciplinaId(novaDisciplinaId);
+  };
+
+  const [disciplinaId, setDisciplinaId] = useState<number | undefined>(/* valor inicial */);
+
+
+  const [isFaculdadeModalOpen, setIsFaculdadeModalOpen] = useState(false);
+  const [novaFaculdade, setNovaFaculdade] = useState('');
+
+  const handleOpenFaculdadeModal = () => {
+    setIsFaculdadeModalOpen(true);
+  };
+
+  const handleCloseFaculdadeModal = () => {
+    setIsFaculdadeModalOpen(false);
+  };
+
+  const [isCursoModalOpen, setIsCursoModalOpen] = useState(false);
+  const [novoCurso, setNovoCurso] = useState('');
+
+  const handleOpenCursoModal = () => {
+    setIsCursoModalOpen(true);
+  };
+
+  const handleCloseCursoModal = () => {
+    setIsCursoModalOpen(false);
+  };
+
+  const [isDisciplinaModalOpen, setIsDisciplinaModalOpen] = useState(false);
+  const [novaDisciplina, setNovaDisciplina] = useState('');
+  const [novaCodigoOrigem, setCodigoOrigem] = useState('');
+  const [novaEmenta, setEmenta] = useState('');
+  const [novaCargaHoraria, setCargaHoraria] = useState<number | undefined>(/* valor inicial */);
+  const [novoPrograma, setPrograma] = useState('');
+
+
+  const handleOpenDisciplinaModal = () => {
+    setIsDisciplinaModalOpen(true);
+  };
+
+  const handleCloseDisciplinaModal = () => {
+    setIsDisciplinaModalOpen(false);
+  };
+
+  type TAutoCompleteOption = {
+    id: number;
+    label: string;
+  }
+
+  const [selectedFaculdade, setSelectedFaculdade] = useState<TAutoCompleteOption | undefined>(undefined);
+
+  const handleNovaFaculdadeIdChange = (novaFaculdade: TAutoCompleteOption | undefined) => {
+    setSelectedFaculdade(novaFaculdade);
+  };
+
+  const [selectedCurso, setSelectedCurso] = useState<TAutoCompleteOption | undefined>(undefined);
+
+  const handleNovoCursoIdChange = (novoCurso: TAutoCompleteOption | undefined) => {
+    setSelectedCurso(novoCurso);
+  };
+
+  const [selectedDisciplina, setSelectedDisciplina] = useState<TAutoCompleteOption | undefined>(undefined);
+
+  const handleNovoDisciplinaIdChange = (novoCurso: TAutoCompleteOption | undefined) => {
+    setSelectedDisciplina(novoCurso);
+  };
+
+
+  const handleSaveCurso = () => {
+    // Lógica para salvar a nova faculdade aqui
+    // Após salvar, atualize o campo "Faculdade" e feche a modal
+
+    console.log("Faculdade id: ", faculdadeId);
+
+    const detalhe: IDetalheCurso = {
+      id: Number(id),
+      faculdadeId: Number(selectedFaculdade!!.id),
+      nome: novoCurso
+    };
+    setIsLoading(true);
+
+    console.log(detalhe)
+
+    CursosService.create(detalhe)
+                .then((result) => {
+
+                  if (result instanceof Error) {
+                    alert(result.message);
+                    handleCloseCursoModal();
+                    setIsLoading(false);
+                  } else {
+                    const detalhe: TAutoCompleteOption = {
+                      id: Number(result.id),
+                      label: result.nome
+                    };
+
+                    handleNovoCursoIdChange(detalhe)
+
+                    setTimeout(() => {
+                      setIsLoading(false);
+                      alert("Faculdade registrada com sucesso.")
+                      handleCloseCursoModal();
+                    }, 2000);
+                  }
+                });
+  };
+
+  const handleSaveFaculdade = () => {
+    // Lógica para salvar a nova faculdade aqui
+    // Após salvar, atualize o campo "Faculdade" e feche a modal
+
+    const detalhe: IDetalheFaculdade = {
+      id: Number(id),
+      nome: novaFaculdade
+    };
+    setIsLoading(true);
+    console.log("Entrou no handle de faculdade")
+
+    FaculdadesService.create(detalhe)
+                .then((result) => {
+
+                  if (result instanceof Error) {
+                    alert(result.message);
+                    handleCloseFaculdadeModal();
+                    setIsLoading(false);
+                  } else {
+                    const detalhe: TAutoCompleteOption = {
+                      id: Number(result.id),
+                      label: result.nome
+                    };
+                    console.log("Cadastro de faculdade id: ", Number(result.id));
+                    
+
+                    setTimeout(() => {
+                      setFaculdadeId(Number(result.id))
+                      console.log("Faculdade id: ", faculdadeId);
+                      handleNovaFaculdadeIdChange(detalhe)
+
+                      setIsLoading(false);
+                      alert("Faculdade registrada com sucesso.")
+                      handleCloseFaculdadeModal();
+                    }, 2000);
+                  }
+                });
+  };
+
+  const handleSaveDisciplina = () => {
+
+    const detalhe: IDetalheDisciplina = {
+      id: Number(id),
+      nome: novaDisciplina,
+      codigoOrigem: novaCodigoOrigem,
+      ementa: novaEmenta,
+      programa: novoPrograma,
+      cargaHoraria: Number(novaCargaHoraria),
+      faculdadeId: Number(selectedFaculdade!!.id),
+      cursoId: Number(selectedCurso!!.id)
+
+    };
+    setIsLoading(true);
+    console.log("Entrou no handle de faculdade")
+
+    DisciplinasService.create(detalhe)
+                .then((result) => {
+
+                  if (result instanceof Error) {
+                    alert(result.message);
+                    handleCloseDisciplinaModal();
+                    setIsLoading(false);
+                  } else {
+                    const detalhe: TAutoCompleteOption = {
+                      id: Number(result.id),
+                      label: result.nome
+                    };
+                    console.log("Cadastro de faculdade id: ", Number(result.id));
+                    
+
+                    setTimeout(() => {
+                      setDisciplinaId(Number(result.id))
+                      
+                      handleNovoDisciplinaIdChange(detalhe)
+
+                      setIsLoading(false);
+                      alert("Disciplina registrada com sucesso.")
+                      handleCloseDisciplinaModal();
+                    }, 2000);
+                  }
+                });
   };
 
   useEffect(() => {
@@ -228,19 +422,34 @@ export const DetalheDeProfessores: React.FC = () => {
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <AutoCompleteFaculdade isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeIdChange}/>
+                <AutoCompleteFaculdade isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeIdChange} autoCompleteValue={selectedFaculdade}/>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2} >
+                  <Button variant="outlined" style={{ marginTop: '2px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}  onClick={handleOpenFaculdadeModal}>
+                    NOVA +
+                  </Button>
               </Grid>
             </Grid>
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <AutoCompleteCurso isExternalLoading={isLoading} faculdadeId={faculdadeId} onCursoIdChange={handleCursoIdChange}/>
+                <AutoCompleteCurso isExternalLoading={isLoading} faculdadeId={faculdadeId} onCursoIdChange={handleCursoIdChange} autoCompleteValue={selectedCurso}/>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2} >
+                  <Button variant="outlined" style={{ marginTop: '2px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}  onClick={handleOpenCursoModal}>
+                    NOVA +
+                  </Button>
               </Grid>
             </Grid>
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <AutoCompleteDisciplina isExternalLoading={isLoading} faculdadeId={faculdadeId} cursoId={cursoId}/>
+                <AutoCompleteDisciplina isExternalLoading={isLoading} faculdadeId={faculdadeId} cursoId={cursoId} autoCompleteValue={selectedDisciplina}/>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2} >
+                  <Button variant="outlined" style={{ marginTop: '2px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}  onClick={handleOpenDisciplinaModal}>
+                    NOVO +
+                  </Button>
               </Grid>
             </Grid>
 
@@ -260,6 +469,171 @@ export const DetalheDeProfessores: React.FC = () => {
 
         </Box>
       </VForm>
+
+      <Dialog open={isFaculdadeModalOpen} onClose={handleCloseFaculdadeModal} BackdropComponent={Backdrop}>
+        <DialogTitle>Registrar Faculdade</DialogTitle>
+        <DialogContent>
+          <form>
+            <TextField
+              fullWidth
+              label="Nome"
+              value={novaFaculdade}
+              onChange={e => setNovaFaculdade(e.target.value)}
+            />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
+                onClick={handleSaveFaculdade}
+              >
+                Salvar
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                autoFocus
+                style={{ marginTop: '10px', marginLeft: '10px', marginRight: '20px' }}
+                onClick={handleCloseFaculdadeModal}
+              >
+                Fechar
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+
+        {isLoading && (
+          <Grid item>
+            <LinearProgress variant="indeterminate" />
+          </Grid>
+        )}
+      </Dialog>
+
+      <Dialog open={isCursoModalOpen} onClose={handleCloseCursoModal} BackdropComponent={Backdrop}>
+        <DialogTitle>Registrar Curso</DialogTitle>
+        <DialogContent>
+          <form>
+            <TextField
+              fullWidth
+              label="Nome"
+              value={novoCurso}
+              onChange={e => setNovoCurso(e.target.value)}
+              style={{ marginBottom: '16px' }} // Adicione margem inferior
+            />
+            <TextField
+              fullWidth
+              label="Faculdade"
+              value={novaFaculdade}
+              style={{ marginBottom: '16px' }} // Adicione margem inferior
+            />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
+                onClick={handleSaveCurso}
+              >
+                Salvar
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                autoFocus
+                style={{ marginTop: '10px', marginLeft: '10px', marginRight: '20px' }}
+                onClick={handleCloseCursoModal}
+              >
+                Fechar
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+
+        {isLoading && (
+          <Grid item>
+            <LinearProgress variant="indeterminate" />
+          </Grid>
+        )}
+      </Dialog>
+
+      <Dialog open={isDisciplinaModalOpen} onClose={handleCloseDisciplinaModal} BackdropComponent={Backdrop}>
+        <DialogTitle>Registrar Disciplina</DialogTitle>
+        <DialogContent>
+          <form>
+            <TextField
+              fullWidth
+              label="Nome"
+              value={novaDisciplina}
+              onChange={e => setNovaDisciplina(e.target.value)}
+              style={{ marginBottom: '16px' }} // Adicione margem inferior
+            />
+            <TextField
+              fullWidth
+              label="Código Disciplina"
+              value={novaCodigoOrigem}
+              onChange={e => setCodigoOrigem(e.target.value)}
+              style={{ marginBottom: '16px' }} // Adicione margem inferior
+            />
+            <TextField
+              fullWidth
+              label="Ementa"
+              value={novaEmenta}
+              onChange={e => setEmenta(e.target.value)}
+              style={{ marginBottom: '16px' }} // Adicione margem inferior
+            />
+            <TextField
+              fullWidth
+              label="Programa"
+              value={novoPrograma}
+              onChange={e => setPrograma(e.target.value)}
+              style={{ marginBottom: '16px' }} // Adicione margem inferior
+            />
+            <TextField
+              fullWidth
+              label="Carga horária"
+              value={novaCargaHoraria}
+              onChange={e => setCargaHoraria(Number(e.target.value))}
+              style={{ marginBottom: '16px' }} // Adicione margem inferior
+            />
+            <TextField
+              fullWidth
+              label="Faculdade"
+              value={novaFaculdade}
+              style={{ marginBottom: '16px' }} // Adicione margem inferior
+            />
+            <TextField
+              fullWidth
+              label="Curso"
+              value={novoCurso}
+              style={{ marginBottom: '16px' }} // Adicione margem inferior
+            />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
+                onClick={handleSaveDisciplina}
+              >
+                Salvar
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                autoFocus
+                style={{ marginTop: '10px', marginLeft: '10px', marginRight: '20px' }}
+                onClick={handleCloseDisciplinaModal}
+              >
+                Fechar
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+
+        {isLoading && (
+          <Grid item>
+            <LinearProgress variant="indeterminate" />
+          </Grid>
+        )}
+      </Dialog>
 
       <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
         <DialogTitle>

@@ -112,7 +112,7 @@ const getById = async (id: number): Promise<IDetalheFaculdade | Error> => {
   }
 };
 
-const create = async (dados: Omit<IDetalheFaculdade, 'id'>): Promise<number | Error> => {
+const create = async (dados: Omit<IDetalheFaculdade, 'id'>): Promise<IDetalheFaculdade | Error> => {
 
   const headersConfig = {
     headers: getAuthorizationHeaders(),
@@ -122,7 +122,7 @@ const create = async (dados: Omit<IDetalheFaculdade, 'id'>): Promise<number | Er
     const { data, status } = await Api.post<IDetalheFaculdade>('/faculdades', dados, headersConfig);
 
     if (status === 200) {
-      return data.id;
+      return data;
     }
 
     return new Error('Erro ao criar o registro.');

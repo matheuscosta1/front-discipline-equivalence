@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, LinearProgress, Paper, TextField, Typography } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
+import { Backdrop, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, LinearProgress, Paper, TextField, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -8,6 +8,7 @@ import { VTextField, VForm, useVForm, IVFormErrors } from '../../shared/forms';
 import { AutoCompleteFaculdade } from './components/AutoCompleteFaculdade';
 import { FerramentasDeDetalhe } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
+import { IDetalheFaculdade, FaculdadesService } from '../../shared/services/api/faculdades/FaculdadesService';
 
 
 interface IFormData {
@@ -40,6 +41,46 @@ export const DetalheDeCursos: React.FC = () => {
 
   const closeSuccessModal = () => {
     setIsSuccessModalOpen(false);
+  };
+
+  const [isFaculdadeModalOpen, setIsFaculdadeModalOpen] = useState(false);
+  const [novaFaculdade, setNovaFaculdade] = useState('');
+
+  const handleOpenFaculdadeModal = () => {
+    setIsFaculdadeModalOpen(true);
+  };
+
+  const handleCloseFaculdadeModal = () => {
+    setIsFaculdadeModalOpen(false);
+  };
+
+  const handleSaveFaculdade = () => {
+    // Lógica para salvar a nova faculdade aqui
+    // Após salvar, atualize o campo "Faculdade" e feche a modal
+
+    const detalhe: IDetalheFaculdade = {
+      id: Number(id),
+      nome: novaFaculdade
+    };
+    setIsLoading(true);
+
+    FaculdadesService.create(detalhe)
+                .then((result) => {
+
+                  if (result instanceof Error) {
+                    alert(result.message);
+                    handleCloseFaculdadeModal();
+                    setIsLoading(false);
+                  } else {
+
+                    setTimeout(() => {
+                      setIsLoading(false);
+                      alert("Faculdade registrada com sucesso.")
+                      handleCloseFaculdadeModal();
+                    }, 2000);
+                  }
+                });
+
   };
   
   useEffect(() => {
@@ -193,12 +234,55 @@ export const DetalheDeCursos: React.FC = () => {
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <AutoCompleteFaculdade isExternalLoading={isLoading} />
-                
+              </Grid>
+              <Grid item xs={12} sm={12} md={6} lg={4} xl={2} >
+                  <Button variant="outlined" style={{ marginTop: '2px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}  onClick={handleOpenFaculdadeModal}>
+                        NOVA +
+                  </Button>
               </Grid>
             </Grid>
           </Grid>
         </Box>
       </VForm>
+
+      <Dialog open={isFaculdadeModalOpen} onClose={handleCloseFaculdadeModal} BackdropComponent={Backdrop}>
+        <DialogTitle>Registrar Faculdade</DialogTitle>
+        <DialogContent>
+          <form>
+            <TextField
+              fullWidth
+              label="Nome"
+              value={novaFaculdade}
+              onChange={e => setNovaFaculdade(e.target.value)}
+            />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
+                onClick={handleSaveFaculdade}
+              >
+                Salvar
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                autoFocus
+                style={{ marginTop: '10px', marginLeft: '10px', marginRight: '20px' }}
+                onClick={handleCloseFaculdadeModal}
+              >
+                Fechar
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+
+        {isLoading && (
+          <Grid item>
+            <LinearProgress variant="indeterminate" />
+          </Grid>
+        )}
+      </Dialog>
 
       <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
         <DialogTitle>
