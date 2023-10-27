@@ -15,8 +15,9 @@ interface IAutoCompleteFaculdadeProps {
   onFaculdadeIdChange?: (faculdadeId: number | undefined) => void; // Adicione este prop
   isExternalLoading?: boolean;
   disableField?: boolean;
+  autoCompleteValue?: TAutoCompleteOption;
 }
-export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps> = ({ isExternalLoading = false, onFaculdadeIdChange, disableField = false }) => {
+export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps> = ({ isExternalLoading = false, onFaculdadeIdChange, disableField = false, autoCompleteValue = undefined }) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField('faculdadeDestinoId');
   const { debounce } = useDebounce();
 
@@ -27,12 +28,21 @@ export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps>
   const [busca, setBusca] = useState('');
 
   useEffect(() => {
-    registerField({
-      name: fieldName,
-      getValue: () => selectedId,
-      setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
-    });
-  }, [registerField, fieldName, selectedId]);
+    if (autoCompleteValue) {
+      registerField({
+        name: fieldName,
+        getValue: () => autoCompleteValue.id,
+        setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
+      });
+    } else {
+      registerField({
+        name: fieldName,
+        getValue: () => selectedId,
+        setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
+      });
+    }
+  }, [autoCompleteValue, fieldName, registerField, selectedId]);
+
 
   onFaculdadeIdChange?.(selectedId); // Chame a função de callback, se estiver definida
 
@@ -77,7 +87,7 @@ export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps>
       options={opcoes}
       loading={isLoading}
       disabled={disableField ? disableField : isExternalLoading}
-      value={autoCompleteSelectedOption}
+      value={autoCompleteValue !== undefined ? autoCompleteValue : autoCompleteSelectedOption}
       onInputChange={(_, newValue) => setBusca(newValue)}
       onChange={(_, newValue) => { setSelectedId(newValue?.id); setBusca(''); clearError(); }}
       popupIcon={(isExternalLoading || isLoading) ? <CircularProgress size={28} /> : undefined}

@@ -13,11 +13,13 @@ type TAutoCompleteOption = {
 interface IAutoCompleteCursoProps {
   faculdadeId?: number | undefined;
   isExternalLoading?: boolean;
+  autoCompleteValue?: TAutoCompleteOption
 }
 
 export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({
   isExternalLoading = false,
-  faculdadeId
+  faculdadeId,
+  autoCompleteValue = undefined
 }) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField('cursoId');
   const { debounce } = useDebounce();
@@ -30,12 +32,20 @@ export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({
   console.log(selectedId);
 
   useEffect(() => {
-    registerField({
-      name: fieldName,
-      getValue: () => selectedId,
-      setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
-    });
-  }, [registerField, fieldName, selectedId]);
+    if (autoCompleteValue) {
+      registerField({
+        name: fieldName,
+        getValue: () => autoCompleteValue.id,
+        setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
+      });
+    } else {
+      registerField({
+        name: fieldName,
+        getValue: () => selectedId,
+        setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
+      });
+    }
+  }, [autoCompleteValue, fieldName, registerField, selectedId]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -80,7 +90,7 @@ export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({
       options={opcoes}
       loading={isLoading}
       disabled={isExternalLoading}
-      value={autoCompleteSelectedOption}
+      value={autoCompleteValue !== undefined ? autoCompleteValue : autoCompleteSelectedOption}
       onInputChange={(_, newValue) => setBusca(newValue)}
       onChange={(_, newValue) => { setSelectedId(newValue?.id); setBusca(''); clearError(); }}
       popupIcon={(isExternalLoading || isLoading) ? <CircularProgress size={28} /> : undefined}
