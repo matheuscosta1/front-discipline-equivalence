@@ -295,7 +295,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
     const detalhe: IDetalheCurso = {
       id: Number(id),
-      faculdadeId: Number(selectedFaculdadeOrigem!!.id),
+      faculdadeId: Number(selectedFaculdadeOrigem !== undefined ? selectedFaculdadeOrigem!!.id : faculdadeOrigemId),
       nome: novoCursoOrigem
     };
     setIsLoading(true);
@@ -330,7 +330,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
     const detalhe: IDetalheCurso = {
       id: Number(id),
-      faculdadeId: Number(selectedFaculdadeDestino!!.id),
+      faculdadeId: Number(selectedFaculdadeDestino !== undefined ? selectedFaculdadeDestino!!.id : faculdadeDestinoId),
       nome: novoCursoDestino
     };
     setIsLoading(true);
@@ -431,8 +431,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
       ementa: novaEmentaDisciplinaOrigem,
       programa: novoProgramaDisciplinaOrigem,
       cargaHoraria: Number(novaCargaHorariaDisciplinaOrigem),
-      faculdadeId: Number(selectedFaculdadeOrigem!!.id),
-      cursoId: Number(selectedCursoOrigem!!.id)
+      faculdadeId: Number(selectedFaculdadeOrigem !== undefined ? selectedFaculdadeOrigem!!.id : faculdadeOrigemId),
+      cursoId: Number(selectedCursoOrigem !== undefined ? selectedCursoOrigem!!.id : cursoOrigemId)
 
     };
     setIsLoading(true);
@@ -475,8 +475,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
       ementa: novaEmentaDisciplinaDestino,
       programa: novoProgramaDisciplinaDestino,
       cargaHoraria: Number(novaCargaHorariaDisciplinaDestino),
-      faculdadeId: Number(selectedFaculdadeDestino!!.id),
-      cursoId: Number(selectedCursoDestino!!.id)
+      faculdadeId: Number(selectedFaculdadeDestino !== undefined ? selectedFaculdadeDestino!!.id : faculdadeDestinoId),
+      cursoId: Number(selectedCursoDestino !== undefined ? selectedCursoDestino!!.id : cursoDestinoId)
 
     };
     setIsLoading(true);
@@ -513,10 +513,9 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
       id: Number(id),
       nome: novoProfessor,
       email: emailProfessor,
-      faculdadeId: Number(selectedFaculdadeDestino!!.id),
-      cursoId: Number(selectedCursoDestino!!.id),
-      disciplinaId: Number(selectedDisciplinaDestino!!.id)
-
+      faculdadeId: Number(selectedFaculdadeDestino !== undefined ? selectedFaculdadeDestino.id : faculdadeDestinoId),
+      cursoId: Number(selectedCursoDestino !== undefined ? selectedCursoDestino!!.id : cursoDestinoId),
+      disciplinaId: Number(selectedDisciplinaDestino !== undefined ? selectedDisciplinaDestino!!.id : disciplinaDestinoId)
     };
     setIsLoading(true);
 
