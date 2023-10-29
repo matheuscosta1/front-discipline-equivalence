@@ -117,19 +117,34 @@ export const DetalheDeProfessores: React.FC = () => {
     label: string;
   }
 
-  const [selectedFaculdade, setSelectedFaculdade] = useState<TAutoCompleteOption | undefined>(undefined);
+  const initialDestinyCollegeValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const initialDestinyCourseValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const initialDestinyDisciplineValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const [selectedFaculdade, setSelectedFaculdade] = useState<TAutoCompleteOption | undefined>(initialDestinyCollegeValue);
 
   const handleNovaFaculdadeIdChange = (novaFaculdade: TAutoCompleteOption | undefined) => {
     setSelectedFaculdade(novaFaculdade);
   };
 
-  const [selectedCurso, setSelectedCurso] = useState<TAutoCompleteOption | undefined>(undefined);
+  const [selectedCurso, setSelectedCurso] = useState<TAutoCompleteOption | undefined>(initialDestinyCourseValue);
 
   const handleNovoCursoIdChange = (novoCurso: TAutoCompleteOption | undefined) => {
     setSelectedCurso(novoCurso);
   };
 
-  const [selectedDisciplina, setSelectedDisciplina] = useState<TAutoCompleteOption | undefined>(undefined);
+  const [selectedDisciplina, setSelectedDisciplina] = useState<TAutoCompleteOption | undefined>(initialDestinyDisciplineValue);
 
   const handleNovoDisciplinaIdChange = (novoCurso: TAutoCompleteOption | undefined) => {
     setSelectedDisciplina(novoCurso);
@@ -137,9 +152,6 @@ export const DetalheDeProfessores: React.FC = () => {
 
 
   const handleSaveCurso = () => {
-    // Lógica para salvar a nova faculdade aqui
-    // Após salvar, atualize o campo "Faculdade" e feche a modal
-
     console.log("Faculdade id: ", faculdadeId);
 
     const detalhe: IDetalheCurso = {
@@ -176,9 +188,6 @@ export const DetalheDeProfessores: React.FC = () => {
   };
 
   const handleSaveFaculdade = () => {
-    // Lógica para salvar a nova faculdade aqui
-    // Após salvar, atualize o campo "Faculdade" e feche a modal
-
     const detalhe: IDetalheFaculdade = {
       id: Number(id),
       nome: novaFaculdade
@@ -510,130 +519,146 @@ export const DetalheDeProfessores: React.FC = () => {
       </Dialog>
 
       <Dialog open={isCursoModalOpen} onClose={handleCloseCursoModal} BackdropComponent={Backdrop}>
-        <DialogTitle>Registrar Curso</DialogTitle>
-        <DialogContent>
-          <form>
-            <TextField
-              fullWidth
-              label="Nome"
-              value={novoCurso}
-              onChange={e => setNovoCurso(e.target.value)}
-              style={{ marginBottom: '16px' }} // Adicione margem inferior
-            />
-            <TextField
-              fullWidth
-              label="Faculdade"
-              value={novaFaculdade}
-              style={{ marginBottom: '16px' }} // Adicione margem inferior
-            />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
-                onClick={handleSaveCurso}
-              >
-                Salvar
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                autoFocus
-                style={{ marginTop: '10px', marginLeft: '10px', marginRight: '20px' }}
-                onClick={handleCloseCursoModal}
-              >
-                Fechar
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-
-        {isLoading && (
-          <Grid item>
-            <LinearProgress variant="indeterminate" />
+      <DialogTitle>Registrar Curso de Destino</DialogTitle>
+      <DialogContent>
+        <VForm onSubmit={handleSaveCurso}>
+          <Grid container direction="column" spacing={2}>
+            {isLoading && (
+              <Grid item>
+                <LinearProgress variant="indeterminate" />
+              </Grid>
+            )}
+            <Grid item>
+              <VTextField
+                fullWidth
+                name="novoCursoDestino"
+                label="Nome"
+                value={novoCurso}
+                onChange={(e) => setNovoCurso(e.target.value)}
+                style={{ marginBottom: "16px" }}
+              />
+            </Grid>
+            <Grid item>
+              <AutoCompleteFaculdade isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeIdChange} autoCompleteValue={selectedFaculdade}/>
+            </Grid>
+            <Grid item>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginTop: "10px", marginLeft: "20px", marginRight: "20px" }}
+                  type="submit"
+                >
+                  Salvar
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  autoFocus
+                  style={{ marginTop: "10px", marginLeft: "10px", marginRight: "20px" }}
+                  onClick={handleCloseCursoModal}
+                >
+                  Fechar
+                </Button>
+              </div>
+            </Grid>
           </Grid>
-        )}
-      </Dialog>
+        </VForm>
+      </DialogContent>
+    </Dialog>
 
-      <Dialog open={isDisciplinaModalOpen} onClose={handleCloseDisciplinaModal} BackdropComponent={Backdrop}>
-        <DialogTitle>Registrar Disciplina</DialogTitle>
-        <DialogContent>
-          <form>
-            <TextField
-              fullWidth
-              label="Nome"
-              value={novaDisciplina}
-              onChange={e => setNovaDisciplina(e.target.value)}
-              style={{ marginBottom: '16px' }} // Adicione margem inferior
-            />
-            <TextField
-              fullWidth
-              label="Código Disciplina"
-              value={novaCodigoOrigem}
-              onChange={e => setCodigoOrigem(e.target.value)}
-              style={{ marginBottom: '16px' }} // Adicione margem inferior
-            />
-            <TextField
-              fullWidth
-              label="Ementa"
-              value={novaEmenta}
-              onChange={e => setEmenta(e.target.value)}
-              style={{ marginBottom: '16px' }} // Adicione margem inferior
-            />
-            <TextField
-              fullWidth
-              label="Programa"
-              value={novoPrograma}
-              onChange={e => setPrograma(e.target.value)}
-              style={{ marginBottom: '16px' }} // Adicione margem inferior
-            />
-            <TextField
-              fullWidth
-              label="Carga horária"
-              value={novaCargaHoraria}
-              onChange={e => setCargaHoraria(Number(e.target.value))}
-              style={{ marginBottom: '16px' }} // Adicione margem inferior
-            />
-            <TextField
-              fullWidth
-              label="Faculdade"
-              value={novaFaculdade}
-              style={{ marginBottom: '16px' }} // Adicione margem inferior
-            />
-            <TextField
-              fullWidth
-              label="Curso"
-              value={novoCurso}
-              style={{ marginBottom: '16px' }} // Adicione margem inferior
-            />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
-                onClick={handleSaveDisciplina}
-              >
-                Salvar
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                autoFocus
-                style={{ marginTop: '10px', marginLeft: '10px', marginRight: '20px' }}
-                onClick={handleCloseDisciplinaModal}
-              >
-                Fechar
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
 
-        {isLoading && (
-          <Grid item>
-            <LinearProgress variant="indeterminate" />
+    <Dialog open={isDisciplinaModalOpen} onClose={handleCloseDisciplinaModal} BackdropComponent={Backdrop}>
+      <DialogTitle>Registrar Disciplina de </DialogTitle>
+      <DialogContent>
+        <VForm onSubmit={handleSaveDisciplina}>
+          <Grid container direction="column" spacing={2}>
+            {isLoading && (
+              <Grid item>
+                <LinearProgress variant="indeterminate" />
+              </Grid>
+            )}
+            <Grid item>
+              <VTextField
+                fullWidth
+                name="novaDisciplina"
+                label="Nome"
+                value={novaDisciplina}
+                onChange={(e) => setNovaDisciplina(e.target.value)}
+                style={{ marginBottom: "16px" }}
+              />
+            </Grid>
+            <Grid item>
+              <VTextField
+                fullWidth
+                name="novaCodigoOrigem"
+                label="Código Disciplina"
+                value={novaCodigoOrigem}
+                onChange={(e) => setCodigoOrigem(e.target.value)}
+                style={{ marginBottom: "16px" }}
+              />
+            </Grid>
+            <Grid item>
+              <VTextField
+                fullWidth
+                name="novaEmenta"
+                label="Ementa"
+                value={novaEmenta}
+                onChange={(e) => setEmenta(e.target.value)}
+                style={{ marginBottom: "16px" }}
+              />
+            </Grid>
+            <Grid item>
+              <VTextField
+                fullWidth
+                name="novoPrograma"
+                label="Programa"
+                value={novoPrograma}
+                onChange={(e) => setPrograma(e.target.value)}
+                style={{ marginBottom: "16px" }}
+              />
+            </Grid>
+            <Grid item>
+              <VTextField
+                fullWidth
+                name="novaCargaHoraria"
+                label="Carga horária"
+                value={novaCargaHoraria}
+                onChange={(e) => setCargaHoraria(Number(e.target.value))}
+                style={{ marginBottom: "16px" }}
+              />
+            </Grid>
+            <Grid item>
+              <AutoCompleteFaculdade isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeIdChange} autoCompleteValue={selectedFaculdade}/>
+            </Grid>
+            <Grid item>
+              <AutoCompleteCurso isExternalLoading={isLoading} faculdadeId={faculdadeId} onCursoIdChange={handleCursoIdChange} autoCompleteValue={selectedCurso}/>
+            </Grid>
+            <Grid item>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
+                  type="submit"
+                >
+                  Salvar
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  autoFocus
+                  style={{ marginTop: '10px', marginLeft: '10px', marginRight: '20px' }}
+                  onClick={handleCloseDisciplinaModal}
+                >
+                  Fechar
+                </Button>
+              </div>
+            </Grid>
           </Grid>
-        )}
-      </Dialog>
+        </VForm>
+      </DialogContent>
+    </Dialog>
 
       <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
         <DialogTitle>
