@@ -29,8 +29,6 @@ export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [busca, setBusca] = useState('');
 
-  console.log(selectedId);
-
   useEffect(() => {
     registerField({
       name: fieldName,
@@ -50,7 +48,7 @@ export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({
           if (result instanceof Error) {
             // Trate o erro aqui
           } else {
-            console.log(result);
+            
             setOpcoes(result.content.map(curso => ({ id: curso.id, label: curso.nome })));
           }
         });
@@ -59,8 +57,6 @@ export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({
 
   const autoCompleteSelectedOption = useMemo(() => {
     if (!selectedId) return null;
-
-    console.log(selectedId);
 
     const selectedOption = opcoes.find(opcao => opcao.id === selectedId);
     if (!selectedOption) return null;

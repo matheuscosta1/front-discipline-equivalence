@@ -99,7 +99,7 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log(result);
+            
   
             const { id, disciplinaOrigemId, disciplinaDestinoId } = result;
   
@@ -116,9 +116,8 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
                   setIsLoading(false);
 
                   if (result instanceof Error) {
-                    console.log(result.message)
                   } else {
-                    console.log(result);
+                    
                     setRows(result);
                   }
                 });

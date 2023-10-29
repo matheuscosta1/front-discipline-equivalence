@@ -58,7 +58,6 @@ export const AutoCompleteDisciplinaDestino: React.FC<IAutoCompleteCursoProps> = 
           if (result instanceof Error) {
             // Trate o erro aqui
           } else {
-            console.log(result);
             setOpcoes(result.content.map(curso => ({ id: curso.id, label: curso.nome })));
           }
         });
@@ -67,8 +66,6 @@ export const AutoCompleteDisciplinaDestino: React.FC<IAutoCompleteCursoProps> = 
 
   const autoCompleteSelectedOption = useMemo(() => {
     if (!selectedId) return null;
-
-    console.log(selectedId);
 
     const selectedOption = opcoes.find(opcao => opcao.id === selectedId);
     if (!selectedOption) return null;

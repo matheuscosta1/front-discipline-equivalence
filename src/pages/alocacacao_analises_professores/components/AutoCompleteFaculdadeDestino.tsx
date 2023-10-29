@@ -49,8 +49,6 @@ export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps>
           if (result instanceof Error) {
             // alert(result.message);
           } else {
-            console.log(result);
-
             setOpcoes(result.content.map(faculdade => ({ id: faculdade.id, label: faculdade.nome })));
           }
         });

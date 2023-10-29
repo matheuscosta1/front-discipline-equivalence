@@ -124,7 +124,6 @@ export const DetalheDeDisciplinas: React.FC = () => {
       nome: novaFaculdade
     };
     setIsLoading(true);
-    console.log("Entrou no handle de faculdade")
 
     FaculdadesService.create(detalhe)
                 .then((result) => {
@@ -138,12 +137,8 @@ export const DetalheDeDisciplinas: React.FC = () => {
                       id: Number(result.id),
                       label: result.nome
                     };
-                    console.log("Cadastro de faculdade id: ", Number(result.id));
-                    
-
                     setTimeout(() => {
                       setFaculdadeId(Number(result.id))
-                      console.log("Faculdade id: ", faculdadeId);
                       handleNovaFaculdadeIdChange(detalhe)
 
                       setIsLoading(false);
@@ -155,19 +150,12 @@ export const DetalheDeDisciplinas: React.FC = () => {
   };
 
   const handleSaveCurso = () => {
-    // Lógica para salvar a nova faculdade aqui
-    // Após salvar, atualize o campo "Faculdade" e feche a modal
-
-    console.log("Faculdade id: ", faculdadeId);
-
     const detalhe: IDetalheCurso = {
       id: Number(id),
       faculdadeId: Number(selectedFaculdade!!.id),
       nome: novoCurso
     };
     setIsLoading(true);
-
-    console.log(detalhe)
 
     CursosService.create(detalhe)
                 .then((result) => {
@@ -288,8 +276,6 @@ export const DetalheDeDisciplinas: React.FC = () => {
           validationErrors[error.path] = error.message;
         });
         
-        console.log("Erro validacao", validationErrors);
-
         formRef.current?.setErrors(validationErrors);
       });
   };

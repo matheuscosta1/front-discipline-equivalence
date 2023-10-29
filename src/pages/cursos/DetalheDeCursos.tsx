@@ -88,6 +88,12 @@ export const DetalheDeCursos: React.FC = () => {
                     handleCloseFaculdadeModal();
                     setIsLoading(false);
                   } else {
+                    const detalhe: TAutoCompleteOption = {
+                      id: Number(result.id),
+                      label: result.nome
+                    };
+
+                    handleNovaFaculdadeIdChange(detalhe)
 
                     setTimeout(() => {
                       setIsLoading(false);

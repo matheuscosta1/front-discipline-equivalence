@@ -335,8 +335,6 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
     };
     setIsLoading(true);
 
-    console.log(detalhe)
-
     CursosService.create(detalhe)
                 .then((result) => {
 
@@ -369,8 +367,6 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
       nome: novoCursoDestino
     };
     setIsLoading(true);
-
-    console.log(detalhe)
 
     CursosService.create(detalhe)
                 .then((result) => {
@@ -471,7 +467,6 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
     };
     setIsLoading(true);
-    console.log("Entrou no handle de faculdade")
 
     DisciplinasService.create(detalhe)
                 .then((result) => {
@@ -485,8 +480,6 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                       id: Number(result.id),
                       label: result.nome
                     };
-                    console.log("Cadastro de faculdade id: ", Number(result.id));
-                    
 
                     setTimeout(() => {
                       setDisciplinaOrigemId(Number(result.id))
