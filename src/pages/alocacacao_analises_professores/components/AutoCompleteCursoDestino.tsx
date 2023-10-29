@@ -15,7 +15,7 @@ interface IAutoCompleteCursoProps {
   isExternalLoading?: boolean;
   onCursoIdChange?: (cursoId: number | undefined) => void; // Adicione este prop
   disableField?: boolean;
-  autoCompleteValue?: TAutoCompleteOption;
+  autoCompleteValue?: TAutoCompleteOption | null;
 }
 
 export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
@@ -34,19 +34,11 @@ export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
   const [busca, setBusca] = useState('');
 
   useEffect(() => {
-    if (autoCompleteValue) {
-      registerField({
-        name: fieldName,
-        getValue: () => autoCompleteValue.id,
-        setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
-      });
-    } else {
-      registerField({
-        name: fieldName,
-        getValue: () => selectedId,
-        setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
-      });
-    }
+    registerField({
+      name: fieldName,
+      getValue: () => autoCompleteValue!!.id,
+      setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
+    });
   }, [autoCompleteValue, fieldName, registerField, selectedId]);
 
 
@@ -82,6 +74,11 @@ export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
     return selectedOption;
   }, [selectedId, opcoes]);
 
+  if (autoCompleteSelectedOption !== null) {
+    autoCompleteValue!!.id = autoCompleteSelectedOption.id
+    autoCompleteValue!!.label = autoCompleteSelectedOption.label
+  }
+
   return (
     <Autocomplete
       openText='Abrir'
@@ -94,16 +91,16 @@ export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
       options={opcoes}
       loading={isLoading}
       disabled={disableField ? disableField : isExternalLoading}
-      value={autoCompleteValue}      onInputChange={(_, newValue) => setBusca(newValue)}
+      value={autoCompleteValue?.label !== 'default' ? autoCompleteValue : null} 
+      onInputChange={(_, newValue) => setBusca(newValue)}
       onChange={(_, newValue) => {
-        setSelectedId(newValue?.id);
+        setSelectedId(newValue?.id)
+        if(newValue !== null) {
+          autoCompleteValue!!.id = newValue.id
+          autoCompleteValue!!.label = newValue.label
+        } 
         setBusca('');
         clearError();
-        if(autoCompleteValue !== null && newValue !== null) {
-          autoCompleteValue.id = newValue.id
-          autoCompleteValue.label = newValue.label
-
-        }
       }}      popupIcon={(isExternalLoading || isLoading) ? <CircularProgress size={28} /> : undefined}
       renderInput={(params) => (
         <TextField

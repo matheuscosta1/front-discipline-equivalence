@@ -15,9 +15,9 @@ interface IAutoCompleteFaculdadeProps {
   onFaculdadeIdChange?: (faculdadeId: number | undefined) => void; // Adicione este prop
   isExternalLoading?: boolean;
   disableField?: boolean;
-  autoCompleteValue?: TAutoCompleteOption;
+  autoCompleteValue?: TAutoCompleteOption | null;
 }
-export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps> = ({ isExternalLoading = false, onFaculdadeIdChange, disableField = false, autoCompleteValue = undefined }) => {
+export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps> = ({ isExternalLoading = false, onFaculdadeIdChange, disableField = false, autoCompleteValue = null }) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField('faculdadeDestinoId');
   const { debounce } = useDebounce();
 
@@ -28,19 +28,11 @@ export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps>
   const [busca, setBusca] = useState('');
 
   useEffect(() => {
-    if (autoCompleteValue) {
-      registerField({
-        name: fieldName,
-        getValue: () => autoCompleteValue.id,
-        setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
-      });
-    } else {
-      registerField({
-        name: fieldName,
-        getValue: () => selectedId,
-        setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
-      });
-    }
+    registerField({
+      name: fieldName,
+      getValue: () => autoCompleteValue!!.id,
+      setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
+    });
   }, [autoCompleteValue, fieldName, registerField, selectedId]);
 
 
@@ -74,6 +66,10 @@ export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps>
     return selectedOption;
   }, [selectedId, opcoes]);
 
+  if (autoCompleteSelectedOption !== null) {
+    autoCompleteValue!!.id = autoCompleteSelectedOption.id
+    autoCompleteValue!!.label = autoCompleteSelectedOption.label
+  }
 
   return (
     <Autocomplete
@@ -87,9 +83,17 @@ export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps>
       options={opcoes}
       loading={isLoading}
       disabled={disableField ? disableField : isExternalLoading}
-      value={autoCompleteValue !== undefined ? autoCompleteValue : autoCompleteSelectedOption}
+      value={autoCompleteValue?.label !== 'default' ? autoCompleteValue : null} 
       onInputChange={(_, newValue) => setBusca(newValue)}
-      onChange={(_, newValue) => { setSelectedId(newValue?.id); setBusca(''); clearError(); }}
+      onChange={(_, newValue) => { 
+        setSelectedId(newValue?.id)
+        if(newValue !== null) {
+          autoCompleteValue!!.id = newValue.id
+          autoCompleteValue!!.label = newValue.label
+        } 
+        setBusca('');
+        clearError();
+      }}
       popupIcon={(isExternalLoading || isLoading) ? <CircularProgress size={28} /> : undefined}
       renderInput={(params) => (
         <TextField

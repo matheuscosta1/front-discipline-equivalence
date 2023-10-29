@@ -246,47 +246,82 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
     label: string;
   }
 
-  const [selectedFaculdadeOrigem, setSelectedFaculdadeOrigem] = useState<TAutoCompleteOption | undefined>(undefined);
+  const initialOriginCollegeValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
 
-  const handleNovaFaculdadeIdChange = (novaFaculdade: TAutoCompleteOption | undefined) => {
+  const initialOriginCourseValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const initialOriginDisciplineValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const initialDestinyCollegeValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const initialDestinyCourseValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const initialDestinyDisciplineValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const initialProfessorDestinyValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const [selectedFaculdadeOrigem, setSelectedFaculdadeOrigem] = useState<TAutoCompleteOption | null>(initialOriginCollegeValue);
+
+  const handleNovaFaculdadeIdChange = (novaFaculdade: TAutoCompleteOption | null) => {
     setSelectedFaculdadeOrigem(novaFaculdade);
   };
 
-  const [selectedCursoOrigem, setSelectedCursoOrigem] = useState<TAutoCompleteOption | undefined>(undefined);
+  const [selectedCursoOrigem, setSelectedCursoOrigem] = useState<TAutoCompleteOption | null>(initialOriginCourseValue);
 
-  const handleNovoCursoIdChange = (novoCurso: TAutoCompleteOption | undefined) => {
+  const handleNovoCursoIdChange = (novoCurso: TAutoCompleteOption | null) => {
     setSelectedCursoOrigem(novoCurso);
   };
 
-  const [selectedDisciplinaOrigem, setSelectedDisciplinaOrigem] = useState<TAutoCompleteOption | undefined>(undefined);
+  const [selectedDisciplinaOrigem, setSelectedDisciplinaOrigem] = useState<TAutoCompleteOption | null>(initialOriginDisciplineValue);
 
-  const handleNovoDisciplinaOrigemIdChange = (novoCurso: TAutoCompleteOption | undefined) => {
+  const handleNovoDisciplinaOrigemIdChange = (novoCurso: TAutoCompleteOption | null) => {
     setSelectedDisciplinaOrigem(novoCurso);
   };
 
 
-  const [selectedFaculdadeDestino, setSelectedFaculdadeDestino] = useState<TAutoCompleteOption | undefined>(undefined);
+  const [selectedFaculdadeDestino, setSelectedFaculdadeDestino] = useState<TAutoCompleteOption | null>(initialDestinyCollegeValue);
 
-  const handleNovaFaculdadeDestinoIdChange = (novaFaculdade: TAutoCompleteOption | undefined) => {
+  const handleNovaFaculdadeDestinoIdChange = (novaFaculdade: TAutoCompleteOption | null) => {
     setSelectedFaculdadeDestino(novaFaculdade);
   };
 
-  const [selectedCursoDestino, setSelectedCursoDestino] = useState<TAutoCompleteOption | undefined>(undefined);
+  const [selectedCursoDestino, setSelectedCursoDestino] = useState<TAutoCompleteOption | null>(initialDestinyCourseValue);
 
-  const handleNovoCursoDestinoIdChange = (novoCurso: TAutoCompleteOption | undefined) => {
+  const handleNovoCursoDestinoIdChange = (novoCurso: TAutoCompleteOption | null) => {
     setSelectedCursoDestino(novoCurso);
   };
 
-  const [selectedDisciplinaDestino, setSelectedDisciplinaDestino] = useState<TAutoCompleteOption | undefined>(undefined);
+  const [selectedDisciplinaDestino, setSelectedDisciplinaDestino] = useState<TAutoCompleteOption | null>(initialDestinyDisciplineValue);
 
-  const handleNovoDisciplinaDestinoIdChange = (novoCurso: TAutoCompleteOption | undefined) => {
+  const handleNovoDisciplinaDestinoIdChange = (novoCurso: TAutoCompleteOption | null) => {
     setSelectedDisciplinaDestino(novoCurso);
   };
 
-  const [selectedProfessor, setSelectedProfessor] = useState<TAutoCompleteOption | undefined>(undefined);
+  const [selectedProfessor, setSelectedProfessor] = useState<TAutoCompleteOption | null>(initialProfessorDestinyValue);
 
 
-  const handleProfessorIdChange = (novoProfessor: TAutoCompleteOption | undefined) => {
+  const handleProfessorIdChange = (novoProfessor: TAutoCompleteOption | null) => {
     setSelectedProfessor(novoProfessor);
   };
 
@@ -513,9 +548,9 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
       id: Number(id),
       nome: novoProfessor,
       email: emailProfessor,
-      faculdadeId: Number(selectedFaculdadeDestino !== undefined ? selectedFaculdadeDestino.id : faculdadeDestinoId),
-      cursoId: Number(selectedCursoDestino !== undefined ? selectedCursoDestino!!.id : cursoDestinoId),
-      disciplinaId: Number(selectedDisciplinaDestino !== undefined ? selectedDisciplinaDestino!!.id : disciplinaDestinoId)
+      faculdadeId: Number(selectedFaculdadeDestino !== null ? selectedFaculdadeDestino.id : faculdadeDestinoId),
+      cursoId: Number(selectedCursoDestino !== null ? selectedCursoDestino!!.id : cursoDestinoId),
+      disciplinaId: Number(selectedDisciplinaDestino !== null ? selectedDisciplinaDestino!!.id : disciplinaDestinoId)
     };
     setIsLoading(true);
 
