@@ -412,7 +412,7 @@ export const DetalheDeDisciplinas: React.FC = () => {
                     style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
                     onClick={handleOpenCursoModal}
                   >
-                    NOVA+
+                    NOVO+
                   </Button>
                 </div>
               </Grid>

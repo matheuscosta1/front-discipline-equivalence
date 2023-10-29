@@ -71,7 +71,7 @@ export const ListagemDeProfessores: React.FC = () => {
         <FerramentasDaListagem
           mostrarInputBusca
           textoDaBusca={busca}
-          textoBotaoNovo='Nova'
+          textoBotaoNovo='Novo'
           aoClicarEmNovo={() => navigate('/professores/detalhe/nova')}
           aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
           inputBusca = 'Pesquisar por professor...'

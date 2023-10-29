@@ -82,7 +82,7 @@ export const ListagemDeFaculdades: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell width={100}>Ações</TableCell>
+              <TableCell width={50}>Ações</TableCell>
               <TableCell>Nome</TableCell>
             </TableRow>
           </TableHead>
@@ -90,9 +90,6 @@ export const ListagemDeFaculdades: React.FC = () => {
             {rows.map(row => (
               <TableRow key={row.id}>
                 <TableCell>
-                  <IconButton size="small" onClick={() => handleDelete(row.id)}>
-                    <Icon>delete</Icon>
-                  </IconButton>
                   <IconButton size="small" onClick={() => navigate(`/faculdades/detalhe/${row.id}`)}>
                     <Icon>edit</Icon>
                   </IconButton>

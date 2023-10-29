@@ -210,7 +210,7 @@ export const DetalheDeCursos: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo={id === 'nova' ? 'Nova curso' : nome}
+      titulo={id === 'nova' ? 'Novo curso' : nome}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo='Nova'
