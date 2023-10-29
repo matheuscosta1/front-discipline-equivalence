@@ -93,13 +93,23 @@ export const DetalheDeDisciplinas: React.FC = () => {
     label: string;
   }
 
-  const [selectedFaculdade, setSelectedFaculdade] = useState<TAutoCompleteOption | undefined>(undefined);
+  const initialFaculdadeValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const initialCursoValue: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const [selectedFaculdade, setSelectedFaculdade] = useState<TAutoCompleteOption | undefined>(initialFaculdadeValue);
 
   const handleNovaFaculdadeIdChange = (novaFaculdade: TAutoCompleteOption | undefined) => {
     setSelectedFaculdade(novaFaculdade);
   };
 
-  const [selectedCurso, setSelectedCurso] = useState<TAutoCompleteOption | undefined>(undefined);
+  const [selectedCurso, setSelectedCurso] = useState<TAutoCompleteOption | undefined>(initialCursoValue);
 
   const handleNovoCursoIdChange = (novoCurso: TAutoCompleteOption | undefined) => {
     setSelectedCurso(novoCurso);
@@ -470,50 +480,53 @@ export const DetalheDeDisciplinas: React.FC = () => {
       </Dialog>
 
       <Dialog open={isCursoModalOpen} onClose={handleCloseCursoModal} BackdropComponent={Backdrop}>
-        <DialogTitle>Registrar Curso</DialogTitle>
-        <DialogContent>
-          <form>
-            <TextField
-              fullWidth
-              label="Nome"
-              value={novoCurso}
-              onChange={e => setNovoCurso(e.target.value)}
-              style={{ marginBottom: '16px' }} // Adicione margem inferior
-            />
-            <TextField
-              fullWidth
-              label="Faculdade"
-              value={novaFaculdade}
-              style={{ marginBottom: '16px' }} // Adicione margem inferior
-            />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
-                onClick={handleSaveCurso}
-              >
-                Salvar
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                autoFocus
-                style={{ marginTop: '10px', marginLeft: '10px', marginRight: '20px' }}
-                onClick={handleCloseCursoModal}
-              >
-                Fechar
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-
-        {isLoading && (
-          <Grid item>
-            <LinearProgress variant="indeterminate" />
+      <DialogTitle>Registrar Curso de Origem</DialogTitle>
+      <DialogContent>
+        <VForm onSubmit={handleSaveCurso}>
+          <Grid container direction="column" spacing={2}>
+            {isLoading && (
+              <Grid item>
+                <LinearProgress variant="indeterminate" />
+              </Grid>
+            )}
+            <Grid item>
+              <VTextField
+                fullWidth
+                name="novoCursoOrigem"
+                label="Nome"
+                value={novoCurso}
+                onChange={(e) => setNovoCurso(e.target.value)}
+                style={{ marginBottom: "16px" }}
+              />
+            </Grid>
+            <Grid item>
+              <AutoCompleteFaculdade isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeIdChange} autoCompleteValue={selectedFaculdade}/>
+            </Grid>
+            <Grid item>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ marginTop: "10px", marginLeft: "20px", marginRight: "20px" }}
+                  type="submit"
+                >
+                  Salvar
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  autoFocus
+                  style={{ marginTop: "10px", marginLeft: "10px", marginRight: "20px" }}
+                  onClick={handleCloseCursoModal}
+                >
+                  Fechar
+                </Button>
+              </div>
+            </Grid>
           </Grid>
-        )}
-      </Dialog>
+        </VForm>
+      </DialogContent>
+    </Dialog>
 
 
       <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
