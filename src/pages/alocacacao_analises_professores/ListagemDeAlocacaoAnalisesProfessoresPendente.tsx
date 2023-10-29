@@ -8,6 +8,8 @@ import { LayoutBaseDePagina } from '../../shared/layouts';
 import { useDebounce } from '../../shared/hooks';
 import { Environment } from '../../shared/environment';
 import { differenceInDays, parse} from 'date-fns';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 const dataAtual = new Date();
 
@@ -67,6 +69,24 @@ export const ListagemDeAlocacaoAnalisesProfessoresPendente: React.FC = () => {
     return row.status === 'PENDENTE';
   });
 
+  const [sortOrder, setSortOrder] = useState('asc');
+
+  const handleSortClick = () => {
+    // Alterna a ordem de classificação ao clicar no botão de ordenação
+    const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+  
+    // Ordene os dados com base no novo sortOrder
+    const sortedRows = [...filteredRows];
+    if (newSortOrder === 'asc') {
+      sortedRows.sort((a, b) => (a.dataMaxima > b.dataMaxima ? 1 : -1));
+    } else {
+      sortedRows.sort((a, b) => (a.dataMaxima < b.dataMaxima ? 1 : -1));
+    }
+  
+    setSortOrder(newSortOrder);
+    setRows(sortedRows);
+  };
+
   return (
     <LayoutBaseDePagina
       titulo='Análises de equivalência pendentes'
@@ -93,7 +113,11 @@ export const ListagemDeAlocacaoAnalisesProfessoresPendente: React.FC = () => {
               <TableCell>Faculdade Destino</TableCell>
               <TableCell>Curso Destino</TableCell>
               <TableCell>Disciplina Destino</TableCell>
-              <TableCell>Data máxima</TableCell>
+              <TableCell>Data máxima
+                <IconButton size="small" onClick={handleSortClick}>
+                  {sortOrder === 'asc' ? <ArrowUpwardIcon fontSize="small" /> : <ArrowDownwardIcon fontSize="small"/>}
+                </IconButton>
+              </TableCell>
               <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
@@ -130,7 +154,9 @@ export const ListagemDeAlocacaoAnalisesProfessoresPendente: React.FC = () => {
                   <TableCell>{row.nomeFaculdadeDestino}</TableCell>
                   <TableCell>{row.nomeCursoDestino}</TableCell>
                   <TableCell>{row.nomeDisciplinaDestino}</TableCell>
-                  <TableCell style={{ color: corDataMaxima }}> {row.dataMaxima} </TableCell>
+                  <TableCell style={{ color: corDataMaxima }}> 
+                    {row.dataMaxima} 
+                  </TableCell>
                   <TableCell style={{ color: row.status === 'PENDENTE' ? 'royalblue' : 'green'}}>
                     {row.status}
                   </TableCell>
