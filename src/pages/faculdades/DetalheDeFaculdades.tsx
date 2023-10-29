@@ -92,7 +92,7 @@ export const DetalheDeFaculdades: React.FC = () => {
                 } else {
                   setSuccessMessage('Faculdade cadastrada com sucesso.');
                   setIsSuccessModalOpen(true); 
-                  navigate(`/faculdades/detalhe/${result}`);
+                  navigate(`/faculdades/detalhe/${result.id}`);
                 }
               }
             });

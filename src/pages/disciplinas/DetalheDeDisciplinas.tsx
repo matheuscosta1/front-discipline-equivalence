@@ -404,23 +404,31 @@ export const DetalheDeDisciplinas: React.FC = () => {
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <AutoCompleteFaculdade isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeIdChange} autoCompleteValue={selectedFaculdade}/>
-              </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2} >
-                  <Button variant="outlined" style={{ marginTop: '2px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}  onClick={handleOpenFaculdadeModal}>
-                      NOVA +
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <AutoCompleteFaculdade isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeIdChange} autoCompleteValue={selectedFaculdade}/>
+                  <Button
+                    variant="outlined"
+                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                    onClick={handleOpenFaculdadeModal}
+                  >
+                    NOVA+
                   </Button>
+                </div>
               </Grid>
             </Grid>
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                 <AutoCompleteCurso isExternalLoading={isLoading} faculdadeId={faculdadeId} autoCompleteValue={selectedCurso}/>
-              </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2} >
-                  <Button variant="outlined" style={{ marginTop: '2px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}  onClick={handleOpenCursoModal}>
-                    NOVO +
+                  <Button
+                    variant="outlined"
+                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                    onClick={handleOpenCursoModal}
+                  >
+                    NOVA+
                   </Button>
+                </div>
               </Grid>
             </Grid>
 
