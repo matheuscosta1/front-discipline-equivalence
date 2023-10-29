@@ -25,7 +25,6 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
   disableField = false,
   autoCompleteValue = null
 }) => {
-  console.log( "auto complete value: ", autoCompleteValue)
   const { fieldName, registerField, defaultValue, error, clearError } = useField('cursoOrigemId');
   const { debounce } = useDebounce();
 
@@ -35,8 +34,6 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
   const [busca, setBusca] = useState('');
 
   onCursoIdChange?.(selectedId); // Chame a função de callback, se estiver definida
-
-  console.log(selectedId);
 
   useEffect(() => {
     registerField({
@@ -57,7 +54,6 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
           if (result instanceof Error) {
             // Trate o erro aqui
           } else {
-            console.log(result);
             setOpcoes(result.content.map(curso => ({ id: curso.id, label: curso.nome })));
           }
         });
@@ -66,8 +62,6 @@ export const AutoCompleteCursoOrigem: React.FC<IAutoCompleteCursoProps> = ({
 
   const autoCompleteSelectedOption = useMemo(() => {
     if (!selectedId) return null;
-
-    console.log(selectedId);
 
     const selectedOption = opcoes.find(opcao => opcao.id === selectedId);
     if (!selectedOption) return null;

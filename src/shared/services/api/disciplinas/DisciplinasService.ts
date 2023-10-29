@@ -62,8 +62,6 @@ const getAllDisciplinesByFaculdadeIdAndCursoId = async (page = 1, filter = '', f
     headers: getAuthorizationHeaders(),
   };
   try {
-    console.log("Faculdade: ", faculdadeId);
-    console.log("Curso: ", cursoId);
     const urlRelativa = `/disciplinas?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS_ILIMITADO}&faculdadeId=${faculdadeId}&cursoId=${cursoId}`;
 
     const { data, headers } = await Api.get(urlRelativa, headersConfig);

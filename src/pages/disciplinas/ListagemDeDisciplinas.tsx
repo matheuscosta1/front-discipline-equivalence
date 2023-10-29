@@ -39,10 +39,6 @@ export const ListagemDeDisciplinas: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log(result);
-            console.log("Total count disciplinas", result.totalCount);
-            console.log("Content disciplinas", result.content);
-
             setTotalCount(result.totalCount);
             setRows(result.content);
           }

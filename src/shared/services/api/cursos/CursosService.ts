@@ -27,11 +27,8 @@ const getAll = async (page = 0, filter = ''): Promise<TCursosComTotalCount | Err
       headers: getAuthorizationHeaders(),
     };
 
-    console.log(page);
     const urlRelativa = `/cursos?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&nome=${filter}`;
 
-    console.log(urlRelativa);
-    
     const { data, headers } = await Api.get(urlRelativa, headersConfig);
 
 

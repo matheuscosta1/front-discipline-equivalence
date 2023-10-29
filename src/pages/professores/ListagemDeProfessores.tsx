@@ -41,9 +41,6 @@ export const ListagemDeProfessores: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log("Data professores: ", result.data);
-            console.log("Total Count professores: ", result.totalCount);
-
             setTotalCount(result.totalCount);
             setRows(result.content);
           }

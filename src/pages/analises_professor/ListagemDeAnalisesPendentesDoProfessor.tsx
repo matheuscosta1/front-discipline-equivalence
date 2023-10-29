@@ -68,7 +68,7 @@ export const ListagemDeAnalisesPendentesDoProfessor: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log(result);
+            
 
             setTotalCount(result.totalCount);
             setRows(result.content);

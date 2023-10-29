@@ -152,16 +152,12 @@ export const DetalheDeProfessores: React.FC = () => {
 
 
   const handleSaveCurso = () => {
-    console.log("Faculdade id: ", faculdadeId);
-
     const detalhe: IDetalheCurso = {
       id: Number(id),
       faculdadeId: Number(selectedFaculdade!!.id),
       nome: novoCurso
     };
     setIsLoading(true);
-
-    console.log(detalhe)
 
     CursosService.create(detalhe)
                 .then((result) => {
@@ -193,7 +189,6 @@ export const DetalheDeProfessores: React.FC = () => {
       nome: novaFaculdade
     };
     setIsLoading(true);
-    console.log("Entrou no handle de faculdade")
 
     FaculdadesService.create(detalhe)
                 .then((result) => {
@@ -207,12 +202,9 @@ export const DetalheDeProfessores: React.FC = () => {
                       id: Number(result.id),
                       label: result.nome
                     };
-                    console.log("Cadastro de faculdade id: ", Number(result.id));
-                    
 
                     setTimeout(() => {
                       setFaculdadeId(Number(result.id))
-                      console.log("Faculdade id: ", faculdadeId);
                       handleNovaFaculdadeIdChange(detalhe)
 
                       setIsLoading(false);
@@ -250,8 +242,6 @@ export const DetalheDeProfessores: React.FC = () => {
                       id: Number(result.id),
                       label: result.nome
                     };
-                    console.log("Cadastro de faculdade id: ", Number(result.id));
-                    
 
                     setTimeout(() => {
                       setDisciplinaId(Number(result.id))

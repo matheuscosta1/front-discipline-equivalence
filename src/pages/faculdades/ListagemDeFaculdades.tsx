@@ -40,9 +40,6 @@ export const ListagemDeFaculdades: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log("Data: ", result.data);
-            console.log("Total Count: ", result.totalCount);
-            
             setTotalCount(result.totalCount);
             setRows(result.content);
           }

@@ -40,11 +40,6 @@ export const ListagemDeCursos: React.FC = () => {
           if (result instanceof Error) {
             alert(result.message);
           } else {
-            console.log(result);
-            
-            console.log("Data cursos: ", result.data);
-            console.log("Total Count cursos: ", result.totalCount);
-
             setTotalCount(result.totalCount);
             setRows(result.content);
           }
