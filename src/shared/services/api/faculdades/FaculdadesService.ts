@@ -35,16 +35,10 @@ const getAll = async (page = 0, filter = ''): Promise<TFaculdadesComTotalCount |
 
     const token = localStorage.getItem('APP_ACCESS_TOKEN');
 
-    console.log("Token", token);
-
-    console.log(page);
     const urlRelativa = `/faculdades?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS}&nome=${filter}`;
-
-    console.log(urlRelativa);
     
     const { data, headers } = await Api.get(urlRelativa, headersConfig);
 
-    console.log("Data from axios: ", data);
 
     if (data) {
       return {
@@ -67,14 +61,9 @@ const getAllForAutoComplete = async (page = 0, filter = ''): Promise<TFaculdades
       headers: getAuthorizationHeaders(),
     };
 
-    console.log(page);
     const urlRelativa = `/faculdades?pagina=${page}&paginas=${Environment.LIMITE_DE_LINHAS_ILIMITADO}&nome=${filter}`;
-
-    console.log(urlRelativa);
     
     const { data, headers } = await Api.get(urlRelativa, headersConfig);
-
-    console.log("Data from axios: ", data);
 
     if (data) {
       return {

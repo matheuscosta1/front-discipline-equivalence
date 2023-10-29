@@ -20,8 +20,6 @@ const auth =  async (dados: Omit<IAuthorizationDados, 'id'>): Promise <IAuth | E
   try {
     const { data } = await Api.post(`/login`, dados); //esse get tem que ser um POST quando integrar com o backend
 
-    console.log("Teste");
-
     if (data) { //data é o accessToken
       return data;
     }
