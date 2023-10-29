@@ -257,7 +257,7 @@ export const DetalheDeDisciplinas: React.FC = () => {
                 } else {
                   setSuccessMessage('Disciplina cadastrada com sucesso.');
                   setIsSuccessModalOpen(true); 
-                  navigate(`/disciplinas/detalhe/${result}`);
+                  navigate(`/disciplinas/detalhe/${result.id}`);
                 }
               }
             });

@@ -237,7 +237,6 @@ export const DetalheDeProfessores: React.FC = () => {
 
     };
     setIsLoading(true);
-    console.log("Entrou no handle de faculdade")
 
     DisciplinasService.create(detalhe)
                 .then((result) => {
@@ -322,7 +321,7 @@ export const DetalheDeProfessores: React.FC = () => {
                 } else {
                   setSuccessMessage('Professor cadastrado com sucesso.');
                   setIsSuccessModalOpen(true); 
-                  navigate(`/professores/detalhe/${result}`);
+                  navigate(`/professores/detalhe/${result.id}`);
                 }
               }
             });
