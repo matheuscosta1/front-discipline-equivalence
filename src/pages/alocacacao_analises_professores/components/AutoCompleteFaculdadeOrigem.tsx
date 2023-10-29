@@ -26,17 +26,15 @@ export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> 
   const [opcoes, setOpcoes] = useState<TAutoCompleteOption[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [busca, setBusca] = useState('');
-  const [valorOpcao, setValorOpcao] = useState<TAutoCompleteOption>({ id: 0, label: '' });
-  const [hasChanged, setHasChanged] = useState(false);
 
+  
   useEffect(() => {
-    console.log("entrou aqui 2: ")
-      registerField({
-        name: fieldName,
-        getValue: () => autoCompleteValue!!.id,
-        setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
-      });
-  }, [autoCompleteValue, fieldName, registerField, selectedId, valorOpcao]);
+    registerField({
+      name: fieldName,
+      getValue: () => autoCompleteValue!!.id,
+      setValue: (_, newSelectedId) => setSelectedId(newSelectedId),
+    });
+  }, [autoCompleteValue, fieldName, registerField, selectedId]);
 
   onFaculdadeOrigemIdChange?.(selectedId);
 
@@ -70,7 +68,7 @@ export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> 
     autoCompleteValue!!.id = autoCompleteSelectedOption.id
     autoCompleteValue!!.label = autoCompleteSelectedOption.label
   }
-  
+
   return (
     <Autocomplete
       openText='Abrir'
@@ -83,11 +81,10 @@ export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> 
       options={opcoes}
       loading={isLoading}
       disabled={disableField ? disableField : isExternalLoading}
-      value={autoCompleteValue} 
+      value={autoCompleteValue?.label !== 'default' ? autoCompleteValue : null} 
       onInputChange={(_, newValue) => setBusca(newValue)}
       onChange={(_, newValue) => {
         setSelectedId(newValue?.id)
-        setHasChanged(true);
         if(newValue !== null) {
           autoCompleteValue!!.id = newValue.id
           autoCompleteValue!!.label = newValue.label
