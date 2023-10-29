@@ -100,6 +100,7 @@ export const AutoCompleteProfessorPorDisciplinaDestino: React.FC<IAutoCompletePr
           label="Professores analisadores do curso de destino"
           error={!!error}
           helperText={error}
+          sx={{ width: '500px' }}
         />
       )}
     />

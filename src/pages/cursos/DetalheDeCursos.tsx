@@ -54,6 +54,22 @@ export const DetalheDeCursos: React.FC = () => {
     setIsFaculdadeModalOpen(false);
   };
 
+  type TAutoCompleteOption = {
+    id: number;
+    label: string;
+  }
+
+  const initialFaculdade: TAutoCompleteOption = {
+    id: -1,
+    label: "default"
+  };
+
+  const [selectedFaculdade, setSelectedFaculdade] = useState<TAutoCompleteOption | null>(initialFaculdade);
+
+  const handleNovaFaculdadeIdChange = (novaFaculdade: TAutoCompleteOption | null) => {
+    setSelectedFaculdade(novaFaculdade);
+  };
+
   const handleSaveFaculdade = () => {
     // Lógica para salvar a nova faculdade aqui
     // Após salvar, atualize o campo "Faculdade" e feche a modal
@@ -136,7 +152,7 @@ export const DetalheDeCursos: React.FC = () => {
                 } else {
                   setSuccessMessage('Curso cadastrado com sucesso.');
                   setIsSuccessModalOpen(true); 
-                  navigate(`/cursos/detalhe/${result}`);
+                  navigate(`/cursos/detalhe/${result.id}`);
                 }
               }
             });
@@ -205,45 +221,47 @@ export const DetalheDeCursos: React.FC = () => {
       }
     >
       <VForm ref={formRef} onSubmit={handleSave}>
-        <Box margin={1} display="flex" flexDirection="column" component={Paper} variant="outlined">
-
-          <Grid container direction="column" padding={2} spacing={2}>
-
-            {isLoading && (
-              <Grid item>
-                <LinearProgress variant='indeterminate' />
-              </Grid>
-            )}
-
+      <Box margin={1} display="flex" flexDirection="column" component={Paper} variant="outlined">
+        <Grid container direction="column" padding={2} spacing={2}>
+          {isLoading && (
             <Grid item>
-              <Typography variant='h6'>Geral</Typography>
+              <LinearProgress variant='indeterminate' />
+            </Grid>
+          )}
+
+          <Grid item>
+            <Typography variant='h6'>Geral</Typography>
+          </Grid>
+
+          <Grid container item direction="row" spacing={2}>
+            <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+              <VTextField
+                fullWidth
+                name='nome'
+                disabled={isLoading}
+                label='Nome'
+                onChange={e => setNome(e.target.value)}
+              />
             </Grid>
 
             <Grid container item direction="row" spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  name='nome'
-                  disabled={isLoading}
-                  label='Nome'
-                  onChange={e => setNome(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <AutoCompleteFaculdade isExternalLoading={isLoading} />
-              </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2} >
-                  <Button variant="outlined" style={{ marginTop: '2px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}  onClick={handleOpenFaculdadeModal}>
-                        NOVA +
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <AutoCompleteFaculdade isExternalLoading={isLoading} autoCompleteValue={selectedFaculdade} />
+                  <Button
+                    variant="outlined"
+                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                    onClick={handleOpenFaculdadeModal}
+                  >
+                    NOVA+
                   </Button>
+                </div>
               </Grid>
             </Grid>
           </Grid>
-        </Box>
-      </VForm>
+        </Grid>
+      </Box>
+    </VForm>
 
       <Dialog open={isFaculdadeModalOpen} onClose={handleCloseFaculdadeModal} BackdropComponent={Backdrop}>
         <DialogTitle>Registrar Faculdade</DialogTitle>

@@ -107,6 +107,7 @@ export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({
           label="Curso"
           error={!!error}
           helperText={error}
+          sx={{ width: '500px' }}
         />
       )}
     />

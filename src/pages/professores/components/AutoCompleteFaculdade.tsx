@@ -100,6 +100,7 @@ export const AutoCompleteFaculdade: React.FC<IAutoCompleteFaculdadeProps> = ({ i
           label="Faculdade"
           error={!!error}
           helperText={error}
+          sx={{ width: '500px' }}
         />
       )}
     />

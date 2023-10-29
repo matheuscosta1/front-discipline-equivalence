@@ -103,6 +103,7 @@ export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps>
           error={!!error}
           helperText={error}
           disabled={disableField}
+          sx={{ width: '500px' }}
         />
       )}
     />

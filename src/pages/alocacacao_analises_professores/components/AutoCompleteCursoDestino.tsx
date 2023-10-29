@@ -110,6 +110,7 @@ export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
           error={!!error}
           helperText={error}
           disabled={disableField}
+          sx={{ width: '500px' }}
         />
       )}
     />
