@@ -139,7 +139,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
               return (
                 <TableRow key={row.id}>
                   <TableCell>
-                    <IconButton size="small" onClick={() => handleDelete(row.id)}>
+                    <IconButton size="small" onClick={() => handleDelete(row.id)} disabled={row.status !== 'PENDENTE'}>
                       <Icon>delete</Icon>
                     </IconButton>
                     <IconButton size="small" onClick={() => navigate(`/analises/detalhe/${row.id}`)} disabled={row.status !== 'PENDENTE'}>

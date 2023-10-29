@@ -363,7 +363,7 @@ export const DetalheDeProfessores: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo={id === 'nova' ? 'Cadastro de professor' : nome}
+      titulo={id === 'nova' ? 'Novo professor' : nome}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo='Nova'
@@ -442,7 +442,7 @@ export const DetalheDeProfessores: React.FC = () => {
                     style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
                     onClick={handleOpenCursoModal}
                   >
-                    NOVA+
+                    NOVO+
                   </Button>
                 </div>
               </Grid>

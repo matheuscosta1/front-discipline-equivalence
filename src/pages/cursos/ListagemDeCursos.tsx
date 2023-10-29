@@ -71,7 +71,7 @@ export const ListagemDeCursos: React.FC = () => {
         <FerramentasDaListagem
           mostrarInputBusca
           textoDaBusca={busca}
-          textoBotaoNovo='Nova'
+          textoBotaoNovo='Novo'
           aoClicarEmNovo={() => navigate('/cursos/detalhe/nova')}
           aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
           inputBusca = 'Pesquisar por curso...'
@@ -82,7 +82,7 @@ export const ListagemDeCursos: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell width={100}>Ações</TableCell>
+              <TableCell width={50}>Ações</TableCell>
               <TableCell>Curso</TableCell>
               <TableCell>Faculdade</TableCell>
 
@@ -92,9 +92,6 @@ export const ListagemDeCursos: React.FC = () => {
             {rows.map(row => (
               <TableRow key={row.id}>
                 <TableCell>
-                  <IconButton size="small" onClick={() => handleDelete(row.id)}>
-                    <Icon>delete</Icon>
-                  </IconButton>
                   <IconButton size="small" onClick={() => navigate(`/cursos/detalhe/${row.id}`)}>
                     <Icon>edit</Icon>
                   </IconButton>

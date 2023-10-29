@@ -679,7 +679,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo={id === 'nova' ? 'Nova alocacao analises professores' : "Atualização de análise de equivalência"}
+      titulo={id === 'nova' ? 'Nova alocação de análise de equivalência a um professor' : "Atualização de análise de equivalência"}
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo='Nova'
@@ -758,7 +758,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                     style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
                     onClick={handleOpenCursoOrigemModal}
                   >
-                    NOVA+
+                    NOVO+
                   </Button>
                 </div>
               </Grid>
@@ -803,7 +803,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                     style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
                     onClick={handleOpenCursoDestinoModal}
                   >
-                    NOVA+
+                    NOVO+
                   </Button>
                 </div>
               </Grid>
@@ -833,7 +833,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                     style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
                     onClick={handleOpenProfessorModal}
                   >
-                    NOVA+
+                    NOVO+
                   </Button>
                 </div>
               </Grid>
