@@ -52,8 +52,6 @@ export const AutoCompleteDisciplina: React.FC<IAutoCompleteCursoProps> = ({
     setIsLoading(true);
 
     debounce(() => {
-      console.log("Teste");
-      // Utilize faculdadeId diretamente na chamada da API
       DisciplinasService.getAllDisciplinesByFaculdadeIdAndCursoId(0, busca, faculdadeId, cursoId)
         .then((result) => {
           setIsLoading(false);

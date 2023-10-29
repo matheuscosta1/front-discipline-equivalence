@@ -23,7 +23,7 @@ export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
   faculdadeId,
   onCursoIdChange,
   disableField = false,
-  autoCompleteValue = undefined
+  autoCompleteValue = null
 }) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField('cursoDestinoId');
   const { debounce } = useDebounce();
@@ -56,7 +56,6 @@ export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
     setIsLoading(true);
 
     debounce(() => {
-      console.log("Teste");
       // Utilize faculdadeId diretamente na chamada da API
       CursosService.getByFaculdadeId(0, busca, faculdadeId)
         .then((result) => {
@@ -95,10 +94,17 @@ export const AutoCompleteCursoDestino: React.FC<IAutoCompleteCursoProps> = ({
       options={opcoes}
       loading={isLoading}
       disabled={disableField ? disableField : isExternalLoading}
-      value={autoCompleteValue !== undefined ? autoCompleteValue : autoCompleteSelectedOption}
-      onInputChange={(_, newValue) => setBusca(newValue)}
-      onChange={(_, newValue) => { setSelectedId(newValue?.id); setBusca(''); clearError(); }}
-      popupIcon={(isExternalLoading || isLoading) ? <CircularProgress size={28} /> : undefined}
+      value={autoCompleteValue}      onInputChange={(_, newValue) => setBusca(newValue)}
+      onChange={(_, newValue) => {
+        setSelectedId(newValue?.id);
+        setBusca('');
+        clearError();
+        if(autoCompleteValue !== null && newValue !== null) {
+          autoCompleteValue.id = newValue.id
+          autoCompleteValue.label = newValue.label
+
+        }
+      }}      popupIcon={(isExternalLoading || isLoading) ? <CircularProgress size={28} /> : undefined}
       renderInput={(params) => (
         <TextField
           {...params}

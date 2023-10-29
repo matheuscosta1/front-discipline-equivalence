@@ -34,7 +34,6 @@ const getAll = async (page = 0, filter = ''): Promise<TCursosComTotalCount | Err
     
     const { data, headers } = await Api.get(urlRelativa, headersConfig);
 
-    console.log("Data from axios: ", data);
 
     if (data) {
       return {
