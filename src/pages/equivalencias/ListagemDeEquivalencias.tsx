@@ -7,6 +7,8 @@ import { FerramentasDaListagem } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 import { useDebounce } from '../../shared/hooks';
 import { Environment } from '../../shared/environment';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 export const ListagemDeEquivalencias: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -56,6 +58,42 @@ export const ListagemDeEquivalencias: React.FC = () => {
     });
   }, [busca, pagina, filtroEquivalente]);
 
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrderStatus, setSortOrderStatus] = useState('asc');
+
+  const handleSortClick = () => {
+    const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+  
+    const sortedRows = [...rows];
+    if (newSortOrder === 'asc') {
+      sortedRows.sort((a, b) => (a.dataCriacao > b.dataCriacao ? 1 : -1));
+    } else {
+      sortedRows.sort((a, b) => (a.dataCriacao < b.dataCriacao ? 1 : -1));
+    }
+  
+    setSortOrder(newSortOrder);
+    setRows(sortedRows);
+  };
+
+  const handleSortStatusClick = () => {
+    const newSortOrder = sortOrderStatus === 'asc' ? 'desc' : 'asc';
+  
+    const sortedRows = [...rows];
+    sortedRows.sort((a, b) => {
+      if (a.equivalente === b.equivalente) {
+        return 0;
+      }
+      if (newSortOrder === 'asc') {
+        return a.equivalente ? -1 : 1; // 1 significa "Não Equivalente", -1 significa "Equivalente"
+      } else {
+        return a.equivalente ? 1 : -1; // -1 significa "Equivalente", 1 significa "Não Equivalente"
+      }
+    });
+  
+    setSortOrderStatus(newSortOrder);
+    setRows(sortedRows);
+  };
+
   return (
       <LayoutBaseDePagina
         titulo='Equivalências'
@@ -96,8 +134,16 @@ export const ListagemDeEquivalencias: React.FC = () => {
               <TableCell>Curso Destino</TableCell>
               <TableCell>Código Disciplina Destino</TableCell>
               <TableCell>Professor</TableCell>
-              <TableCell>Data da Análise</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Data da Análise
+                <IconButton size="small" onClick={handleSortClick}>
+                  {sortOrder === 'asc' ? <ArrowUpwardIcon fontSize="small" /> : <ArrowDownwardIcon fontSize="small"/>}
+                </IconButton>
+              </TableCell>
+              <TableCell>Status
+                <IconButton size="small" onClick={handleSortStatusClick}>
+                  {sortOrderStatus === 'asc' ? <ArrowUpwardIcon fontSize="small" /> : <ArrowDownwardIcon fontSize="small"/>}
+                </IconButton>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

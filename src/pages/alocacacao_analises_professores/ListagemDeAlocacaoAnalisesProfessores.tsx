@@ -8,6 +8,8 @@ import { LayoutBaseDePagina } from '../../shared/layouts';
 import { useDebounce } from '../../shared/hooks';
 import { Environment } from '../../shared/environment';
 import { differenceInDays, parse} from 'date-fns';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 const dataAtual = new Date();
 
@@ -28,6 +30,24 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
   const pagina = useMemo(() => {
     return Number(searchParams.get('pagina') || '0');
   }, [searchParams]);
+
+  const [sortOrder, setSortOrder] = useState('asc');
+
+  const handleSortClick = () => {
+    // Alterna a ordem de classificação ao clicar no botão de ordenação
+    const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+  
+    // Ordene os dados com base no novo sortOrder
+    const sortedRows = [...filteredRows];
+    if (newSortOrder === 'asc') {
+      sortedRows.sort((a, b) => (a.status > b.status ? 1 : -1));
+    } else {
+      sortedRows.sort((a, b) => (a.status < b.status ? 1 : -1));
+    }
+  
+    setSortOrder(newSortOrder);
+    setRows(sortedRows);
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -117,7 +137,12 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
               <TableCell>Curso Destino</TableCell>
               <TableCell>Disciplina Destino</TableCell>
               <TableCell>Data máxima</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>
+                Status
+                <IconButton size="small" onClick={handleSortClick}>
+                  {sortOrder === 'asc' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+                </IconButton>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
