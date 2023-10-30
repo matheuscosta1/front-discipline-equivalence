@@ -1089,6 +1089,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
             <Grid item>
               <VTextField
                 fullWidth
+                multiline
+                rows={4}
                 name="novaEmentaDisciplinaOrigem"
                 label="Ementa"
                 value={novaEmentaDisciplinaOrigem}
@@ -1099,6 +1101,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
             <Grid item>
               <VTextField
                 fullWidth
+                multiline
+                rows={4}
                 name="novoProgramaDisciplinaOrigem"
                 label="Programa"
                 value={novoProgramaDisciplinaOrigem}
@@ -1182,6 +1186,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
             <Grid item>
               <VTextField
                 fullWidth
+                multiline
+                rows={4}
                 name="novaEmentaDisciplinaDestino"
                 label="Ementa"
                 value={novaEmentaDisciplinaDestino}
@@ -1192,6 +1198,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
             <Grid item>
               <VTextField
                 fullWidth
+                multiline
+                rows={4}
                 name="novoProgramaDisciplinaDestino"
                 label="Programa"
                 value={novoProgramaDisciplinaDestino}

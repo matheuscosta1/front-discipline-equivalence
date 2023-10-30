@@ -520,7 +520,7 @@ export const DetalheDeProfessores: React.FC = () => {
       </Dialog>
 
       <Dialog open={isCursoModalOpen} onClose={handleCloseCursoModal} BackdropComponent={Backdrop}>
-      <DialogTitle>Registrar Curso de Destino</DialogTitle>
+      <DialogTitle>Registrar Curso</DialogTitle>
       <DialogContent>
         <VForm onSubmit={handleSaveCurso}>
           <Grid container direction="column" spacing={2}>
@@ -570,7 +570,7 @@ export const DetalheDeProfessores: React.FC = () => {
 
 
     <Dialog open={isDisciplinaModalOpen} onClose={handleCloseDisciplinaModal} BackdropComponent={Backdrop}>
-      <DialogTitle>Registrar Disciplina de </DialogTitle>
+      <DialogTitle>Registrar Disciplina</DialogTitle>
       <DialogContent>
         <VForm onSubmit={handleSaveDisciplina}>
           <Grid container direction="column" spacing={2}>
@@ -602,6 +602,8 @@ export const DetalheDeProfessores: React.FC = () => {
             <Grid item>
               <VTextField
                 fullWidth
+                multiline
+                rows={4}
                 name="novaEmenta"
                 label="Ementa"
                 value={novaEmenta}
@@ -612,6 +614,8 @@ export const DetalheDeProfessores: React.FC = () => {
             <Grid item>
               <VTextField
                 fullWidth
+                multiline
+                rows={4}
                 name="novoPrograma"
                 label="Programa"
                 value={novoPrograma}

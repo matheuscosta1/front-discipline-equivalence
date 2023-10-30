@@ -28,6 +28,7 @@ export interface EquivalenciaDisciplinaResponse {
   percentualEquivalencia: number,
   ementaEquivalente: string,
   ementaNaoEquivalente: string
+  consideracaoFinal: string
 }
 
 
