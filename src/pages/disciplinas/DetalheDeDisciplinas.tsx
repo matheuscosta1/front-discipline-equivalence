@@ -356,6 +356,8 @@ export const DetalheDeDisciplinas: React.FC = () => {
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
+                  multiline
+                  rows={4}
                   name='ementa'
                   disabled={isLoading}
                   label='Ementa'
@@ -368,6 +370,8 @@ export const DetalheDeDisciplinas: React.FC = () => {
               <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
                 <VTextField
                   fullWidth
+                  multiline
+                  rows={4}
                   name='programa'
                   disabled={isLoading}
                   label='Programa'
@@ -474,7 +478,7 @@ export const DetalheDeDisciplinas: React.FC = () => {
       </Dialog>
 
       <Dialog open={isCursoModalOpen} onClose={handleCloseCursoModal} BackdropComponent={Backdrop}>
-      <DialogTitle>Registrar Curso de Origem</DialogTitle>
+      <DialogTitle>Registrar Curso</DialogTitle>
       <DialogContent>
         <VForm onSubmit={handleSaveCurso}>
           <Grid container direction="column" spacing={2}>

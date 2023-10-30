@@ -131,150 +131,240 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
   
 
   return (
-    <LayoutBaseDePagina
-      titulo='Análises'
-      barraDeFerramentas={
-        <FerramentasDaListagem
-          mostrarInputBusca={false}
-          textoDaBusca={busca}
-          mostrarBotaoNovo={false}
-          mostrarBotaoVoltar={true}
-          aoClicarEmNovo={() => navigate('/analises-professor/detalhe/nova')}
-          aoClicarEmVoltar={() => navigate('/analises-professor')}
-          aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
-          inputBusca='Pesquisar por professor...'
-        />
-      }
+  <LayoutBaseDePagina
+    titulo="Análises"
+    barraDeFerramentas={
+      <FerramentasDaListagem
+        mostrarInputBusca={false}
+        textoDaBusca={busca}
+        mostrarBotaoNovo={false}
+        mostrarBotaoVoltar={true}
+        aoClicarEmNovo={() => navigate("/analises-professor/detalhe/nova")}
+        aoClicarEmVoltar={() => navigate("/analises-professor")}
+        aoMudarTextoDeBusca={(texto) =>
+          setSearchParams({ busca: texto, pagina: "0" }, { replace: true })
+        }
+        inputBusca="Pesquisar por professor..."
+      />
+    }
+  >
+    <Grid
+      container
+      spacing={2}
+      component={Paper}
+      variant="outlined"
+      sx={{ m: 1, width: "auto" }}
     >
-      <Grid container spacing={2} component={Paper} variant="outlined" sx={{ m: 1, width: 'auto' }}>
-        <Grid item xs={6}>
-          <Card>
-            <CardContent>
-              {rows ? (
-                <div>
-                  <Typography variant="h5">Detalhes da Disciplina de Origem:</Typography>
-                  
-                  <Typography>Faculdade: {rows.disciplinaOrigem.nomeFaculdade}</Typography>
-                  <Typography>Curso: {rows.disciplinaOrigem.nomeCurso}</Typography>
-                  <Typography>Disciplina: {rows.disciplinaOrigem.nome}</Typography>
-                  <Typography>Ementa: {rows.disciplinaOrigem.ementa}</Typography>
-                  <Typography>Programa: {rows.disciplinaOrigem.programa}</Typography>
-                  <Typography style={rows.cargaHorariaValida ? { color: 'green' } : { color: 'red' }}>Carga Horária: {rows.disciplinaOrigem.cargaHoraria}</Typography>
-                  <Typography style={{ color: 'green' }}>Ementa Equivalente: {rows.ementaEquivalente}</Typography>
-                  <Typography style={{ color: 'red' }}>
-                    {rows.ementaNaoEquivalente && rows.ementaNaoEquivalente.length > 0
-                      ? `Ementa não Equivalente: ${rows.ementaNaoEquivalente}`
-                      : 'Ementa não Equivalente: Toda a ementa é equivalente'}
-                  </Typography>
-  
-                  {/* Adicione mais informações conforme necessário */}
-                </div>
-              ) : (
-                <LinearProgress />
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Card>
-            <CardContent>
-              {rows ? (
-                <div>
-                  <Typography variant="h5">Detalhes da Disciplina de Destino:</Typography>
-                  <Typography>Faculdade: {rows.disciplinaDestino.nomeFaculdade}</Typography>
-                  <Typography>Curso: {rows.disciplinaDestino.nomeCurso}</Typography>
-                  <Typography>Disciplina: {rows.disciplinaDestino.nome}</Typography>
-                  <Typography>Ementa: {rows.disciplinaDestino.ementa}</Typography>
-                  <Typography>Programa: {rows.disciplinaDestino.programa}</Typography>
-                  <Typography style={rows.cargaHorariaValida ? { color: 'green' } : { color: 'red' }}>Carga Horária: {rows.disciplinaDestino.cargaHoraria}</Typography>
-                  <Typography style={{ color: 'green' }}>Ementa Equivalente: {rows.ementaEquivalente}</Typography>
-                  <Typography style={{ color: 'red' }}>
-                    {rows.ementaNaoEquivalente && rows.ementaNaoEquivalente.length > 0
-                      ? `Ementa não Equivalente: ${rows.ementaNaoEquivalente}`
-                      : 'Ementa não Equivalente: Toda a ementa é equivalente'}
-                  </Typography>
-  
-                  {/* Adicione mais informações conforme necessário */}
-                </div>
-              ) : (
-                <LinearProgress />
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
+      <Grid item xs={6}>
+        <Card>
+          <CardContent>
+            {rows ? (
+              <div>
+                <Typography variant="h5">Detalhes da Disciplina de Origem:</Typography>
 
-        <Grid item xs={12}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6">Parecer final: </Typography>
-            </CardContent>
-            <CardContent>
-              <TextField
-                label="Justificativa de equivalência"
-                multiline
-                rows={6}
-                fullWidth
-                variant="outlined"
-                onChange={e => setJustificativa(e.target.value)}
-              />
-            </CardContent>
-            <CardContent>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={equivalente}
-                    onChange={handleCheckboxChange}
-                    color="primary"
-                  />
-                }
-                label="Equivalente"
-              />
-            </CardContent>
-            <CardActions style={{ justifyContent: 'flex-end' }}>
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-              >
-                Enviar
-              </Button>
-            </CardActions>
-          </Card>
-          {isLoading && (
-              <Grid item>
-                <LinearProgress variant='indeterminate' />
-              </Grid>
+                <div>
+                  <Typography marginTop="8px" style={{ fontSize: "1.2rem" }}>Faculdade: {rows.disciplinaOrigem.nomeFaculdade}</Typography>
+                  <Typography marginTop="8px" style={{ fontSize: "1.2rem" }}>Curso: {rows.disciplinaOrigem.nomeCurso}</Typography>
+                  <Typography marginTop="8px" style={{ fontSize: "1.2rem" }}>Disciplina: {rows.disciplinaOrigem.nome}</Typography>
+                  <Typography marginTop="8px" style={{ fontSize: "1.2rem" }}>
+                    Ementa:{" "}
+                    <br/><br/>
+                    {rows.disciplinaOrigem.ementa.split("\n").map((item, index) => (
+                      <span key={index}>
+                        {item}
+                        <br/>
+                      </span>
+                    ))}
+                  </Typography>
+                  <Typography marginTop="8px" style={{ fontSize: "1.2rem" }}>
+                    Programa:{" "}
+                    <br/><br/>
+                    {rows.disciplinaOrigem.programa.split("\n").map((item, index) => (
+                      <span key={index}>
+                        {item}
+                        <br/>
+                      </span>
+                    ))}
+                  </Typography>
+                  <Typography marginTop="8px" style={{
+                      color: rows.cargaHorariaValida ? "green" : "hsl(0, 100%, 60%)",
+                      fontSize: "1.2rem"
+                    }}>
+                      Carga Horária: {rows.disciplinaOrigem.cargaHoraria}
+                  </Typography>
+                </div>
+              </div>
+            ) : (
+              <LinearProgress />
             )}
-        </Grid>
-        <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
-          <DialogTitle>
-            Erro
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>{errorMessage}</DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeErrorModal} color="primary" autoFocus>
-              Fechar
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
-          <DialogTitle>
-            Cadastro realizado com sucesso!
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText>{successMessage}</DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeSuccessModal}  color="primary" autoFocus>
-              Fechar
-            </Button>
-          </DialogActions>
-        </Dialog>
+          </CardContent>
+        </Card>
       </Grid>
-      
-    </LayoutBaseDePagina>
-  );
+      <Grid item xs={6}>
+        <Card>
+          <CardContent>
+            {rows ? (
+              <div>
+                <Typography variant="h5">Detalhes da Disciplina de Destino:</Typography>
+                <div>
+                  <Typography marginTop="8px" style={{ fontSize: "1.2rem" }}>Faculdade: {rows.disciplinaDestino.nomeFaculdade}</Typography>
+                  <Typography marginTop="8px" style={{ fontSize: "1.2rem" }}>Curso: {rows.disciplinaDestino.nomeCurso}</Typography>
+                  <Typography marginTop="8px" style={{ fontSize: "1.2rem" }}>Disciplina: {rows.disciplinaDestino.nome}</Typography>
+                  <Typography marginTop="8px" style={{ fontSize: "1.2rem" }}>
+                    Ementa:{" "}
+                    <br/><br/>
+                    {rows.disciplinaDestino.ementa.split("\n").map((item, index) => (
+                      <span key={index}>
+                        {item}
+                        <br/>
+                      </span>
+                    ))}
+                  </Typography>
+                  <Typography marginTop="8px" style={{ fontSize: "1.2rem" }}>
+                    Programa:{" "}
+                    <br/><br/>
+                    {rows.disciplinaDestino.programa.split("\n").map((item, index) => (
+                      <span key={index}>
+                        {item}
+                        <br/>
+                      </span>
+                    ))}
+                  </Typography>
+                  <Typography marginTop="8px" style={{
+                      color: rows.cargaHorariaValida ? "green" : "hsl(0, 100%, 60%)",
+                      fontSize: "1.2rem"
+                    }}>
+                      Carga Horária: {rows.disciplinaDestino.cargaHoraria}
+                  </Typography>
+                </div>
+              </div>
+            ) : (
+              <LinearProgress />
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Card>
+          <CardContent>
+            <Typography variant="h5">Análise do sistema sobre as ementas:</Typography>
+            <br/> 
+            {rows ? (
+              <div>
+                <Typography style={{ color: "green", fontSize: "1.2rem" }}>
+                  Semelhanças entre as ementas:{" "}
+                  <br/> <br/>
+                  {rows.ementaEquivalente.split("\n").map((item, index) => (
+                    <span key={index}>
+                      {item}
+                      <br />
+                    </span>
+                  ))}
+                </Typography>
+                <br/>  
+                <div>
+                  <Typography style={{ color: "hsl(0, 100%, 60%)", fontSize: "1.2rem" }}>
+                    Diferenças entre as ementas:{" "}
+                    <br/><br/>        
+                    {rows.ementaNaoEquivalente &&
+                    rows.ementaNaoEquivalente.length > 0
+                      ? rows.ementaNaoEquivalente
+                          .split("\n")
+                          .map((item, index) => (
+                            <span key={index}>
+                              {item}
+                              <br />
+                            </span>
+                          ))
+                      : "Diferenças entre as ementas: Toda a ementa é equivalente"}
+                  </Typography>
+                </div>
+                <br/> 
+                <Typography style={{ fontSize: "1.2rem" }}>
+                  Consideração:{" "}
+                  <br/><br/>
+                  {rows.consideracaoFinal.split("\n").map((item, index) => (
+                    <span key={index}>
+                      {item}
+                      <br/>
+                    </span>
+                  ))}
+                </Typography>
+              </div>
+            ) : (
+              <LinearProgress />
+            )}
+          </CardContent>
+        </Card>
+      </Grid>
+
+
+      <Grid item xs={12}>
+        <Card>
+          <CardContent>
+            <Typography variant="h5">Parecer final: </Typography>
+          </CardContent>
+          <CardContent>
+            <TextField
+              label="Justificativa de equivalência"
+              multiline
+              rows={6}
+              fullWidth
+              variant="outlined"
+              onChange={(e) => setJustificativa(e.target.value)}
+            />
+          </CardContent>
+          <CardContent>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={equivalente}
+                  onChange={handleCheckboxChange}
+                  color="primary"
+                />
+              }
+              label="Equivalente"
+            />
+          </CardContent>
+          <CardActions style={{ justifyContent: "flex-end" }}>
+            <Button variant="contained" onClick={handleSubmit}>
+              Enviar
+            </Button>
+          </CardActions>
+        </Card>
+        {isLoading && (
+          <Grid item>
+            <LinearProgress variant="indeterminate" />
+          </Grid>
+        )}
+      </Grid>
+      <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
+        <DialogTitle>Erro</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{errorMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeErrorModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
+        <DialogTitle>Cadastro realizado com sucesso!</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{successMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeSuccessModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Grid>
+  </LayoutBaseDePagina>
+);
+
   
 };
