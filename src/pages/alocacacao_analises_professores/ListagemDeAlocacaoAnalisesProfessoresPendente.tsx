@@ -146,7 +146,7 @@ export const ListagemDeAlocacaoAnalisesProfessoresPendente: React.FC = () => {
               let corDataMaxima = '';
 
               if (diasRestantes <= 0) {
-                corDataMaxima = 'red'; 
+                corDataMaxima = "hsl(0, 100%, 60%)"; 
               } else if (diasRestantes === 1) {
                 corDataMaxima = 'coral'; 
               } else if (diasRestantes <= 7) {
@@ -173,7 +173,7 @@ export const ListagemDeAlocacaoAnalisesProfessoresPendente: React.FC = () => {
                   <TableCell style={{ color: corDataMaxima }}> 
                     {row.dataMaxima} 
                   </TableCell>
-                  <TableCell style={{ color: row.status === 'PENDENTE' ? 'royalblue' : 'green'}}>
+                  <TableCell style={{ color: row.status === 'PENDENTE' ? 'royalblue' : row.status === 'MUDANÇA EMENTA' ? "hsl(0, 100%, 60%)" : 'green'}}>
                     {row.status}
                   </TableCell>
                 </TableRow>
