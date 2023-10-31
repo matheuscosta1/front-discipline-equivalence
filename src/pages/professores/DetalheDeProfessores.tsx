@@ -268,6 +268,11 @@ export const DetalheDeProfessores: React.FC = () => {
             alert(result.message);
             navigate('/professores');
           } else {
+            const detalhe: TAutoCompleteOption = {
+              id: Number(result.faculdadeId),
+              label: result.nomeFaculdade
+            };
+            handleNovaFaculdadeIdChange(detalhe)
             setNome(result.nome);
             formRef.current?.setData(result);
           }

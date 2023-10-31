@@ -47,7 +47,7 @@ const getAll = async (page = 0, filter = ''): Promise<TCursosComTotalCount | Err
   }
 };
 
-const getById = async (id: number): Promise<IDetalheCurso | Error> => {
+const getById = async (id: number): Promise<IListagemCurso | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };

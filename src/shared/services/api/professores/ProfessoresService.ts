@@ -8,9 +8,9 @@ export interface IListagemProfessores {
   faculdadeId: number;
   cursoId: number;
   disciplinaId: number;
-  nomeCurso: number;
-  nomeFaculdade: number;
-  nomeDisciplina: number;
+  nomeCurso: string;
+  nomeFaculdade: string;
+  nomeDisciplina: string;
 }
 
 export interface IDetalheProfessores {
@@ -77,7 +77,7 @@ const getProfessoresByDisciplinaId = async (page = 0, filter = '', disciplinaId:
   }
 };
 
-const getById = async (id: number): Promise<IDetalheProfessores | Error> => {
+const getById = async (id: number): Promise<IListagemProfessores | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };

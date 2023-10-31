@@ -90,7 +90,10 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
       return row.status === 'PENDENTE';
     } else if (filtroStatus === 'analisado') {
       return row.status === 'ANALISADO';
+    } else if (filtroStatus === 'mudanca_ementa') {
+      return row.status === 'MUDANCA_EMENTA';
     }
+
     return true;
   });
 
@@ -119,6 +122,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
               <MenuItem value="todos">Todos</MenuItem>
               <MenuItem value="pendente">Pendente</MenuItem>
               <MenuItem value="analisado">Analisado</MenuItem>
+              <MenuItem value="mudanca_ementa">Mudança ementa</MenuItem>
             </Select>
           </div>
         </div>
