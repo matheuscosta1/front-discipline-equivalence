@@ -81,7 +81,7 @@ const getAllDisciplinesByFaculdadeIdAndCursoId = async (page = 1, filter = '', f
   }
 };
 
-const getById = async (id: number): Promise<IDetalheDisciplina | Error> => {
+const getById = async (id: number): Promise<IListagemDisciplina | Error> => {
   const headersConfig = {
     headers: getAuthorizationHeaders(),
   };

@@ -117,6 +117,11 @@ export const DetalheDeCursos: React.FC = () => {
             alert(result.message);
             navigate('/cursos');
           } else {
+            const detalhe: TAutoCompleteOption = {
+              id: Number(result.faculdadeId),
+              label: result.nomeFaculdade
+            };
+            handleNovaFaculdadeIdChange(detalhe)
             setNome(result.nome);
             formRef.current?.setData(result);
           }

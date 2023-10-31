@@ -196,6 +196,11 @@ export const DetalheDeDisciplinas: React.FC = () => {
             alert(result.message);
             navigate('/disciplinas');
           } else {
+            const detalhe: TAutoCompleteOption = {
+              id: Number(result.faculdadeId),
+              label: result.nomeFaculdade
+            };
+            handleNovaFaculdadeIdChange(detalhe)
             setNome(result.nome);
             setEmenta(result.ementa);
             setPrograma(result.programa);
