@@ -134,6 +134,7 @@ export const ListagemDeEquivalencias: React.FC = () => {
               <TableCell>Curso Destino</TableCell>
               <TableCell>Código Disciplina Destino</TableCell>
               <TableCell>Professor</TableCell>
+              <TableCell>Justificativa</TableCell>
               <TableCell>Data da Análise
                 <IconButton size="small" onClick={handleSortClick}>
                   {sortOrder === 'asc' ? <ArrowUpwardIcon fontSize="small" /> : <ArrowDownwardIcon fontSize="small"/>}
@@ -158,6 +159,7 @@ export const ListagemDeEquivalencias: React.FC = () => {
                   <TableCell>{row.cursoDestino}</TableCell>
                   <TableCell>{row.codigoDisciplinaDestino}</TableCell>
                   <TableCell>{row.nomeProfessor}</TableCell>
+                  <TableCell>{row.justificativa}</TableCell>
                   <TableCell>{row.dataCriacao}</TableCell>
                   <TableCell>
                     <span style={{ color: row.equivalente === 'EQUIVALENTE' ? 'green' : 'darkred' }}>

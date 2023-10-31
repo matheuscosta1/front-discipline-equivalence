@@ -215,9 +215,15 @@ export const DetalheDeCursos: React.FC = () => {
       CursosService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
-            alert(result.message);
+            if(result.message.includes('422')) {
+              setErrorMessage('Não foi possível deletar a análise de equivalência.');
+              setIsErrorModalOpen(true);
+            } else {
+              alert(result.message);
+            }
           } else {
-            alert('Registro apagado com sucesso!');
+            setSuccessMessage('Registro apagado com sucesso.');
+            setIsSuccessModalOpen(true); 
             navigate('/cursos');
           }
         });
