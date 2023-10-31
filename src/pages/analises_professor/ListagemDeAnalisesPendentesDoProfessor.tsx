@@ -148,12 +148,28 @@ export const ListagemDeAnalisesPendentesDoProfessor: React.FC = () => {
                 <TableRow 
                   key={row.id}
                   style={{ cursor: 'pointer' }}
-                  onClick={() => navigate(`/analises-professor/detalhe/${row.id}`)}
+                  onClick={() => {
+                    if (row.status === 'PENDENTE') {
+                      navigate(`/analises-professor/detalhe/${row.id}`);
+                    } else {
+                      return; // Não faz nada se a condição não for atendida
+                    }
+                  }}
                 >
                   <TableCell>
-                    <IconButton size="small" onClick={() => navigate(`/analises-professor/detalhe/${row.id}`)} disabled={row.status !== 'PENDENTE'}>
-                      <Icon>build</Icon>
-                    </IconButton>
+                    <IconButton
+                        size="small"
+                        onClick={() => {
+                          if (row.status === 'PENDENTE') {
+                            navigate(`/analises-professor/detalhe/${row.id}`);
+                          } else {
+                            return; // Não faz nada se a condição não for atendida
+                          }
+                        }}
+                        disabled={row.status !== 'PENDENTE'}
+                      >
+                        <Icon>build</Icon>
+                  </IconButton>
                   </TableCell>
                   <TableCell>{row.nomeProfessor}</TableCell>
                   <TableCell>{row.nomeFaculdadeOrigem}</TableCell>
