@@ -339,9 +339,16 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 .then((result) => {
 
                   if (result instanceof Error) {
-                    alert(result.message);
-                    handleCloseCursoOrigemModal();
-                    setIsLoading(false);
+                    if(result.message.includes('422')) {
+                      setErrorMessage('Curso já foi registrado.');
+                      setIsErrorModalOpen(true);
+                      handleCloseCursoDestinoModal();
+                      setIsLoading(false);
+                    } else {
+                      alert(result.message);
+                      handleCloseCursoDestinoModal();
+                      setIsLoading(false);
+                    }
                   } else {
                     const detalhe: TAutoCompleteOption = {
                       id: Number(result.id),
@@ -352,7 +359,10 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
                     setTimeout(() => {
                       setIsLoading(false);
-                      alert("Faculdade registrada com sucesso.")
+                      
+                      setSuccessMessage('Curso registrado com sucesso.');
+                      setIsSuccessModalOpen(true); 
+
                       handleCloseCursoOrigemModal();
                     }, 2000);
                   }
@@ -372,9 +382,16 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 .then((result) => {
 
                   if (result instanceof Error) {
-                    alert(result.message);
-                    handleCloseCursoDestinoModal();
-                    setIsLoading(false);
+                    if(result.message.includes('422')) {
+                      setErrorMessage('Curso já foi registrado.');
+                      setIsErrorModalOpen(true);
+                      handleCloseCursoDestinoModal();
+                      setIsLoading(false);
+                    } else {
+                      alert(result.message);
+                      handleCloseCursoDestinoModal();
+                      setIsLoading(false);
+                    }
                   } else {
                     const detalhe: TAutoCompleteOption = {
                       id: Number(result.id),
@@ -385,7 +402,10 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
                     setTimeout(() => {
                       setIsLoading(false);
-                      alert("Faculdade registrada com sucesso.")
+
+                      setSuccessMessage('Curso registrado com sucesso.');
+                      setIsSuccessModalOpen(true); 
+
                       handleCloseCursoDestinoModal();
                     }, 2000);
                   }
@@ -402,9 +422,18 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 .then((result) => {
 
                   if (result instanceof Error) {
-                    alert(result.message);
-                    handleCloseFaculdadeOrigemModal();
-                    setIsLoading(false);
+                    if(result.message.includes('422')) {
+                      setErrorMessage('Faculdade já foi registrada.');
+                      setIsErrorModalOpen(true);
+
+                      handleCloseFaculdadeDestinoModal();
+                      setIsLoading(false);
+                    } else {
+                      alert(result.message);
+
+                      handleCloseFaculdadeDestinoModal();
+                      setIsLoading(false);
+                    }
                   } else {
                     const detalhe: TAutoCompleteOption = {
                       id: Number(result.id),
@@ -415,7 +444,10 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                       handleNovaFaculdadeIdChange(detalhe)
 
                       setIsLoading(false);
-                      alert("Faculdade registrada com sucesso.")
+
+                      setSuccessMessage('Faculdade registrada com sucesso.');
+                      setIsSuccessModalOpen(true); 
+
                       handleCloseFaculdadeOrigemModal();
                     }, 2000);
                   }
@@ -433,9 +465,18 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 .then((result) => {
 
                   if (result instanceof Error) {
-                    alert(result.message);
-                    handleCloseFaculdadeDestinoModal();
-                    setIsLoading(false);
+                    if(result.message.includes('422')) {
+                      setErrorMessage('Faculdade já foi registrada.');
+                      setIsErrorModalOpen(true);
+
+                      handleCloseFaculdadeDestinoModal();
+                      setIsLoading(false);
+                    } else {
+                      alert(result.message);
+
+                      handleCloseFaculdadeDestinoModal();
+                      setIsLoading(false);
+                    }
                   } else {
                     const detalhe: TAutoCompleteOption = {
                       id: Number(result.id),
@@ -445,8 +486,10 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                     setTimeout(() => {
                       handleNovaFaculdadeDestinoIdChange(detalhe)
 
+                      setSuccessMessage('Faculdade registrada com sucesso.');
+                      setIsSuccessModalOpen(true); 
+
                       setIsLoading(false);
-                      alert("Faculdade registrada com sucesso.")
                       handleCloseFaculdadeDestinoModal();
                     }, 2000);
                   }
@@ -472,9 +515,16 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 .then((result) => {
 
                   if (result instanceof Error) {
-                    alert(result.message);
-                    handleCloseDisciplinaOrigemModal();
-                    setIsLoading(false);
+                    if(result.message.includes('422')) {
+                      setErrorMessage('Disciplina já foi registrada.');
+                      setIsErrorModalOpen(true);
+                      handleCloseDisciplinaDestinoModal();
+                      setIsLoading(false);
+                    } else {
+                      alert(result.message);
+                      handleCloseDisciplinaDestinoModal();
+                      setIsLoading(false);
+                    }
                   } else {
                     const detalhe: TAutoCompleteOption = {
                       id: Number(result.id),
@@ -486,8 +536,10 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                       
                       handleNovoDisciplinaOrigemIdChange(detalhe)
 
+                      setSuccessMessage('Disciplina registrada com sucesso.');
+                      setIsSuccessModalOpen(true);
+
                       setIsLoading(false);
-                      alert("Disciplina registrada com sucesso.")
                       handleCloseDisciplinaOrigemModal();
                     }, 2000);
                   }
@@ -513,9 +565,16 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 .then((result) => {
 
                   if (result instanceof Error) {
-                    alert(result.message);
-                    handleCloseDisciplinaDestinoModal();
-                    setIsLoading(false);
+                    if(result.message.includes('422')) {
+                      setErrorMessage('Disciplina já foi registrada.');
+                      setIsErrorModalOpen(true);
+                      handleCloseDisciplinaDestinoModal();
+                      setIsLoading(false);
+                    } else {
+                      alert(result.message);
+                      handleCloseDisciplinaDestinoModal();
+                      setIsLoading(false);
+                    }
                   } else {
                     const detalhe: TAutoCompleteOption = {
                       id: Number(result.id),
@@ -527,8 +586,10 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                       
                       handleNovoDisciplinaDestinoIdChange(detalhe)
 
+                      setSuccessMessage('Disciplina registrada com sucesso.');
+                      setIsSuccessModalOpen(true);
+
                       setIsLoading(false);
-                      alert("Disciplina registrada com sucesso.")
                       handleCloseDisciplinaDestinoModal();
                     }, 2000);
                   }
@@ -552,9 +613,16 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 .then((result) => {
 
                   if (result instanceof Error) {
-                    alert(result.message);
-                    handleCloseProfessorModal();
-                    setIsLoading(false);
+                    if(result.message.includes('422')) {
+                      setErrorMessage('Professor já foi registrado.');
+                      setIsErrorModalOpen(true);
+                      handleCloseProfessorModal()
+                      setIsLoading(false);
+                    } else {
+                      alert(result.message);
+                      handleCloseProfessorModal()
+                      setIsLoading(false);
+                    }
                   } else {
                     const detalhe: TAutoCompleteOption = {
                       id: Number(result.id),
@@ -566,7 +634,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                       handleProfessorIdChange(detalhe)
 
                       setIsLoading(false);
-                      alert("Professor registrado com sucesso.")
+                      setSuccessMessage('Professor registrado com sucesso.');
+                      setIsSuccessModalOpen(true); 
                       handleCloseProfessorModal();
                     }, 2000);
                   }
@@ -583,7 +652,6 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
           setIsLoading(false);
 
           if (result instanceof Error) {
-            alert(result.message);
             navigate('/analises');
           } else {
             formRef.current?.setData(result);
@@ -613,7 +681,6 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
               if (result instanceof Error) {
                 if(result.message.includes('422')) {
-                  //alert('Análise de equivalência já foi registrada.');
                   setErrorMessage('Análise de equivalência já foi registrada.');
                   setIsErrorModalOpen(true);
                 } else {
@@ -667,9 +734,15 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
       AlocacaoAnalisesProfessoresService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
-            alert(result.message);
+            if(result.message.includes('422')) {
+              setErrorMessage('Não foi possível deletar a análise de equivalência.');
+              setIsErrorModalOpen(true);
+            } else {
+              alert(result.message);
+            }
           } else {
-            alert('Registro apagado com sucesso!');
+            setSuccessMessage('Registro apagado com sucesso.');
+            setIsSuccessModalOpen(true); 
             navigate('/analises');
           }
         });
