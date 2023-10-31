@@ -151,7 +151,7 @@ export const DetalheDeDisciplinas: React.FC = () => {
                       handleNovaFaculdadeIdChange(detalhe)
 
                       setIsLoading(false);
-                      
+
                       setSuccessMessage('Faculdade registrada com sucesso.');
                       setIsSuccessModalOpen(true); 
 
@@ -312,9 +312,15 @@ export const DetalheDeDisciplinas: React.FC = () => {
       DisciplinasService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
-            alert(result.message);
+            if(result.message.includes('422')) {
+              setErrorMessage('Não foi possível deletar a análise de equivalência.');
+              setIsErrorModalOpen(true);
+            } else {
+              alert(result.message);
+            }
           } else {
-            alert('Registro apagado com sucesso!');
+            setSuccessMessage('Registro apagado com sucesso.');
+            setIsSuccessModalOpen(true); 
             navigate('/disciplinas');
           }
         });

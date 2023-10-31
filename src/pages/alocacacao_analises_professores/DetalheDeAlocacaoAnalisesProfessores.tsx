@@ -1389,33 +1389,33 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
     </Dialog>
 
       
-      <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
-        <DialogTitle>
-          Error
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>{errorMessage}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeErrorModal} color="primary" autoFocus>
-            Fechar
-          </Button>
-        </DialogActions>
-      </Dialog>
+    <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
+      <DialogTitle>
+        Error
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>{errorMessage}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={closeErrorModal} color="primary" autoFocus>
+          Fechar
+        </Button>
+      </DialogActions>
+    </Dialog>
 
-      <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
-        <DialogTitle>
-        Cadastro realizado com sucesso!
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>{successMessage}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeSuccessModal} color="primary" autoFocus>
-            Fechar
-          </Button>
-        </DialogActions>
-      </Dialog>
+    <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
+      <DialogTitle>
+      Cadastro realizado com sucesso!
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>{successMessage}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={closeSuccessModal} color="primary" autoFocus>
+          Fechar
+        </Button>
+      </DialogActions>
+    </Dialog>
 
     </LayoutBaseDePagina>
   );

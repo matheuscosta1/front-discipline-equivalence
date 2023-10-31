@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Icon, IconButton, LinearProgress, MenuItem, Pagination, Paper, Select, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton, LinearProgress, MenuItem, Pagination, Paper, Select, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { IListagemAlocacaoAnalisesProfessores, AlocacaoAnalisesProfessoresService } from '../../shared/services/api/alocacao_analises_professores/AlocacaoAnalisesProfessoresService';
@@ -49,6 +49,22 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
     setRows(sortedRows);
   };
 
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+  };
+
   useEffect(() => {
     setIsLoading(true);
 
@@ -72,7 +88,14 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
       AlocacaoAnalisesProfessoresService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
-            alert(result.message);
+            if(result.message.includes('422')) {
+              setErrorMessage('Não foi possível deletar a análise de equivalência.');
+              setIsErrorModalOpen(true);
+            } else {
+              setSuccessMessage('Registro apagado com sucesso.');
+              setIsSuccessModalOpen(true); 
+              alert(result.message);
+            }
           } else {
             setRows(oldRows => [
               ...oldRows.filter(oldRow => oldRow.id !== id),
@@ -217,6 +240,33 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
           </TableFooter>
         </Table>
       </TableContainer>
+      <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
+        <DialogTitle>
+          Error
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{errorMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeErrorModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
+        <DialogTitle>
+        Cadastro realizado com sucesso!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{successMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeSuccessModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </LayoutBaseDePagina>
   );
 };

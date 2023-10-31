@@ -15,6 +15,7 @@ export interface IListagemRegistroEquivalencia {
   nomeProfessor: string;
   equivalente: string;
   dataCriacao: string;
+  justificativa: string;
 }
 
 export interface IDetalheRegistroEquivalencia {
