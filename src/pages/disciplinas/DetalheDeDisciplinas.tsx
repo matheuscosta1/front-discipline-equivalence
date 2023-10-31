@@ -66,6 +66,12 @@ export const DetalheDeDisciplinas: React.FC = () => {
     setIsSuccessModalOpen(false);
   };
 
+  const [isUpdateSuccessModalOpen, setIsUpdateSuccessModalOpen] = useState(false);
+  
+  const closeUpdateSuccessModal = () => {
+    setIsUpdateSuccessModalOpen(false);
+  };
+
   const [isFaculdadeModalOpen, setIsFaculdadeModalOpen] = useState(false);
   const [novaFaculdade, setNovaFaculdade] = useState('');
 
@@ -285,9 +291,9 @@ export const DetalheDeDisciplinas: React.FC = () => {
               if (result instanceof Error) {
                 alert(result.message);
               } else {
+                setSuccessMessage('Disciplina atualizada com sucesso.');
+                setIsUpdateSuccessModalOpen(true);
                 if (isSaveAndClose()) {
-                  setSuccessMessage('Disciplina cadastrada com sucesso.');
-                  setIsSuccessModalOpen(true); 
                   navigate('/disciplinas');
                 }
               }
@@ -336,7 +342,7 @@ export const DetalheDeDisciplinas: React.FC = () => {
           textoBotaoNovo='Nova'
           mostrarBotaoSalvarEFechar
           mostrarBotaoNovo={id !== 'nova'}
-          mostrarBotaoApagar={id !== 'nova'}
+          mostrarBotaoApagar={false}
 
           aoClicarEmSalvar={save}
           aoClicarEmSalvarEFechar={saveAndClose}
@@ -583,6 +589,20 @@ export const DetalheDeDisciplinas: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={closeSuccessModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={isUpdateSuccessModalOpen} onClose={closeUpdateSuccessModal}>
+        <DialogTitle>
+        Registro atualizado com sucesso!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{successMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeUpdateSuccessModal} color="primary" autoFocus>
             Fechar
           </Button>
         </DialogActions>
