@@ -67,6 +67,12 @@ export const DetalheDeProfessores: React.FC = () => {
     setIsSuccessModalOpen(false);
   };
 
+  const [isUpdateSuccessModalOpen, setIsUpdateSuccessModalOpen] = useState(false);
+  
+  const closeUpdateSuccessModal = () => {
+    setIsUpdateSuccessModalOpen(false);
+  };
+
   const handleDisciplinaIdChange = (novaDisciplinaId: number | undefined) => {
     setDisciplinaId(novaDisciplinaId);
   };
@@ -361,9 +367,9 @@ export const DetalheDeProfessores: React.FC = () => {
               if (result instanceof Error) {
                 alert(result.message);
               } else {
+                setSuccessMessage('Professor atualizado com sucesso.');
+                setIsUpdateSuccessModalOpen(true); 
                 if (isSaveAndClose()) {
-                  setSuccessMessage('Professor atualizado com sucesso.');
-                  setIsSuccessModalOpen(true); 
                   navigate('/professores');
                 }
               }
@@ -731,6 +737,20 @@ export const DetalheDeProfessores: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={closeSuccessModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={isUpdateSuccessModalOpen} onClose={closeUpdateSuccessModal}>
+        <DialogTitle>
+        Registro atualizado com sucesso!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{successMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeUpdateSuccessModal} color="primary" autoFocus>
             Fechar
           </Button>
         </DialogActions>

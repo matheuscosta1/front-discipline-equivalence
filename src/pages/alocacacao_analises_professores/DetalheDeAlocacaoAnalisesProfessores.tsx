@@ -140,6 +140,12 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
     setIsSuccessModalOpen(false);
   };
 
+  const [isUpdateSuccessModalOpen, setIsUpdateSuccessModalOpen] = useState(false);
+  
+  const closeUpdateSuccessModal = () => {
+    setIsUpdateSuccessModalOpen(false);
+  };
+
 
   const handleDisciplinaOrigemIdChange = (novaDisciplinaOrigemId: number | undefined) => {
     setDisciplinaOrigemId(novaDisciplinaOrigemId);
@@ -705,11 +711,16 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
               setIsLoading(false);
 
               if (result instanceof Error) {
-                alert(result.message);
+                if(result.message.includes('422')) {
+                  setErrorMessage('Erro ao atualizar análise de equivalência.');
+                  setIsErrorModalOpen(true);
+                } else {
+                  alert(result.message);
+                }
               } else {
+                setSuccessMessage('Análise de equivalência atualizada com sucesso.');
+                setIsUpdateSuccessModalOpen(true); 
                 if (isSaveAndClose()) {
-                  setSuccessMessage('Análise de equivalência cadastrada com sucesso.');
-                  setIsSuccessModalOpen(true); 
                   navigate('/analises');
                 }
               }
@@ -1412,6 +1423,20 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
       </DialogContent>
       <DialogActions>
         <Button onClick={closeSuccessModal} color="primary" autoFocus>
+          Fechar
+        </Button>
+      </DialogActions>
+    </Dialog>
+
+    <Dialog open={isUpdateSuccessModalOpen} onClose={closeUpdateSuccessModal}>
+      <DialogTitle>
+      Registro atualizado com sucesso!
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>{successMessage}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={closeUpdateSuccessModal} color="primary" autoFocus>
           Fechar
         </Button>
       </DialogActions>

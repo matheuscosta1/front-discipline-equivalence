@@ -41,6 +41,12 @@ export const DetalheDeFaculdades: React.FC = () => {
     setIsSuccessModalOpen(false);
   };
 
+  const [isUpdateSuccessModalOpen, setIsUpdateSuccessModalOpen] = useState(false);
+  
+  const closeUpdateSuccessModal = () => {
+    setIsUpdateSuccessModalOpen(false);
+  };
+
   useEffect(() => {
     if (id !== 'nova') {
       setIsLoading(true);
@@ -105,9 +111,9 @@ export const DetalheDeFaculdades: React.FC = () => {
               if (result instanceof Error) {
                 alert(result.message);
               } else {
+                setSuccessMessage('Faculdade atualizada com sucesso.');
+                setIsUpdateSuccessModalOpen(true); 
                 if (isSaveAndClose()) {
-                  setSuccessMessage('Faculdade cadastrada com sucesso.');
-                  setIsSuccessModalOpen(true); 
                   navigate('/faculdades');
                 }
               }
@@ -156,7 +162,7 @@ export const DetalheDeFaculdades: React.FC = () => {
           textoBotaoNovo='Nova'
           mostrarBotaoSalvarEFechar
           mostrarBotaoNovo={id !== 'nova'}
-          mostrarBotaoApagar={id !== 'nova'}
+          mostrarBotaoApagar={false}
 
           aoClicarEmSalvar={save}
           aoClicarEmSalvarEFechar={saveAndClose}
@@ -221,6 +227,20 @@ export const DetalheDeFaculdades: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={closeSuccessModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={isUpdateSuccessModalOpen} onClose={closeUpdateSuccessModal}>
+        <DialogTitle>
+        Registro atualizado com sucesso!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{successMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeUpdateSuccessModal} color="primary" autoFocus>
             Fechar
           </Button>
         </DialogActions>
