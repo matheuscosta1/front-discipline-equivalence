@@ -147,7 +147,7 @@ export const ListagemDeAnalisesPendentesDoProfessor: React.FC = () => {
               return (
                 <TableRow 
                   key={row.id}
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: row.status === 'PENDENTE' ? 'pointer' : 'default' }}
                   onClick={() => {
                     if (row.status === 'PENDENTE') {
                       navigate(`/analises-professor/detalhe/${row.id}`);

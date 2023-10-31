@@ -129,9 +129,18 @@ export const DetalheDeDisciplinas: React.FC = () => {
                 .then((result) => {
 
                   if (result instanceof Error) {
-                    alert(result.message);
-                    handleCloseFaculdadeModal();
-                    setIsLoading(false);
+                    if(result.message.includes('422')) {
+                      setErrorMessage('Faculdade já foi registrada.');
+                      setIsErrorModalOpen(true);
+
+                      handleCloseFaculdadeModal();
+                      setIsLoading(false);
+                    } else {
+                      alert(result.message);
+
+                      handleCloseFaculdadeModal();
+                      setIsLoading(false);
+                    }
                   } else {
                     const detalhe: TAutoCompleteOption = {
                       id: Number(result.id),
@@ -142,7 +151,10 @@ export const DetalheDeDisciplinas: React.FC = () => {
                       handleNovaFaculdadeIdChange(detalhe)
 
                       setIsLoading(false);
-                      alert("Faculdade registrada com sucesso.")
+                      
+                      setSuccessMessage('Faculdade registrada com sucesso.');
+                      setIsSuccessModalOpen(true); 
+
                       handleCloseFaculdadeModal();
                     }, 2000);
                   }
@@ -161,9 +173,16 @@ export const DetalheDeDisciplinas: React.FC = () => {
                 .then((result) => {
 
                   if (result instanceof Error) {
-                    alert(result.message);
-                    handleCloseCursoModal();
-                    setIsLoading(false);
+                    if(result.message.includes('422')) {
+                      setErrorMessage('Curso já foi registrado.');
+                      setIsErrorModalOpen(true);
+                      handleCloseCursoModal();
+                      setIsLoading(false);
+                    } else {
+                      alert(result.message);
+                      handleCloseCursoModal();
+                      setIsLoading(false);
+                    }
                   } else {
                     const detalhe: TAutoCompleteOption = {
                       id: Number(result.id),
@@ -174,7 +193,10 @@ export const DetalheDeDisciplinas: React.FC = () => {
 
                     setTimeout(() => {
                       setIsLoading(false);
-                      alert("Faculdade registrada com sucesso.")
+
+                      setSuccessMessage('Curso registrado com sucesso.');
+                      setIsSuccessModalOpen(true); 
+
                       handleCloseCursoModal();
                     }, 2000);
                   }
