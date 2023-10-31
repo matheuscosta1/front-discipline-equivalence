@@ -16,6 +16,7 @@ export interface IListagemRegistroEquivalencia {
   equivalente: string;
   dataCriacao: string;
   justificativa: string;
+  status: string;
 }
 
 export interface IDetalheRegistroEquivalencia {

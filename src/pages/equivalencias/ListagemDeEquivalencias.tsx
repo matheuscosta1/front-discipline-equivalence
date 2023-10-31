@@ -29,13 +29,15 @@ export const ListagemDeEquivalencias: React.FC = () => {
 
   const [filtroEquivalente, setFiltroEquivalente] = useState('todos'); // Pode ser 'todos', 'equivalente' ou 'nao_equivalente'
 
-  const filtrarEquivalencias = (equivalente: string) => {
+  const filtrarEquivalencias = (status: string) => {
     if (filtroEquivalente === 'todos') {
       return true; // Mostrar todos os registros
     } else if (filtroEquivalente === 'equivalente') {
-      return equivalente === 'EQUIVALENTE';
+      return status === 'EQUIVALENTE';
     } else if (filtroEquivalente === 'nao_equivalente') {
-      return equivalente === 'NÃO EQUIVALENTE';
+      return status === 'NÃO EQUIVALENTE';
+    } else if (filtroEquivalente === 'mudanca_ementa') {
+      return status === 'MUDANÇA EMENTA';
     }
     return true;
   };
@@ -118,6 +120,7 @@ export const ListagemDeEquivalencias: React.FC = () => {
                 <MenuItem value="todos">Todos</MenuItem>
                 <MenuItem value="equivalente">Equivalentes</MenuItem>
                 <MenuItem value="nao_equivalente">Não Equivalentes</MenuItem>
+                <MenuItem value="mudanca_ementa">Mudança Ementa</MenuItem>
               </Select>
             </div>
           </div>
@@ -149,7 +152,7 @@ export const ListagemDeEquivalencias: React.FC = () => {
           </TableHead>
           <TableBody>
             {rows
-              .filter((row) => filtrarEquivalencias(row.equivalente))
+              .filter((row) => filtrarEquivalencias(row.status))
               .map((row) => (
                 <TableRow key={row.id}>
                   <TableCell>{row.faculdadeOrigem}</TableCell>
@@ -162,8 +165,8 @@ export const ListagemDeEquivalencias: React.FC = () => {
                   <TableCell>{row.justificativa}</TableCell>
                   <TableCell>{row.dataCriacao}</TableCell>
                   <TableCell>
-                    <span style={{ color: row.equivalente === 'EQUIVALENTE' ? 'green' : 'darkred' }}>
-                      {row.equivalente}
+                    <span style={{ color: row.status === 'EQUIVALENTE' ? 'green' : "hsl(0, 100%, 60%)" }}>
+                      {row.status}
                     </span>
                   </TableCell>
                 </TableRow>
