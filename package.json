@@ -16,6 +16,7 @@
     "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.6",
     "@mui/styles": "^5.14.15",
+    "@mui/system": "^5.14.16",
     "@unform/core": "^2.1.6",
     "@unform/web": "^2.1.6",
     "axios": "^0.26.0",

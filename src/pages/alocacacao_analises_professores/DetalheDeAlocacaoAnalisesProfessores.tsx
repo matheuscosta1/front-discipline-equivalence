@@ -779,188 +779,194 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
         />
       }
     >
-      <VForm ref={formRef} onSubmit={handleSave}>
-        <Box margin={1} display="flex" flexDirection="column" component={Paper} variant="outlined">
+      <Box  margin={2} display="flex" justifyContent="center">
+        <Box style={{ width: '100%' }}>
+          <Paper variant="outlined" style={{ display: 'flex', justifyContent: 'center' }}>
+            <VForm ref={formRef} onSubmit={handleSave}>
+              <Box margin={1} display="flex" flexDirection="column" component={Paper} variant="outlined" style={{ border: 'none' }}>
 
-          <Grid container direction="column" padding={2} spacing={2}>
+                <Grid container direction="column" padding={2} spacing={2}>
 
-            {isLoading && (
-              <Grid item>
-                <LinearProgress variant='indeterminate' />
-              </Grid>
-            )}
+                  {isLoading && (
+                    <Grid item>
+                      <LinearProgress variant='indeterminate' />
+                    </Grid>
+                  )}
 
-            <Grid item>
-              <Typography variant='h6'>Geral</Typography>
-            </Grid>
+                  <Grid item>
+                    <Typography variant='h6'>Geral</Typography>
+                  </Grid>
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  name='nomeAluno'
-                  disabled={isLoading}
-                  label='Nome do aluno solicitante'
-                  onChange={e => setNomeAluno(e.target.value)}
-                />
-              </Grid>
-            </Grid>
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                      <VTextField
+                        fullWidth
+                        name='nomeAluno'
+                        disabled={isLoading}
+                        label='Nome do aluno solicitante'
+                        onChange={e => setNomeAluno(e.target.value)}
+                      />
+                    </Grid>
+                  </Grid>
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  name='emailAluno'
-                  disabled={isLoading}
-                  label='E-mail do aluno solicitante'
-                  onChange={e => setEmailAluno(e.target.value)}
-                />
-              </Grid>
-            </Grid>
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                      <VTextField
+                        fullWidth
+                        name='emailAluno'
+                        disabled={isLoading}
+                        label='E-mail do aluno solicitante'
+                        onChange={e => setEmailAluno(e.target.value)}
+                      />
+                    </Grid>
+                  </Grid>
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                <AutoCompleteFaculdadeOrigem isExternalLoading={isLoading} onFaculdadeOrigemIdChange={handleFaculdadeOrigemIdChange} disableField={id !== 'nova'} autoCompleteValue={selectedFaculdadeOrigem}/>
-                  <Button
-                    variant="outlined"
-                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
-                    onClick={handleOpenFaculdadeOrigemModal}
-                  >
-                    NOVA+
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <AutoCompleteFaculdadeOrigem isExternalLoading={isLoading} onFaculdadeOrigemIdChange={handleFaculdadeOrigemIdChange} disableField={id !== 'nova'} autoCompleteValue={selectedFaculdadeOrigem}/>
+                        <Button
+                          variant="outlined"
+                          style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                          onClick={handleOpenFaculdadeOrigemModal}
+                        >
+                          NOVA+
+                        </Button>
+                      </div>
+                    </Grid>
+                  </Grid>
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                <AutoCompleteCursoOrigem isExternalLoading={isLoading} faculdadeId={faculdadeOrigemId} onCursoIdChange={handleCursoOrigemIdChange} disableField={id !== 'nova'} autoCompleteValue={selectedCursoOrigem}/>
-                  <Button
-                    variant="outlined"
-                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
-                    onClick={handleOpenCursoOrigemModal}
-                  >
-                    NOVO+
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <AutoCompleteCursoOrigem isExternalLoading={isLoading} faculdadeId={faculdadeOrigemId} onCursoIdChange={handleCursoOrigemIdChange} disableField={id !== 'nova'} autoCompleteValue={selectedCursoOrigem}/>
+                        <Button
+                          variant="outlined"
+                          style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                          onClick={handleOpenCursoOrigemModal}
+                        >
+                          NOVO+
+                        </Button>
+                      </div>
+                    </Grid>
+                  </Grid>
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                <AutoCompleteDisciplinaOrigem isExternalLoading={isLoading} faculdadeId={faculdadeOrigemId} cursoId={cursoOrigemId} disableField={id !== 'nova'} autoCompleteValue={selectedDisciplinaOrigem}/>
-                  <Button
-                    variant="outlined"
-                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
-                    onClick={handleOpenDisciplinaOrigemModal}
-                  >
-                    NOVA+
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <AutoCompleteDisciplinaOrigem isExternalLoading={isLoading} faculdadeId={faculdadeOrigemId} cursoId={cursoOrigemId} disableField={id !== 'nova'} autoCompleteValue={selectedDisciplinaOrigem}/>
+                        <Button
+                          variant="outlined"
+                          style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                          onClick={handleOpenDisciplinaOrigemModal}
+                        >
+                          NOVA+
+                        </Button>
+                      </div>
+                    </Grid>
+                  </Grid>
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                <AutoCompleteFaculdadeDestino isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeDestinoIdChange} disableField={id !== 'nova'} autoCompleteValue={selectedFaculdadeDestino}/>
-                  <Button
-                    variant="outlined"
-                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
-                    onClick={handleOpenFaculdadeDestinoModal}
-                  >
-                    NOVA+
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <AutoCompleteFaculdadeDestino isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeDestinoIdChange} disableField={id !== 'nova'} autoCompleteValue={selectedFaculdadeDestino}/>
+                        <Button
+                          variant="outlined"
+                          style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                          onClick={handleOpenFaculdadeDestinoModal}
+                        >
+                          NOVA+
+                        </Button>
+                      </div>
+                    </Grid>
+                  </Grid>
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                <AutoCompleteCursoDestino isExternalLoading={isLoading} faculdadeId={faculdadeDestinoId} onCursoIdChange={handleCursoDestinoIdChange} disableField={id !== 'nova'} autoCompleteValue={selectedCursoDestino}/>
-                  <Button
-                    variant="outlined"
-                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
-                    onClick={handleOpenCursoDestinoModal}
-                  >
-                    NOVO+
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <AutoCompleteCursoDestino isExternalLoading={isLoading} faculdadeId={faculdadeDestinoId} onCursoIdChange={handleCursoDestinoIdChange} disableField={id !== 'nova'} autoCompleteValue={selectedCursoDestino}/>
+                        <Button
+                          variant="outlined"
+                          style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                          onClick={handleOpenCursoDestinoModal}
+                        >
+                          NOVO+
+                        </Button>
+                      </div>
+                    </Grid>
+                  </Grid>
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                <AutoCompleteDisciplinaDestino isExternalLoading={isLoading} faculdadeId={faculdadeDestinoId} cursoId={cursoDestinoId} onDiscipinaDestinoIdChange={handleDisciplinaDestinoIdChange} disableField={id !== 'nova'} autoCompleteValue={selectedDisciplinaDestino}/>
-                  <Button
-                    variant="outlined"
-                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
-                    onClick={handleOpenDisciplinaDestinoModal}
-                  >
-                    NOVA+
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>        
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <AutoCompleteDisciplinaDestino isExternalLoading={isLoading} faculdadeId={faculdadeDestinoId} cursoId={cursoDestinoId} onDiscipinaDestinoIdChange={handleDisciplinaDestinoIdChange} disableField={id !== 'nova'} autoCompleteValue={selectedDisciplinaDestino}/>
+                        <Button
+                          variant="outlined"
+                          style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                          onClick={handleOpenDisciplinaDestinoModal}
+                        >
+                          NOVA+
+                        </Button>
+                      </div>
+                    </Grid>
+                  </Grid>        
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                <AutoCompleteProfessorPorDisciplinaDestino isExternalLoading={isLoading} disciplinaId={disciplinaDestinoId} autoCompleteValue={selectedProfessor} />
-                  <Button
-                    variant="outlined"
-                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
-                    onClick={handleOpenProfessorModal}
-                  >
-                    NOVO+
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>  
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <AutoCompleteProfessorPorDisciplinaDestino isExternalLoading={isLoading} disciplinaId={disciplinaDestinoId} autoCompleteValue={selectedProfessor} />
+                        <Button
+                          variant="outlined"
+                          style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                          onClick={handleOpenProfessorModal}
+                        >
+                          NOVO+
+                        </Button>
+                      </div>
+                    </Grid>
+                  </Grid>  
 
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  name='dataMaxima'
-                  label='Data máxima para análise'
-                  disabled={isLoading}
-                  onInput={e => {
-                    const input = e.target as HTMLInputElement;
-                    const value = input.value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
-                    if (value.length <= 8) {
-                      const formattedValue = value
-                        .slice(0, 8) // Limita a entrada a 8 caracteres (DDMMAAAA)
-                        .replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3'); // Adiciona barras automaticamente
-                      input.value = formattedValue;
-                      setDataMaxima(formattedValue);
-                    }
-                  }}
-                  placeholder='Exemplo: 14/05/1999'
-                />
-              </Grid>
+                  <Grid container item direction="row" spacing={2}>
+                    <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                      <VTextField
+                        fullWidth
+                        name='dataMaxima'
+                        label='Data máxima para análise'
+                        disabled={isLoading}
+                        onInput={e => {
+                          const input = e.target as HTMLInputElement;
+                          const value = input.value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+                          if (value.length <= 8) {
+                            const formattedValue = value
+                              .slice(0, 8) // Limita a entrada a 8 caracteres (DDMMAAAA)
+                              .replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3'); // Adiciona barras automaticamente
+                            input.value = formattedValue;
+                            setDataMaxima(formattedValue);
+                          }
+                        }}
+                        placeholder='Exemplo: 14/05/1999'
+                      />
+                    </Grid>
 
-              <Grid container justifyContent="space-between" padding={2}>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    onClick={save}
-                    startIcon={<Icon>save</Icon>}
-                  >
-                    Salvar
-                  </Button>
+                    <Grid container justifyContent="space-between" padding={2}>
+                      <Grid item>
+                        <Button
+                          variant="contained"
+                          onClick={save}
+                          startIcon={<Icon>save</Icon>}
+                        >
+                          Salvar
+                        </Button>
+                      </Grid>
+                    </Grid>
+
+                  </Grid>
                 </Grid>
-              </Grid>
-
-            </Grid>
-          </Grid>
+              </Box>
+            </VForm>
+          </Paper>
         </Box>
-      </VForm>
+      </Box>
 
       <Dialog open={isFaculdadeOrigemModalOpen} onClose={handleCloseFaculdadeOrigemModal} BackdropComponent={Backdrop}>
         <DialogTitle>Registrar Faculdade de Origem</DialogTitle>

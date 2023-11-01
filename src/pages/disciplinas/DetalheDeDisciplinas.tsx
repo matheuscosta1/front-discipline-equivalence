@@ -352,130 +352,136 @@ export const DetalheDeDisciplinas: React.FC = () => {
         />
       }
     >
-      <VForm ref={formRef} onSubmit={handleSave}>
-        <Box margin={1} display="flex" flexDirection="column" component={Paper} variant="outlined">
+    <Box  margin={2} display="flex" justifyContent="center">
+      <Box style={{ width: '100%' }}>
+        <Paper variant="outlined" style={{ display: 'flex', justifyContent: 'center' }}>
+          <VForm ref={formRef} onSubmit={handleSave}>
+            <Box margin={1} display="flex" flexDirection="column" component={Paper} variant="outlined" style={{ border: 'none' }}>
 
-          <Grid container direction="column" padding={2} spacing={2}>
+              <Grid container direction="column" padding={2} spacing={2}>
 
-            {isLoading && (
-              <Grid item>
-                <LinearProgress variant='indeterminate' />
+                {isLoading && (
+                  <Grid item>
+                    <LinearProgress variant='indeterminate' />
+                  </Grid>
+                )}
+
+                <Grid item>
+                  <Typography variant='h6'>Disciplina</Typography>
+                </Grid>
+
+                <Grid container item direction="row" spacing={2}>
+                  <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                    <VTextField
+                      fullWidth
+                      name='nome'
+                      disabled={isLoading}
+                      label='Nome'
+                      onChange={e => setNome(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container item direction="row" spacing={2}>
+                  <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                    <VTextField
+                      fullWidth
+                      name='codigoOrigem'
+                      disabled={isLoading}
+                      label='Código Disciplina'
+                      onChange={e => setCodigoOrigem(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container item direction="row" spacing={2}>
+                  <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                    <VTextField
+                      fullWidth
+                      multiline
+                      rows={4}
+                      name='ementa'
+                      disabled={isLoading}
+                      label='Ementa'
+                      onChange={e => setEmenta(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container item direction="row" spacing={2}>
+                  <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                    <VTextField
+                      fullWidth
+                      multiline
+                      rows={4}
+                      name='programa'
+                      disabled={isLoading}
+                      label='Programa'
+                      onChange={e => setPrograma(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container item direction="row" spacing={2}>
+                  <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                    <VTextField
+                      fullWidth
+                      name='cargaHoraria'
+                      disabled={isLoading}
+                      label='Carga Horária'
+                      onChange={e => setCargaHoraria(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid container item direction="row" spacing={2}>
+                  <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <AutoCompleteFaculdade isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeIdChange} autoCompleteValue={selectedFaculdade}/>
+                      <Button
+                        variant="outlined"
+                        style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                        onClick={handleOpenFaculdadeModal}
+                      >
+                        NOVA+
+                      </Button>
+                    </div>
+                  </Grid>
+                </Grid>
+
+                <Grid container item direction="row" spacing={2}>
+                  <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <AutoCompleteCurso isExternalLoading={isLoading} faculdadeId={faculdadeId} autoCompleteValue={selectedCurso}/>
+                      <Button
+                        variant="outlined"
+                        style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                        onClick={handleOpenCursoModal}
+                      >
+                        NOVO+
+                      </Button>
+                    </div>
+                  </Grid>
+                </Grid>
+
+                <Grid container justifyContent="space-between" padding={2}>
+                  <Grid item>
+                    <Button
+                      variant="contained"
+                      onClick={save}
+                      startIcon={<Icon>save</Icon>}
+                    >
+                      Salvar
+                    </Button>
+                  </Grid>
+                </Grid>
+
               </Grid>
-            )}
-
-            <Grid item>
-              <Typography variant='h6'>Geral</Typography>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  name='nome'
-                  disabled={isLoading}
-                  label='Nome'
-                  onChange={e => setNome(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  name='codigoOrigem'
-                  disabled={isLoading}
-                  label='Código Disciplina'
-                  onChange={e => setCodigoOrigem(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  multiline
-                  rows={4}
-                  name='ementa'
-                  disabled={isLoading}
-                  label='Ementa'
-                  onChange={e => setEmenta(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  multiline
-                  rows={4}
-                  name='programa'
-                  disabled={isLoading}
-                  label='Programa'
-                  onChange={e => setPrograma(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  name='cargaHoraria'
-                  disabled={isLoading}
-                  label='Carga Horária'
-                  onChange={e => setCargaHoraria(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <AutoCompleteFaculdade isExternalLoading={isLoading} onFaculdadeIdChange={handleFaculdadeIdChange} autoCompleteValue={selectedFaculdade}/>
-                  <Button
-                    variant="outlined"
-                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
-                    onClick={handleOpenFaculdadeModal}
-                  >
-                    NOVA+
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                <AutoCompleteCurso isExternalLoading={isLoading} faculdadeId={faculdadeId} autoCompleteValue={selectedCurso}/>
-                  <Button
-                    variant="outlined"
-                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
-                    onClick={handleOpenCursoModal}
-                  >
-                    NOVO+
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
-
-            <Grid container justifyContent="space-between" padding={2}>
-              <Grid item>
-                <Button
-                  variant="contained"
-                  onClick={save}
-                  startIcon={<Icon>save</Icon>}
-                >
-                  Salvar
-                </Button>
-              </Grid>
-            </Grid>
-
-          </Grid>
+            </Box>
+          </VForm>
+          </Paper>
         </Box>
-      </VForm>
+      </Box>
 
       <Dialog open={isFaculdadeModalOpen} onClose={handleCloseFaculdadeModal} BackdropComponent={Backdrop}>
         <DialogTitle>Registrar Faculdade</DialogTitle>
