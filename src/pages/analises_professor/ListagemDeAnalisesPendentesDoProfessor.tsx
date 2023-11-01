@@ -179,7 +179,7 @@ export const ListagemDeAnalisesPendentesDoProfessor: React.FC = () => {
                   <TableCell>{row.nomeCursoDestino}</TableCell>
                   <TableCell>{row.nomeDisciplinaDestino}</TableCell>
                   <TableCell style={{ color: corDataMaxima }}> {row.dataMaxima} </TableCell>
-                  <TableCell style={{ color: row.status === 'PENDENTE' ? 'royalblue' : row.status === 'MUDANÇA EMENTA' ? "hsl(0, 100%, 60%)" : 'green'}}>
+                  <TableCell style={{ color: row.status === 'PENDENTE' ? 'royalblue' : row.status === 'MUDANÇA EMENTA' ? 'orange' : 'green'}}>
                     {row.status}
                   </TableCell>
                 </TableRow>
