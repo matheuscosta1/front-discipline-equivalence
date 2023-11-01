@@ -172,37 +172,43 @@ export const DetalheDeFaculdades: React.FC = () => {
         />
       }
     >
-      <VForm ref={formRef} onSubmit={handleSave}>
-        <Box margin={1} display="flex" flexDirection="column" component={Paper} variant="outlined">
+    <Box  margin={2} display="flex" justifyContent="center">
+      <Box style={{ width: '100%' }}>
+        <Paper variant="outlined" style={{ display: 'flex', justifyContent: 'center' }}>
+          <VForm ref={formRef} onSubmit={handleSave}>
+            <Box margin={1} display="flex" flexDirection="column" component={Paper} variant="outlined" style={{ border: 'none' }}>
 
-          <Grid container direction="column" padding={2} spacing={2}>
+              <Grid container direction="column" padding={2} spacing={2}>
 
-            {isLoading && (
-              <Grid item>
-                <LinearProgress variant='indeterminate' />
+                {isLoading && (
+                  <Grid item>
+                    <LinearProgress variant='indeterminate' />
+                  </Grid>
+                )}
+
+                <Grid item>
+                  <Typography variant='h6'>Faculdade</Typography>
+                </Grid>
+
+                <Grid container item direction="row" spacing={2}>
+                  <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                    <VTextField
+                      fullWidth
+                      name='nome'
+                      label='Nome'
+                      disabled={isLoading}
+                      onChange={e => setNome(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+
               </Grid>
-            )}
 
-            <Grid item>
-              <Typography variant='h6'>Geral</Typography>
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <VTextField
-                  fullWidth
-                  name='nome'
-                  label='Nome'
-                  disabled={isLoading}
-                  onChange={e => setNome(e.target.value)}
-                />
-              </Grid>
-            </Grid>
-
-          </Grid>
-
-        </Box>
-      </VForm>
+            </Box>
+          </VForm>
+        </Paper>
+      </Box>
+    </Box>
 
       <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
         <DialogTitle>

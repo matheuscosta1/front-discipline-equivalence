@@ -257,129 +257,133 @@ export const DetalheDeCursos: React.FC = () => {
         />
       }
     >
-      <VForm ref={formRef} onSubmit={handleSave}>
-      <Box margin={1} display="flex" flexDirection="column" component={Paper} variant="outlined">
-        <Grid container direction="column" padding={2} spacing={2}>
-          {isLoading && (
-            <Grid item>
-              <LinearProgress variant='indeterminate' />
-            </Grid>
-          )}
+    <Box margin={2} display="flex" justifyContent="center">
+      <Box style={{ width: '100%' }}>
 
-          <Grid item>
-            <Typography variant='h6'>Geral</Typography>
-          </Grid>
-
-          <Grid container item direction="row" spacing={2}>
-            <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-              <VTextField
-                fullWidth
-                name='nome'
-                disabled={isLoading}
-                label='Nome'
-                onChange={e => setNome(e.target.value)}
-              />
-            </Grid>
-
-            <Grid container item direction="row" spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <AutoCompleteFaculdade isExternalLoading={isLoading} autoCompleteValue={selectedFaculdade} />
-                  <Button
-                    variant="outlined"
-                    style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
-                    onClick={handleOpenFaculdadeModal}
-                  >
-                    NOVA+
-                  </Button>
-                </div>
+        <Paper variant="outlined" style={{ display: 'flex', justifyContent: 'center' }}>
+          <VForm ref={formRef} onSubmit={handleSave}>
+            <Box margin={1} display="flex" flexDirection="column" component={Paper} variant="outlined" style={{ border: 'none' }}>
+              <Grid container direction="column" padding={2} spacing={2}>
+                {isLoading && (
+                  <Grid item>
+                    <LinearProgress variant='indeterminate' />
+                  </Grid>
+                )}
+                <Grid item>
+                  <Typography variant='h6'>Geral</Typography>
+                </Grid>
+                <Grid container item direction="row" spacing={2}>
+                  <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                    <VTextField
+                      fullWidth
+                      name='nome'
+                      disabled={isLoading}
+                      label='Nome'
+                      onChange={e => setNome(e.target.value)}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container item direction="row" spacing={2}>
+                  <Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <AutoCompleteFaculdade isExternalLoading={isLoading} autoCompleteValue={selectedFaculdade} />
+                      <Button
+                        variant="outlined"
+                        style={{ marginLeft: '10px', minWidth: 'auto', fontSize: '1.0rem', height: '55px' }}
+                        onClick={handleOpenFaculdadeModal}
+                      >
+                        NOVA+
+                      </Button>
+                    </div>
+                  </Grid>
+                </Grid>
               </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+            </Box>
+          </VForm>
+        </Paper>
       </Box>
-    </VForm>
+    </Box>
 
-      <Dialog open={isFaculdadeModalOpen} onClose={handleCloseFaculdadeModal} BackdropComponent={Backdrop}>
-        <DialogTitle>Registrar Faculdade</DialogTitle>
-        <DialogContent>
-          <form>
-            <TextField
-              fullWidth
-              label="Nome"
-              value={novaFaculdade}
-              onChange={e => setNovaFaculdade(e.target.value)}
-            />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
-                onClick={handleSaveFaculdade}
-              >
-                Salvar
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                autoFocus
-                style={{ marginTop: '10px', marginLeft: '10px', marginRight: '20px' }}
-                onClick={handleCloseFaculdadeModal}
-              >
-                Fechar
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
+    <Dialog open={isFaculdadeModalOpen} onClose={handleCloseFaculdadeModal} BackdropComponent={Backdrop}>
+      <DialogTitle>Registrar Faculdade</DialogTitle>
+      <DialogContent>
+        <form>
+          <TextField
+            fullWidth
+            label="Nome"
+            value={novaFaculdade}
+            onChange={e => setNovaFaculdade(e.target.value)}
+          />
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
+              onClick={handleSaveFaculdade}
+            >
+              Salvar
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              autoFocus
+              style={{ marginTop: '10px', marginLeft: '10px', marginRight: '20px' }}
+              onClick={handleCloseFaculdadeModal}
+            >
+              Fechar
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
 
-        {isLoading && (
-          <Grid item>
-            <LinearProgress variant="indeterminate" />
-          </Grid>
-        )}
-      </Dialog>
+      {isLoading && (
+        <Grid item>
+          <LinearProgress variant="indeterminate" />
+        </Grid>
+      )}
+    </Dialog>
 
-      <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
-        <DialogTitle>
-          Error
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>{errorMessage}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeErrorModal} color="primary" autoFocus>
-            Fechar
-          </Button>
-        </DialogActions>
-      </Dialog>
+    <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
+      <DialogTitle>
+        Error
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>{errorMessage}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={closeErrorModal} color="primary" autoFocus>
+          Fechar
+        </Button>
+      </DialogActions>
+    </Dialog>
 
-      <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
-        <DialogTitle>
-        Registro realizado!
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>{successMessage}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeSuccessModal} color="primary" autoFocus>
-            Fechar
-          </Button>
-        </DialogActions>
-      </Dialog>
+    <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
+      <DialogTitle>
+      Registro realizado!
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>{successMessage}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={closeSuccessModal} color="primary" autoFocus>
+          Fechar
+        </Button>
+      </DialogActions>
+    </Dialog>
 
-      <Dialog open={isUpdateSuccessModalOpen} onClose={closeUpdateSuccessModal}>
-        <DialogTitle>
-        Registro atualizado com sucesso!
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>{successMessage}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeUpdateSuccessModal} color="primary" autoFocus>
-            Fechar
-          </Button>
-        </DialogActions>
-      </Dialog>
+    <Dialog open={isUpdateSuccessModalOpen} onClose={closeUpdateSuccessModal}>
+      <DialogTitle>
+      Registro atualizado com sucesso!
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>{successMessage}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={closeUpdateSuccessModal} color="primary" autoFocus>
+          Fechar
+        </Button>
+      </DialogActions>
+    </Dialog>
 
     </LayoutBaseDePagina>
   );
