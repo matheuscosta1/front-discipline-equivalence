@@ -43,6 +43,21 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
     setIsSuccessModalOpen(false);
   };
 
+  const [isConfirmationModalOpen, setConfirmationModalOpen] = useState(false);
+
+  const openConfirmationModal = () => {
+    setConfirmationModalOpen(true);
+  };
+
+  const closeConfirmationModal = () => {
+    setConfirmationModalOpen(false);
+  };
+
+  const handleConfirmationAndSubmit = () => {
+    closeConfirmationModal();
+    handleSubmit();
+  };
+
   const handleSubmit = () => {
     setIsLoading(true);
 
@@ -328,8 +343,8 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
             />
           </CardContent>
           <CardActions style={{ justifyContent: "flex-end" }}>
-            <Button variant="contained" onClick={handleSubmit}>
-              Enviar
+            <Button variant="contained" color="primary" onClick={openConfirmationModal}>
+              Salvar
             </Button>
           </CardActions>
         </Card>
@@ -362,6 +377,23 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog open={isConfirmationModalOpen} onClose={closeConfirmationModal}>
+      <DialogTitle>Confirmação</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Tem certeza de que deseja continuar com esta ação?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={closeConfirmationModal} color="primary">
+          Cancelar
+        </Button>
+        <Button onClick={handleConfirmationAndSubmit} color="primary">
+          Continuar
+        </Button>
+      </DialogActions>
+    </Dialog>
     </Grid>
   </LayoutBaseDePagina>
 );
