@@ -124,6 +124,36 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
     setDisciplinaDestinoId(novaDisciplinaId);
   };
 
+  const [isConfirmationSaveModalOpen, setSaveConfirmationModalOpen] = useState(false);
+
+  const openSaveConfirmationModal = () => {
+    setSaveConfirmationModalOpen(true);
+  };
+
+  const closeSaveConfirmationModal = () => {
+    setSaveConfirmationModalOpen(false);
+  };
+
+  const handleSaveConfirmationAndSubmit = () => {
+    closeSaveConfirmationModal();
+    save();
+  };
+
+  const [isSaveAndCloseConfirmationModalOpen, setSaveAndCloseConfirmationModalOpen] = useState(false);
+
+  const openSaveAndCloseConfirmationModal = () => {
+    setSaveAndCloseConfirmationModalOpen(true);
+  };
+
+  const closeSaveAndCloseConfirmationModal = () => {
+    setSaveAndCloseConfirmationModalOpen(false);
+  };
+
+  const handleSaveAndCloseConfirmationAndSubmit = () => {
+    closeSaveAndCloseConfirmationModal();
+    saveAndClose();
+  };
+  
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   
   const [errorMessage, setErrorMessage] = useState('');
@@ -953,7 +983,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                     <Grid item>
                       <Button
                         variant="contained"
-                        onClick={save}
+                        onClick={id !== 'nova' ? openSaveConfirmationModal : save}
                         startIcon={<Icon>save</Icon>}
                         style={{ marginRight: '10px' }} // Adiciona uma margem à esquerda
 
@@ -963,7 +993,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                       <Button
                         variant="outlined"
                         color="primary"
-                        onClick={saveAndClose} // Defina a função que deve ser chamada ao clicar neste botão
+                        onClick={id !== 'nova' ? openSaveAndCloseConfirmationModal : saveAndClose} // Defina a função que deve ser chamada ao clicar neste botão
                         startIcon={<Icon>save</Icon>}
                       >
                         Salvar e Fechar
@@ -1462,6 +1492,40 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
           Fechar
         </Button>
       </DialogActions>
+    </Dialog>
+
+    <Dialog open={isConfirmationSaveModalOpen} onClose={closeSaveConfirmationModal}>
+        <DialogTitle>Confirmação</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Tem certeza de que deseja continuar com esta ação?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeSaveConfirmationModal} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleSaveConfirmationAndSubmit} color="primary">
+            Continuar
+          </Button>
+        </DialogActions>
+    </Dialog>
+
+    <Dialog open={isSaveAndCloseConfirmationModalOpen} onClose={closeSaveAndCloseConfirmationModal}>
+        <DialogTitle>Confirmação</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Tem certeza de que deseja continuar com esta ação?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeSaveAndCloseConfirmationModal} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleSaveAndCloseConfirmationAndSubmit} color="primary">
+            Continuar
+          </Button>
+        </DialogActions>
     </Dialog>
 
     </LayoutBaseDePagina>
