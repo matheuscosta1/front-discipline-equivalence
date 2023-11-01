@@ -65,6 +65,23 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
     setIsSuccessModalOpen(false);
   };
 
+  const [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = useState(false);
+  const [id, setId] = useState(0); 
+
+  const openDeleteConfirmationModal = (id: number) => {
+    setDeleteConfirmationModalOpen(true);
+    setId(id);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setDeleteConfirmationModalOpen(false);
+  };
+
+  const handleDeleteConfirmation = () => {
+    closeDeleteConfirmationModal();
+    handleDelete(id);
+  };
+
   useEffect(() => {
     setIsLoading(true);
 
@@ -84,26 +101,24 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
   }, [busca, pagina]);
 
   const handleDelete = (id: number) => {
-    if (window.confirm('Realmente deseja apagar?')) {
-      AlocacaoAnalisesProfessoresService.deleteById(id)
+    AlocacaoAnalisesProfessoresService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
             if(result.message.includes('422')) {
               setErrorMessage('Não foi possível deletar a análise de equivalência.');
               setIsErrorModalOpen(true);
-            } else {
-              setSuccessMessage('Registro apagado com sucesso.');
-              setIsSuccessModalOpen(true); 
+            } else { 
               alert(result.message);
             }
           } else {
             setRows(oldRows => [
               ...oldRows.filter(oldRow => oldRow.id !== id),
             ]);
-            alert('Registro apagado com sucesso!');
+
+            setSuccessMessage('Registro apagado com sucesso!');
+            setIsSuccessModalOpen(true);
           }
         });
-    }
   };
 
   const filteredRows = rows.filter(row => {
@@ -191,7 +206,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
               return (
                 <TableRow key={row.id}>
                   <TableCell>
-                    <IconButton size="small" onClick={() => handleDelete(row.id)} disabled={row.status !== 'PENDENTE'}>
+                    <IconButton size="small" onClick={() => openDeleteConfirmationModal(row.id)} disabled={row.status !== 'PENDENTE'}>
                       <Icon>delete</Icon>
                     </IconButton>
                     <IconButton size="small" onClick={() => navigate(`/analises/detalhe/${row.id}`)} disabled={row.status !== 'PENDENTE'}>
@@ -240,9 +255,10 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
           </TableFooter>
         </Table>
       </TableContainer>
+      
       <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
         <DialogTitle>
-          Error
+          Erro!
         </DialogTitle>
         <DialogContent>
           <DialogContentText>{errorMessage}</DialogContentText>
@@ -256,7 +272,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
 
       <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
         <DialogTitle>
-        Cadastro realizado com sucesso!
+          Sucesso!
         </DialogTitle>
         <DialogContent>
           <DialogContentText>{successMessage}</DialogContentText>
@@ -267,6 +283,24 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog open={isDeleteConfirmationModalOpen} onClose={closeDeleteConfirmationModal}>
+          <DialogTitle>Confirmação</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Tem certeza de que deseja continuar com esta ação? Essa é uma ação irreversível.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeDeleteConfirmationModal} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleDeleteConfirmation} color="primary">
+              Continuar
+            </Button>
+          </DialogActions>
+      </Dialog>
+
     </LayoutBaseDePagina>
   );
 };

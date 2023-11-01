@@ -397,6 +397,4 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
     </Grid>
   </LayoutBaseDePagina>
 );
-
-  
 };

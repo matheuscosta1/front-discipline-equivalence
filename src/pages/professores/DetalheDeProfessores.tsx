@@ -774,7 +774,7 @@ export const DetalheDeProfessores: React.FC = () => {
 
       <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
         <DialogTitle>
-          Error
+          Erro!
         </DialogTitle>
         <DialogContent>
           <DialogContentText>{errorMessage}</DialogContentText>
@@ -788,7 +788,7 @@ export const DetalheDeProfessores: React.FC = () => {
 
       <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
         <DialogTitle>
-        Registro realizado!
+          Sucesso!
         </DialogTitle>
         <DialogContent>
           <DialogContentText>{successMessage}</DialogContentText>
