@@ -165,7 +165,7 @@ export const ListagemDeEquivalencias: React.FC = () => {
                   <TableCell>{row.justificativa}</TableCell>
                   <TableCell>{row.dataCriacao}</TableCell>
                   <TableCell>
-                    <span style={{ color: row.status === 'EQUIVALENTE' ? 'green' : "hsl(0, 100%, 60%)" }}>
+                  <span style={{ color: row.status === 'EQUIVALENTE' ? 'green' : row.status === 'MUDANÇA EMENTA' ? 'orange' : "hsl(0, 100%, 60%)"}}>
                       {row.status}
                     </span>
                   </TableCell>
