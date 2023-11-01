@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { IListagemProfessores, ProfessoresService, } from '../../shared/services/api/professores/ProfessoresService';
-import { CursosService, } from '../../shared/services/api/cursos/CursosService';
-import { FaculdadesService, } from '../../shared/services/api/faculdades/FaculdadesService';
 import { FerramentasDaListagem } from '../../shared/components';
 import { LayoutBaseDePagina } from '../../shared/layouts';
 import { useDebounce } from '../../shared/hooks';
@@ -29,6 +27,39 @@ export const ListagemDeProfessores: React.FC = () => {
     return Number(searchParams.get('pagina') || '0');
   }, [searchParams]);
 
+  const [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = useState(false);
+  const [id, setId] = useState(0); 
+
+  const openDeleteConfirmationModal = (id: number) => {
+    setDeleteConfirmationModalOpen(true);
+    setId(id);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setDeleteConfirmationModalOpen(false);
+  };
+
+  const handleDeleteConfirmation = () => {
+    closeDeleteConfirmationModal();
+    handleDelete(id);
+  };
+
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
+  };
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+  };
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -49,19 +80,23 @@ export const ListagemDeProfessores: React.FC = () => {
   }, [busca, pagina]);
 
   const handleDelete = (id: number) => {
-    if (window.confirm('Realmente deseja apagar?')) {
-      ProfessoresService.deleteById(id)
+    ProfessoresService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
-            alert(result.message);
+            if(result.message.includes('422')) {
+              setErrorMessage('Não foi possível deletar a análise de equivalência.');
+              setIsErrorModalOpen(true);
+            } else { 
+              alert(result.message);
+            }
           } else {
             setRows(oldRows => [
               ...oldRows.filter(oldRow => oldRow.id !== id),
             ]);
-            alert('Registro apagado com sucesso!');
+            setSuccessMessage('Registro apagado com sucesso!');
+            setIsSuccessModalOpen(true);
           }
-        });
-    }
+    });
   };
 
   return (
@@ -93,7 +128,7 @@ export const ListagemDeProfessores: React.FC = () => {
             {rows.map(row => (
               <TableRow key={row.id}>
                 <TableCell>
-                  <IconButton size="small" onClick={() => handleDelete(row.id)}>
+                  <IconButton size="small" onClick={() => openDeleteConfirmationModal(row.id)} >
                     <Icon>delete</Icon>
                   </IconButton>
                   <IconButton size="small" onClick={() => navigate(`/professores/detalhe/${row.id}`)}>
@@ -133,7 +168,54 @@ export const ListagemDeProfessores: React.FC = () => {
             )}
           </TableFooter>
         </Table>
+        
       </TableContainer>
+
+      <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
+        <DialogTitle>
+          Erro!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{errorMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeErrorModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
+        <DialogTitle>
+          Sucesso!
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{successMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeSuccessModal} color="primary" autoFocus>
+            Fechar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={isDeleteConfirmationModalOpen} onClose={closeDeleteConfirmationModal}>
+          <DialogTitle>Confirmação</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Tem certeza de que deseja continuar com esta ação? Essa é uma ação irreversível.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeDeleteConfirmationModal} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleDeleteConfirmation} color="primary">
+              Continuar
+            </Button>
+          </DialogActions>
+      </Dialog>
+      
     </LayoutBaseDePagina>
   );
 };

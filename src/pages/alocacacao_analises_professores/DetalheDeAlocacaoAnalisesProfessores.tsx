@@ -1454,7 +1454,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
       
     <Dialog open={isErrorModalOpen} onClose={closeErrorModal}>
       <DialogTitle>
-        Error
+        Erro!
       </DialogTitle>
       <DialogContent>
         <DialogContentText>{errorMessage}</DialogContentText>
@@ -1468,7 +1468,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
     <Dialog open={isSuccessModalOpen} onClose={closeSuccessModal}>
       <DialogTitle>
-      Cadastro realizado com sucesso!
+        Sucesso!
       </DialogTitle>
       <DialogContent>
         <DialogContentText>{successMessage}</DialogContentText>
@@ -1482,7 +1482,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
     <Dialog open={isUpdateSuccessModalOpen} onClose={closeUpdateSuccessModal}>
       <DialogTitle>
-      Registro atualizado com sucesso!
+        Registro atualizado com sucesso!
       </DialogTitle>
       <DialogContent>
         <DialogContentText>{successMessage}</DialogContentText>
