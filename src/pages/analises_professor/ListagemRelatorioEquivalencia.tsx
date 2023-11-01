@@ -379,21 +379,21 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
       </Dialog>
 
       <Dialog open={isConfirmationModalOpen} onClose={closeConfirmationModal}>
-      <DialogTitle>Confirmação</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Tem certeza de que deseja continuar com esta ação?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={closeConfirmationModal} color="primary">
-          Cancelar
-        </Button>
-        <Button onClick={handleConfirmationAndSubmit} color="primary">
-          Continuar
-        </Button>
-      </DialogActions>
-    </Dialog>
+        <DialogTitle>Confirmação</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Tem certeza de que deseja continuar com esta ação?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeConfirmationModal} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirmationAndSubmit} color="primary">
+            Continuar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   </LayoutBaseDePagina>
 );
