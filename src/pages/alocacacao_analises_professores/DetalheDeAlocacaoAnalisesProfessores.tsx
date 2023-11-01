@@ -687,7 +687,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
               if (result instanceof Error) {
                 if(result.message.includes('422')) {
-                  setErrorMessage('Análise de equivalência já foi registrada.');
+                  setErrorMessage('Análise de equivalência já foi registrada.\nConfira na seção Equivalências se ela já foi analizada.');
                   setIsErrorModalOpen(true);
                 } else {
                   alert(result.message);
