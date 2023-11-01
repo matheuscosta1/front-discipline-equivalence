@@ -422,8 +422,9 @@ export const DetalheDeProfessores: React.FC = () => {
       titulo={id === 'nova' ? 'Novo professor' : nome}
       barraDeFerramentas={
         <FerramentasDeDetalhe
-          textoBotaoNovo='Nova'
-          mostrarBotaoSalvarEFechar
+          textoBotaoNovo='Novo'
+          mostrarBotaoSalvarEFechar={false}
+          mostrarBotaoSalvar={false}
           mostrarBotaoNovo={id !== 'nova'}
           mostrarBotaoApagar={id !== 'nova'}
 
@@ -522,14 +523,24 @@ export const DetalheDeProfessores: React.FC = () => {
                     </Grid>
                   </Grid>
 
-                  <Grid container justifyContent="space-between" padding={2}>
+                  <Grid container justifyContent="flex" padding={2}>
                     <Grid item>
                       <Button
                         variant="contained"
                         onClick={save}
                         startIcon={<Icon>save</Icon>}
+                        style={{ marginRight: '10px' }} // Adiciona uma margem à esquerda
+
                       >
                         Salvar
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={saveAndClose} // Defina a função que deve ser chamada ao clicar neste botão
+                        startIcon={<Icon>save</Icon>}
+                      >
+                        Salvar e Fechar
                       </Button>
                     </Grid>
                   </Grid>
@@ -559,6 +570,7 @@ export const DetalheDeProfessores: React.FC = () => {
                 color="primary"
                 style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
                 onClick={handleSaveFaculdade}
+                startIcon={<Icon>save</Icon>}
               >
                 Salvar
               </Button>
@@ -612,6 +624,7 @@ export const DetalheDeProfessores: React.FC = () => {
                   color="primary"
                   style={{ marginTop: "10px", marginLeft: "20px", marginRight: "20px" }}
                   type="submit"
+                  startIcon={<Icon>save</Icon>}
                 >
                   Salvar
                 </Button>
@@ -709,6 +722,7 @@ export const DetalheDeProfessores: React.FC = () => {
                   color="primary"
                   style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
                   type="submit"
+                  startIcon={<Icon>save</Icon>}
                 >
                   Salvar
                 </Button>
