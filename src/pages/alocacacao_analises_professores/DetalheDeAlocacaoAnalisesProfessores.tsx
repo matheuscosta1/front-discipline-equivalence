@@ -794,7 +794,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                   )}
 
                   <Grid item>
-                    <Typography variant='h6'>Geral</Typography>
+                    <Typography variant='h6'>Análise de equivalência</Typography>
                   </Grid>
 
                   <Grid container item direction="row" spacing={2}>
