@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Backdrop, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, LinearProgress, Paper, TextField, Typography } from '@mui/material';
+import { Backdrop, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Icon, LinearProgress, Paper, TextField, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -244,8 +244,9 @@ export const DetalheDeCursos: React.FC = () => {
       titulo={id === 'nova' ? 'Novo curso' : nome}
       barraDeFerramentas={
         <FerramentasDeDetalhe
-          textoBotaoNovo='Nova'
-          mostrarBotaoSalvarEFechar
+          textoBotaoNovo='Novo'
+          mostrarBotaoSalvar={false}
+          mostrarBotaoSalvarEFechar={false}
           mostrarBotaoNovo={id !== 'nova'}
           mostrarBotaoApagar={false}
 
@@ -297,6 +298,27 @@ export const DetalheDeCursos: React.FC = () => {
                     </div>
                   </Grid>
                 </Grid>
+                <Grid container justifyContent="flex" padding={2}>
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        onClick={save}
+                        startIcon={<Icon>save</Icon>}
+                        style={{ marginRight: '10px' }} // Adiciona uma margem à esquerda
+
+                      >
+                        Salvar
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={saveAndClose} // Defina a função que deve ser chamada ao clicar neste botão
+                        startIcon={<Icon>save</Icon>}
+                      >
+                        Salvar e Fechar
+                      </Button>
+                    </Grid>
+                  </Grid>
               </Grid>
             </Box>
           </VForm>
@@ -320,6 +342,7 @@ export const DetalheDeCursos: React.FC = () => {
               color="primary"
               style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
               onClick={handleSaveFaculdade}
+              startIcon={<Icon>save</Icon>}
             >
               Salvar
             </Button>

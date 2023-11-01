@@ -340,7 +340,8 @@ export const DetalheDeDisciplinas: React.FC = () => {
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo='Nova'
-          mostrarBotaoSalvarEFechar
+          mostrarBotaoSalvarEFechar={false}
+          mostrarBotaoSalvar={false}
           mostrarBotaoNovo={id !== 'nova'}
           mostrarBotaoApagar={false}
 
@@ -464,17 +465,27 @@ export const DetalheDeDisciplinas: React.FC = () => {
                   </Grid>
                 </Grid>
 
-                <Grid container justifyContent="space-between" padding={2}>
-                  <Grid item>
-                    <Button
-                      variant="contained"
-                      onClick={save}
-                      startIcon={<Icon>save</Icon>}
-                    >
-                      Salvar
-                    </Button>
+                <Grid container justifyContent="flex" padding={2}>
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        onClick={save}
+                        startIcon={<Icon>save</Icon>}
+                        style={{ marginRight: '10px' }} 
+
+                      >
+                        Salvar
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={saveAndClose} 
+                        startIcon={<Icon>save</Icon>}
+                      >
+                        Salvar e Fechar
+                      </Button>
+                    </Grid>
                   </Grid>
-                </Grid>
 
               </Grid>
             </Box>
@@ -499,6 +510,7 @@ export const DetalheDeDisciplinas: React.FC = () => {
                 color="primary"
                 style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
                 onClick={handleSaveFaculdade}
+                startIcon={<Icon>save</Icon>}
               >
                 Salvar
               </Button>
@@ -552,6 +564,7 @@ export const DetalheDeDisciplinas: React.FC = () => {
                   color="primary"
                   style={{ marginTop: "10px", marginLeft: "20px", marginRight: "20px" }}
                   type="submit"
+                  startIcon={<Icon>save</Icon>}
                 >
                   Salvar
                 </Button>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, LinearProgress, Paper, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Icon, LinearProgress, Paper, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -160,7 +160,8 @@ export const DetalheDeFaculdades: React.FC = () => {
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo='Nova'
-          mostrarBotaoSalvarEFechar
+          mostrarBotaoSalvarEFechar={false}
+          mostrarBotaoSalvar={false}
           mostrarBotaoNovo={id !== 'nova'}
           mostrarBotaoApagar={false}
 
@@ -201,6 +202,28 @@ export const DetalheDeFaculdades: React.FC = () => {
                     />
                   </Grid>
                 </Grid>
+
+                <Grid container justifyContent="flex" padding={2}>
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        onClick={save}
+                        startIcon={<Icon>save</Icon>}
+                        style={{ marginRight: '10px' }} // Adiciona uma margem à esquerda
+
+                      >
+                        Salvar
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={saveAndClose} // Defina a função que deve ser chamada ao clicar neste botão
+                        startIcon={<Icon>save</Icon>}
+                      >
+                        Salvar e Fechar
+                      </Button>
+                    </Grid>
+                  </Grid>
 
               </Grid>
 

@@ -767,7 +767,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
       barraDeFerramentas={
         <FerramentasDeDetalhe
           textoBotaoNovo='Nova'
-          mostrarBotaoSalvarEFechar
+          mostrarBotaoSalvarEFechar={false}
+          mostrarBotaoSalvar={false}
           mostrarBotaoNovo={id !== 'nova'}
           mostrarBotaoApagar={id !== 'nova'}
 
@@ -947,19 +948,27 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                         placeholder='Exemplo: 14/05/1999'
                       />
                     </Grid>
+                  </Grid>
+                  <Grid container justifyContent="flex" padding={2}>
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        onClick={save}
+                        startIcon={<Icon>save</Icon>}
+                        style={{ marginRight: '10px' }} // Adiciona uma margem à esquerda
 
-                    <Grid container justifyContent="space-between" padding={2}>
-                      <Grid item>
-                        <Button
-                          variant="contained"
-                          onClick={save}
-                          startIcon={<Icon>save</Icon>}
-                        >
-                          Salvar
-                        </Button>
-                      </Grid>
+                      >
+                        Salvar
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={saveAndClose} // Defina a função que deve ser chamada ao clicar neste botão
+                        startIcon={<Icon>save</Icon>}
+                      >
+                        Salvar e Fechar
+                      </Button>
                     </Grid>
-
                   </Grid>
                 </Grid>
               </Box>
@@ -984,6 +993,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 color="primary"
                 style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
                 onClick={handleSaveFaculdadeOrigem}
+                startIcon={<Icon>save</Icon>}
               >
                 Salvar
               </Button>
@@ -1023,6 +1033,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 color="primary"
                 style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
                 onClick={handleSaveFaculdadeDestino}
+                startIcon={<Icon>save</Icon>}
               >
                 Salvar
               </Button>
@@ -1076,6 +1087,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                   color="primary"
                   style={{ marginTop: "10px", marginLeft: "20px", marginRight: "20px" }}
                   type="submit"
+                  startIcon={<Icon>save</Icon>}
                 >
                   Salvar
                 </Button>
@@ -1126,6 +1138,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                   color="primary"
                   style={{ marginTop: "10px", marginLeft: "20px", marginRight: "20px" }}
                   type="submit"
+                  startIcon={<Icon>save</Icon>}
                 >
                   Salvar
                 </Button>
@@ -1223,6 +1236,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                   color="primary"
                   style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
                   type="submit"
+                  startIcon={<Icon>save</Icon>}
                 >
                   Salvar
                 </Button>
@@ -1320,6 +1334,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                   color="primary"
                   style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
                   type="submit"
+                  startIcon={<Icon>save</Icon>}
                 >
                   Salvar
                 </Button>
@@ -1386,6 +1401,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                   color="primary"
                   style={{ marginTop: '10px', marginLeft: '20px', marginRight: '20px' }}
                   type="submit"
+                  startIcon={<Icon>save</Icon>}
                 >
                   Salvar
                 </Button>
