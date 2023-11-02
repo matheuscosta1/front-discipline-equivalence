@@ -12,7 +12,7 @@ type TAutoCompleteOption = {
 
 interface IAutoCompleteCursoProps {
   faculdadeId?: number | undefined;
-  onCursoIdChange?: (cursoId: number | undefined) => void; // Adicione este prop
+  onCursoIdChange?: (cursoId: number | undefined) => void; 
   isExternalLoading?: boolean;
   autoCompleteValue?: TAutoCompleteOption | null;
 }
@@ -31,7 +31,7 @@ export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [busca, setBusca] = useState('');
 
-  onCursoIdChange?.(selectedId); // Chame a função de callback, se estiver definida
+  onCursoIdChange?.(selectedId); 
 
   useEffect(() => {
     registerField({
@@ -50,7 +50,7 @@ export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({
           setIsLoading(false);
 
           if (result instanceof Error) {
-            // Trate o erro aqui
+            
           } else {
             
             setOpcoes(result.content.map(curso => ({ id: curso.id, label: curso.nome })));

@@ -14,7 +14,7 @@ interface IAutoCompleteCursoProps {
   faculdadeId?: number | undefined;
   cursoId?: number | undefined;
   isExternalLoading?: boolean;
-  onDiscipinaDestinoIdChange?: (disciplinaDestinoId: number | undefined) => void; // Adicione este prop
+  onDiscipinaDestinoIdChange?: (disciplinaDestinoId: number | undefined) => void; 
   disableField?: boolean;
   autoCompleteValue?: TAutoCompleteOption | null;
 }
@@ -35,7 +35,7 @@ export const AutoCompleteDisciplinaDestino: React.FC<IAutoCompleteCursoProps> = 
   const [isLoading, setIsLoading] = useState(false);
   const [busca, setBusca] = useState('');
 
-  onDiscipinaDestinoIdChange?.(selectedId); // Chame a função de callback, se estiver definida
+  onDiscipinaDestinoIdChange?.(selectedId); 
 
   useEffect(() => {
     registerField({
@@ -50,13 +50,13 @@ export const AutoCompleteDisciplinaDestino: React.FC<IAutoCompleteCursoProps> = 
     setIsLoading(true);
 
     debounce(() => {
-      // Utilize faculdadeId diretamente na chamada da API
+      
       DisciplinasService.getAllDisciplinesByFaculdadeIdAndCursoId(0, busca, faculdadeId, cursoId)
         .then((result) => {
           setIsLoading(false);
 
           if (result instanceof Error) {
-            // Trate o erro aqui
+            
           } else {
             setOpcoes(result.content.map(curso => ({ id: curso.id, label: curso.nome })));
           }

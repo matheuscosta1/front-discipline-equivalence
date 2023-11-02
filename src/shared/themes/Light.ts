@@ -15,8 +15,8 @@ export const LightTheme = createTheme({
       contrastText: '#f8bbd0',
     },
     background: {
-      paper: '#E0E0E0',  // Cinza suave para a cor de fundo do papel
-      default: '#E0E0E0',  // Cinza suave para a cor de fundo padrão
+      paper: '#E0E0E0',  
+      default: '#E0E0E0',  
     }
   }
 });

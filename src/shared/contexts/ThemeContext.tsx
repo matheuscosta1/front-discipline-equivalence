@@ -16,13 +16,13 @@ export const useAppThemeContext = () => {
 };
 
 export const AppThemeProvider: React.FC = ({ children }) => {
-  // Verifica se há um tema armazenado no localStorage ao carregar a página
+  
   const storedTheme = localStorage.getItem('theme');
   const [themeName, setThemeName] = useState<'light' | 'dark'>(() => {
     if (storedTheme === 'light' || storedTheme === 'dark') {
       return storedTheme;
     } else {
-      return 'light'; // Ou o valor padrão que você preferir
+      return 'light'; 
     }
   });
 
@@ -35,7 +35,7 @@ export const AppThemeProvider: React.FC = ({ children }) => {
     return DarkTheme;
   }, [themeName]);
 
-  // Salva o tema no localStorage ao alterá-lo
+  
   useEffect(() => {
     localStorage.setItem('theme', themeName);
   }, [themeName]);

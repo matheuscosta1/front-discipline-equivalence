@@ -46,7 +46,7 @@ export const AutoCompleteCurso: React.FC<IAutoCompleteCursoProps> = ({
           setIsLoading(false);
 
           if (result instanceof Error) {
-            // Trate o erro aqui
+            
           } else {
             
             setOpcoes(result.content.map(curso => ({ id: curso.id, label: curso.nome })));

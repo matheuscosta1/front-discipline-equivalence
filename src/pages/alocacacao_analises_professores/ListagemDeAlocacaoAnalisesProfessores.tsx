@@ -21,7 +21,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
   const [rows, setRows] = useState<IListagemAlocacaoAnalisesProfessores[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
-  const [filtroStatus, setFiltroStatus] = useState('todos'); // Pode ser 'todos', 'pendente' ou 'analisado'
+  const [filtroStatus, setFiltroStatus] = useState('todos'); 
 
   const busca = useMemo(() => {
     return searchParams.get('busca') || '';
@@ -34,10 +34,10 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
   const [sortOrder, setSortOrder] = useState('asc');
 
   const handleSortClick = () => {
-    // Alterna a ordem de classificação ao clicar no botão de ordenação
+    
     const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
   
-    // Ordene os dados com base no novo sortOrder
+    
     const sortedRows = [...filteredRows];
     if (newSortOrder === 'asc') {
       sortedRows.sort((a, b) => (a.status > b.status ? 1 : -1));

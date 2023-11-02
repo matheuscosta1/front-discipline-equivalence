@@ -12,10 +12,10 @@ type TAutoCompleteOption = {
 }
 
 interface IAutoCompleteFaculdadeProps {
-  onFaculdadeOrigemIdChange?: (faculdadeOrigemId: number | undefined) => void; // Adicione este prop
+  onFaculdadeOrigemIdChange?: (faculdadeOrigemId: number | undefined) => void; 
   isExternalLoading?: boolean;
   disableField?: boolean;
-  autoCompleteValue?: TAutoCompleteOption | null; // Alterado para aceitar null
+  autoCompleteValue?: TAutoCompleteOption | null; 
 }
 export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> = ({ isExternalLoading = false, onFaculdadeOrigemIdChange, disableField = false, autoCompleteValue = null }) => {
   const { fieldName, registerField, defaultValue, error, clearError } = useField('faculdadeOrigemId');
@@ -47,7 +47,7 @@ export const AutoCompleteFaculdadeOrigem: React.FC<IAutoCompleteFaculdadeProps> 
           setIsLoading(false);
 
           if (result instanceof Error) {
-            // alert(result.message);
+            
           } else {
             setOpcoes(result.content.map(faculdade => ({ id: faculdade.id, label: faculdade.nome })));
           }

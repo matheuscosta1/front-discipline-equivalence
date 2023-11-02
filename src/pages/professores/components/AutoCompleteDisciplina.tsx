@@ -49,7 +49,7 @@ export const AutoCompleteDisciplina: React.FC<IAutoCompleteCursoProps> = ({
           setIsLoading(false);
 
           if (result instanceof Error) {
-            // Trate o erro aqui
+            
           } else {
             
             setOpcoes(result.content.map(disciplina => ({ id: disciplina.id, label: disciplina.nome })));
