@@ -420,8 +420,7 @@ export const DetalheDeProfessores: React.FC = () => {
   };
 
   const handleDelete = (id: number) => {
-    if (window.confirm('Realmente deseja apagar?')) {
-      ProfessoresService.deleteById(id)
+    ProfessoresService.deleteById(id)
         .then(result => {
           if (result instanceof Error) {
             if(result.message.includes('422')) {
@@ -436,16 +435,23 @@ export const DetalheDeProfessores: React.FC = () => {
             navigate('/professores');
           }
         });
-    }
   };
 
-  const centerFormStyles = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '500%',
+  const [isDeleteConfirmationModalOpen, setDeleteConfirmationModalOpen] = useState(false);
+
+  const openDeleteConfirmationModal = () => {
+    setDeleteConfirmationModalOpen(true);
   };
+
+  const closeDeleteConfirmationModal = () => {
+    setDeleteConfirmationModalOpen(false);
+  };
+
+  const handleDeleteConfirmation = () => {
+    closeDeleteConfirmationModal();
+    handleDelete(Number(id));
+  };
+
 
   return (
     <LayoutBaseDePagina
@@ -461,7 +467,7 @@ export const DetalheDeProfessores: React.FC = () => {
           aoClicarEmSalvar={save}
           aoClicarEmSalvarEFechar={saveAndClose}
           aoClicarEmVoltar={() => navigate('/professores')}
-          aoClicarEmApagar={() => handleDelete(Number(id))}
+          aoClicarEmApagar={() => openDeleteConfirmationModal()}
           aoClicarEmNovo={() => navigate('/professores/detalhe/nova')}
         />
       }
@@ -843,6 +849,23 @@ export const DetalheDeProfessores: React.FC = () => {
               Cancelar
             </Button>
             <Button onClick={handleSaveAndCloseConfirmationAndSubmit} color="primary">
+              Continuar
+            </Button>
+          </DialogActions>
+      </Dialog>
+
+      <Dialog open={isDeleteConfirmationModalOpen} onClose={closeDeleteConfirmationModal}>
+          <DialogTitle>Confirmação</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Tem certeza de que deseja continuar com esta ação? Essa é uma ação irreversível.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeDeleteConfirmationModal} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleDeleteConfirmation} color="primary">
               Continuar
             </Button>
           </DialogActions>
