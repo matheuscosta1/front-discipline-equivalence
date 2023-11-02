@@ -101,7 +101,7 @@ export const ListagemDeEquivalencias: React.FC = () => {
         titulo='Equivalências'
         barraDeFerramentas={
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ flex: 1, marginLeft: '8px' }}> {/* Barra de pesquisa ocupa boa parte da tela */}
+            <div style={{ flex: 1, marginLeft: '0px' }}> 
               <FerramentasDaListagem
                 mostrarInputBusca
                 textoDaBusca={busca}
@@ -110,7 +110,7 @@ export const ListagemDeEquivalencias: React.FC = () => {
                 inputBusca="Pesquisar por código..."
               />
             </div>
-            <div style={{ marginRight: '8px' }}> {/* Filtro de seleção à direita */}
+            <div style={{ marginRight: '8px' }}> 
               <Select
                 value={filtroEquivalente}
                 onChange={(event) => setFiltroEquivalente(event.target.value as string)}

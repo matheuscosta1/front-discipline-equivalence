@@ -111,7 +111,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
       titulo='Histórico de análises de equivalência'
       barraDeFerramentas={
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ flex: 1, marginLeft: '8px' }}> {/* Barra de pesquisa ocupa boa parte da tela */}
+          <div style={{ flex: 1, marginLeft: '0px' }}> 
             <FerramentasDaListagem
               mostrarInputBusca
               textoDaBusca={busca}
@@ -122,7 +122,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
               inputBusca="Pesquisar por código..."
             />
           </div>
-          <div style={{ marginRight: '8px' }}> {/* Filtro de seleção no lado direito */}
+          <div style={{ marginRight: '8px' }}> 
             <Select
               value={filtroStatus}
               onChange={(event) => setFiltroStatus(event.target.value as string)}
@@ -177,7 +177,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
                     if (row.status === 'PENDENTE') {
                       navigate(`/analises-professor/detalhe/${row.id}`);
                     } else {
-                      return; // Não faz nada se a condição não for atendida
+                      return; 
                     }
                   }}
                 >
