@@ -152,8 +152,8 @@ export const DetalheDeDisciplinas: React.FC = () => {
   };
 
   const handleSaveFaculdade = () => {
-    // Lógica para salvar a nova faculdade aqui
-    // Após salvar, atualize o campo "Faculdade" e feche a modal
+    
+    
 
     const detalhe: IDetalheFaculdade = {
       id: Number(id),
@@ -509,7 +509,7 @@ export const DetalheDeDisciplinas: React.FC = () => {
                       <Button
                         variant="outlined"
                         color="primary"
-                        onClick={id !== 'nova' ? openSaveAndCloseConfirmationModal : saveAndClose} // Defina a função que deve ser chamada ao clicar neste botão
+                        onClick={id !== 'nova' ? openSaveAndCloseConfirmationModal : saveAndClose} 
                         startIcon={<Icon>save</Icon>}
                       >
                         Salvar e Fechar

@@ -57,17 +57,17 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
 interface DecodedToken {
   sub: string;
   exp: number;
-  roles: string[]; // Adicione a propriedade 'roles' com o tipo apropriado
+  roles: string[]; 
 }
 
 function getEmailDoUsuarioLogado() {
-  // Obtenha o token JWT armazenado no localStorage
+  
   const token = localStorage.getItem('APP_ACCESS_TOKEN');
 
-  // Verifique se o token existe
+  
   if (token) {
     try {
-      // Decodifique o token JWT e atribua o tipo DecodedToken ao resultado
+      
       const decodedToken: DecodedToken = jwt_decode(token);
 
       return decodedToken.sub;
@@ -76,7 +76,7 @@ function getEmailDoUsuarioLogado() {
     }
   }
 
-  // Se não houver token ou a role 'ROLE_PROFESSOR' não estiver presente, retorne null ou outra indicação apropriada
+  
   return '';
 }
 
@@ -978,11 +978,11 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                         disabled={isLoading}
                         onInput={e => {
                           const input = e.target as HTMLInputElement;
-                          const value = input.value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+                          const value = input.value.replace(/\D/g, ''); 
                           if (value.length <= 8) {
                             const formattedValue = value
-                              .slice(0, 8) // Limita a entrada a 8 caracteres (DDMMAAAA)
-                              .replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3'); // Adiciona barras automaticamente
+                              .slice(0, 8) 
+                              .replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3'); 
                             input.value = formattedValue;
                             setDataMaxima(formattedValue);
                           }
@@ -997,7 +997,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                         variant="contained"
                         onClick={id !== 'nova' ? openSaveConfirmationModal : save}
                         startIcon={<Icon>save</Icon>}
-                        style={{ marginRight: '10px' }} // Adiciona uma margem à esquerda
+                        style={{ marginRight: '10px' }} 
 
                       >
                         Salvar
@@ -1005,7 +1005,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                       <Button
                         variant="outlined"
                         color="primary"
-                        onClick={id !== 'nova' ? openSaveAndCloseConfirmationModal : saveAndClose} // Defina a função que deve ser chamada ao clicar neste botão
+                        onClick={id !== 'nova' ? openSaveAndCloseConfirmationModal : saveAndClose} 
                         startIcon={<Icon>save</Icon>}
                       >
                         Salvar e Fechar

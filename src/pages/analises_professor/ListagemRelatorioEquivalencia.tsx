@@ -125,7 +125,7 @@ export const ListagemRelatorioEquivalencia: React.FC = () => {
                 idDisciplinaDestino: disciplinaDestinoId,
               };
   
-              // Mova a chamada para RegistroEquivalenciaService.create para dentro deste bloco
+              
               RelatorioEquivalenciaService.create(detalhe)
                 .then((result) => {
                   setIsLoading(false);

@@ -44,7 +44,7 @@ export const AutoCompleteProfessorPorDisciplinaDestino: React.FC<IAutoCompletePr
           setIsLoading(false);
 
           if (result instanceof Error) {
-            // alert(result.message);
+            
           } else {
             setOpcoes(result.content.map(professor => ({ id: professor.id, label: professor.nome })));
           }

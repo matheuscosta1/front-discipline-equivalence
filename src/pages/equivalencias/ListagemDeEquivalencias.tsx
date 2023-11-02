@@ -27,11 +27,11 @@ export const ListagemDeEquivalencias: React.FC = () => {
     return Number(searchParams.get('pagina') || '0');
   }, [searchParams]);
 
-  const [filtroEquivalente, setFiltroEquivalente] = useState('todos'); // Pode ser 'todos', 'equivalente' ou 'nao_equivalente'
+  const [filtroEquivalente, setFiltroEquivalente] = useState('todos'); 
 
   const filtrarEquivalencias = (status: string) => {
     if (filtroEquivalente === 'todos') {
-      return true; // Mostrar todos os registros
+      return true; 
     } else if (filtroEquivalente === 'equivalente') {
       return status === 'EQUIVALENTE';
     } else if (filtroEquivalente === 'nao_equivalente') {
@@ -86,9 +86,9 @@ export const ListagemDeEquivalencias: React.FC = () => {
         return 0;
       }
       if (newSortOrder === 'asc') {
-        return a.equivalente ? -1 : 1; // 1 significa "Não Equivalente", -1 significa "Equivalente"
+        return a.equivalente ? -1 : 1; 
       } else {
-        return a.equivalente ? 1 : -1; // -1 significa "Equivalente", 1 significa "Não Equivalente"
+        return a.equivalente ? 1 : -1; 
       }
     });
   

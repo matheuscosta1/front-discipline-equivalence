@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ToastContainer } from 'react-toastify'; // Importe o ToastContainer
+import { ToastContainer } from 'react-toastify'; 
 
 import { App } from './App';
 

@@ -12,7 +12,7 @@ type TAutoCompleteOption = {
 }
 
 interface IAutoCompleteFaculdadeProps {
-  onFaculdadeIdChange?: (faculdadeId: number | undefined) => void; // Adicione este prop
+  onFaculdadeIdChange?: (faculdadeId: number | undefined) => void; 
   isExternalLoading?: boolean;
   disableField?: boolean;
   autoCompleteValue?: TAutoCompleteOption | null;
@@ -36,7 +36,7 @@ export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps>
   }, [autoCompleteValue, fieldName, registerField, selectedId]);
 
 
-  onFaculdadeIdChange?.(selectedId); // Chame a função de callback, se estiver definida
+  onFaculdadeIdChange?.(selectedId); 
 
   useEffect(() => {
     setIsLoading(true);
@@ -47,7 +47,7 @@ export const AutoCompleteFaculdadeDestino: React.FC<IAutoCompleteFaculdadeProps>
           setIsLoading(false);
 
           if (result instanceof Error) {
-            // alert(result.message);
+            
           } else {
             setOpcoes(result.content.map(faculdade => ({ id: faculdade.id, label: faculdade.nome })));
           }

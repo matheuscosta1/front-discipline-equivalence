@@ -41,7 +41,7 @@ export const AutoCompleteFaculdade: React.FC<IAutoCompleteFaculdadeProps> = ({ i
           setIsLoading(false);
 
           if (result instanceof Error) {
-            // alert(result.message);
+            
           } else {
             
             setOpcoes(result.content.map(faculdade => ({ id: faculdade.id, label: faculdade.nome })));

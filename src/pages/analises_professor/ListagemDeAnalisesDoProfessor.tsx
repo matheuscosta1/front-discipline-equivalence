@@ -14,17 +14,17 @@ const dataAtual = new Date();
 interface DecodedToken {
   sub: string;
   exp: number;
-  roles: string[]; // Adicione a propriedade 'roles' com o tipo apropriado
+  roles: string[]; 
 }
 
 function getEmailDoUsuarioLogado() {
-  // Obtenha o token JWT armazenado no localStorage
+  
   const token = localStorage.getItem('APP_ACCESS_TOKEN');
 
-  // Verifique se o token existe
+  
   if (token) {
     try {
-      // Decodifique o token JWT e atribua o tipo DecodedToken ao resultado
+      
       const decodedToken: DecodedToken = jwt_decode(token);
 
       return decodedToken.sub;
@@ -33,7 +33,7 @@ function getEmailDoUsuarioLogado() {
     }
   }
 
-  // Se não houver token ou a role 'ROLE_PROFESSOR' não estiver presente, retorne null ou outra indicação apropriada
+  
   return '';
 }
 
@@ -47,7 +47,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
   const [rows, setRows] = useState<IListagemAlocacaoAnalisesProfessores[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
-  const [filtroStatus, setFiltroStatus] = useState('todos'); // Pode ser 'todos', 'pendente' ou 'analisado'
+  const [filtroStatus, setFiltroStatus] = useState('todos'); 
 
 
   const busca = useMemo(() => {
@@ -188,7 +188,7 @@ export const ListagemDeAnalisesDoProfessor: React.FC = () => {
                           if (row.status === 'PENDENTE') {
                             navigate(`/analises-professor/detalhe/${row.id}`);
                           } else {
-                            return; // Não faz nada se a condição não for atendida
+                            return; 
                           }
                         }}
                         disabled={row.status !== 'PENDENTE'}

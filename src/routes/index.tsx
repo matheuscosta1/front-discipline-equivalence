@@ -130,24 +130,24 @@ export const AppRoutes = () => {
 interface DecodedToken {
   sub: string;
   exp: number;
-  roles: string[]; // Adicione a propriedade 'roles' com o tipo apropriado
+  roles: string[]; 
 }
 
 function verifyIsProfessorRole() {
-  // Obtenha o token JWT armazenado no localStorage
+  
   const token = localStorage.getItem('APP_ACCESS_TOKEN');
 
-  // Verifique se o token existe
+  
   if (token) {
     try {
-      // Decodifique o token JWT e atribua o tipo DecodedToken ao resultado
+      
       const decodedToken: DecodedToken = jwt_decode(token);
 
-      // Verifique se o token tem a propriedade 'roles' no payload
+      
       if (decodedToken.roles && Array.isArray(decodedToken.roles)) {
-        // Verifique se a role 'ROLE_PROFESSOR' está presente no array de roles
+        
         if (decodedToken.roles.includes('ROLE_PROFESSOR')) {
-          // O usuário possui a role 'ROLE_PROFESSOR'
+          
           return 'ROLE_PROFESSOR';
         }
       }
@@ -156,7 +156,7 @@ function verifyIsProfessorRole() {
     }
   }
 
-  // Se não houver token ou a role 'ROLE_PROFESSOR' não estiver presente, retorne null ou outra indicação apropriada
+  
   return null;
 }
 
