@@ -140,7 +140,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
       titulo='Análises de equivalência'
       barraDeFerramentas={
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ flex: 1, marginLeft: '8px' }}> {/* Barra de pesquisa ocupa boa parte da tela */}
+          <div style={{ flex: 1, marginLeft: '0px' }}> 
             <FerramentasDaListagem
               mostrarInputBusca
               textoDaBusca={busca}
