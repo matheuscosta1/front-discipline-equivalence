@@ -102,7 +102,7 @@ export const ListagemDeAnalisesPendentesDoProfessor: React.FC = () => {
       titulo='Análises de equivalência pendentes'
       barraDeFerramentas={
         <FerramentasDaListagem
-              mostrarInputBusca
+              mostrarInputBusca={false}
               textoDaBusca={busca}
               textoBotaoNovo='Nova'
               mostrarBotaoNovo={false}

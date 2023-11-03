@@ -134,7 +134,7 @@ export const ListagemDeAlocacaoAnalisesProfessoresPendente: React.FC = () => {
               textoBotaoNovo='Nova'
               aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
               aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
-              inputBusca="Pesquisar por código..."
+              inputBusca="Pesquisar por professor..."
             />
       }
     >

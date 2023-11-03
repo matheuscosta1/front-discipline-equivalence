@@ -147,7 +147,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
               textoBotaoNovo='Nova'
               aoClicarEmNovo={() => navigate('/analises/detalhe/nova')}
               aoMudarTextoDeBusca={texto => setSearchParams({ busca: texto, pagina: '0' }, { replace: true })}
-              inputBusca="Pesquisar por código..."
+              inputBusca="Pesquisar por professor..."
             />
           </div>
           <div style={{ marginRight: '8px' }}> {/* Filtro de seleção no lado direito */}
@@ -160,7 +160,7 @@ export const ListagemDeAlocacaoAnalisesProfessores: React.FC = () => {
               <MenuItem value="todos">Todos</MenuItem>
               <MenuItem value="pendente">Pendente</MenuItem>
               <MenuItem value="analisado">Analisado</MenuItem>
-              <MenuItem value="mudanca_ementa">Mudança ementa</MenuItem>
+              <MenuItem value="mudanca_ementa">Mudança de Ementa</MenuItem>
             </Select>
           </div>
         </div>
