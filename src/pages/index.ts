@@ -12,3 +12,4 @@ export * from './alocacacao_analises_professores/DetalheDeAlocacaoAnalisesProfes
 export * from './equivalencias/ListagemDeEquivalencias';
 export * from './analises_professor/ListagemDeAnalisesPendentesDoProfessor';
 export * from './alocacacao_analises_professores/ListagemDeAlocacaoAnalisesProfessoresPendente';
+export * from './usuario/DetalheUsuario'

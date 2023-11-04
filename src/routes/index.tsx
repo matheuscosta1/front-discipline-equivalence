@@ -18,7 +18,8 @@ import {
   DetalheDeAlocacaoAnalisesProfessores,
   ListagemDeEquivalencias,
   ListagemDeAnalisesPendentesDoProfessor,
-  ListagemDeAlocacaoAnalisesProfessoresPendente
+  ListagemDeAlocacaoAnalisesProfessoresPendente,
+  DetalheUsuario
 } from '../pages';
 import { ListagemDeAnalisesDoProfessor } from '../pages/analises_professor/ListagemDeAnalisesDoProfessor';
 import { ListagemRelatorioEquivalencia } from '../pages/analises_professor/ListagemRelatorioEquivalencia';
@@ -109,6 +110,8 @@ export const AppRoutes = () => {
       <Route path="/equivalencias" element={<ListagemDeEquivalencias />} />
       <Route path="/equivalencias/detalhe/:id" element={<DetalheDeAlocacaoAnalisesProfessores />} />
 
+      <Route path="/atualizar-dados" element={<DetalheUsuario />} />
+
       <Route path="*" element={<Navigate to="/pagina-inicial" />} />
     </Routes>
   );
@@ -119,6 +122,8 @@ export const AppRoutes = () => {
 
       <Route path="/analises-professor" element={<ListagemDeAnalisesDoProfessor />} />
       <Route path="/analises-professor/detalhe/:id" element={<ListagemRelatorioEquivalencia />} />
+
+      <Route path="/atualizar-dados" element={<DetalheUsuario />} />
 
       <Route path="*" element={<Navigate to="/pagina-inicial" />} />
     </Routes>
