@@ -3,6 +3,7 @@ import { useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { Box } from '@mui/system';
 
 import { useAppThemeContext, useAuthContext, useDrawerContext } from '../../contexts';
+import { useState } from 'react';
 
 interface IListItemLinkProps {
   to: string;
@@ -34,6 +35,8 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }
 
 
 export const MenuLateral: React.FC = ({ children }) => {
+  const navigate = useNavigate();
+
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -71,12 +74,20 @@ export const MenuLateral: React.FC = ({ children }) => {
 
           <Box>
             <List component="nav">
+              <ListItemButton onClick={() => navigate(`/atualizar-dados`)}>
+                <ListItemIcon>
+                  <Icon>settings</Icon>
+                </ListItemIcon>
+                <ListItemText primary="Configuração" />
+              </ListItemButton>
+
               <ListItemButton onClick={toggleTheme}>
                 <ListItemIcon>
                   <Icon>dark_mode</Icon>
                 </ListItemIcon>
                 <ListItemText primary="Alternar tema" />
               </ListItemButton>
+
               <ListItemButton onClick={logout}>
                 <ListItemIcon>
                   <Icon>logout</Icon>
