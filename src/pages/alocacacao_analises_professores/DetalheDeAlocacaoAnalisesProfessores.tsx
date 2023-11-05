@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { MutableRefObject, RefObject, useEffect, useRef, useState } from 'react';
 import { Backdrop, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Grid, Icon, InputLabel, LinearProgress, Modal, Paper, TextField, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
@@ -20,6 +20,8 @@ import { IDetalheCurso, CursosService } from '../../shared/services/api/cursos/C
 import { IDetalheDisciplina, DisciplinasService } from '../../shared/services/api/disciplinas/DisciplinasService';
 import { IDetalheFaculdade, FaculdadesService } from '../../shared/services/api/faculdades/FaculdadesService';
 import { IDetalheProfessores, ProfessoresService } from '../../shared/services/api/professores/ProfessoresService';
+import React from 'react';
+import { FormHandles } from '@unform/core';
 
 interface IFormData {
   faculdadeOrigemId: number;
@@ -54,6 +56,56 @@ const formValidationSchema: yup.SchemaOf<IFormData> = yup.object().shape({
     )
 });
 
+interface IFormDataCurso {
+  nome: string;
+  faculdadeId: number;
+}
+const formValidationCursoSchema: yup.SchemaOf<IFormDataCurso> = yup.object().shape({
+  faculdadeId: yup.number().required(),
+  nome: yup.string().required().min(3),
+});
+
+interface IFormDataDisciplina {
+  nome: string;
+  codigoOrigem: string;
+  ementa: string;
+  programa: string;
+  cargaHoraria: number;
+  faculdadeId: number;
+  cursoId: number;
+}
+const formValidationDisciplinaSchema: yup.SchemaOf<IFormDataDisciplina> = yup.object().shape({
+  nome: yup.string().required().min(3),
+  codigoOrigem: yup.string().required().min(3),
+  ementa: yup.string().required().min(3),
+  programa: yup.string().required().min(3),
+  cargaHoraria: yup.number().required().min(2),
+  faculdadeId: yup.number().required(),
+  cursoId: yup.number().required()
+});
+
+interface IFormDataFaculdadeOrigem {
+  novaFaculdadeOrigem: string;
+}
+const formValidationFaculdadeOrigemSchema: yup.SchemaOf<IFormDataFaculdadeOrigem> = yup.object().shape({
+  novaFaculdadeOrigem: yup.string().required().min(3),
+});
+
+interface IFormDataProfessor {
+  nome: string;
+  email: string;
+  faculdadeId: number;
+  cursoId: number;
+  disciplinaId: number;
+}
+const formValidationProfessorSchema: yup.SchemaOf<IFormDataProfessor> = yup.object().shape({
+  nome: yup.string().required().min(3),
+  email: yup.string().email().required(),
+  faculdadeId: yup.number().required(),
+  cursoId: yup.number().required(),
+  disciplinaId: yup.number().required()
+});
+
 interface DecodedToken {
   sub: string;
   exp: number;
@@ -63,7 +115,6 @@ interface DecodedToken {
 function getEmailDoUsuarioLogado() {
   
   const token = localStorage.getItem('APP_ACCESS_TOKEN');
-
   
   if (token) {
     try {
@@ -76,10 +127,8 @@ function getEmailDoUsuarioLogado() {
     }
   }
 
-  
   return '';
 }
-
 
 export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
   const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
@@ -261,6 +310,8 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
   const [novoProfessor, setNovoProfessor] = useState('');
   const [emailProfessor, setEmailProfessor] = useState('');
 
+  const modalFormFaculdadeOrigemRef:  MutableRefObject<FormHandles | null> = useRef(null);
+
   const handleOpenDisciplinaOrigemModal = () => {
     setIsDisciplinaOrigemModalOpen(true);
   };
@@ -335,7 +386,6 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
     setSelectedDisciplinaOrigem(novoCurso);
   };
 
-
   const [selectedFaculdadeDestino, setSelectedFaculdadeDestino] = useState<TAutoCompleteOption | null>(initialDestinyCollegeValue);
 
   const handleNovaFaculdadeDestinoIdChange = (novaFaculdade: TAutoCompleteOption | null) => {
@@ -356,11 +406,9 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
 
   const [selectedProfessor, setSelectedProfessor] = useState<TAutoCompleteOption | null>(initialProfessorDestinyValue);
 
-
   const handleProfessorIdChange = (novoProfessor: TAutoCompleteOption | null) => {
     setSelectedProfessor(novoProfessor);
   };
-
   
   const handleSaveCursoOrigem = () => {
 
@@ -453,41 +501,66 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
       id: Number(id),
       nome: novaFaculdadeOrigem
     };
+
+    const dataFaculdade: IFormDataFaculdadeOrigem = {
+      novaFaculdadeOrigem: novaFaculdadeOrigem
+    }
+
     setIsLoading(true);
-    FaculdadesService.create(detalhe)
-                .then((result) => {
+    
+    formValidationFaculdadeOrigemSchema
+      .validate(dataFaculdade, { abortEarly: false })
+      .then((dadosValidados) => {
+      FaculdadesService.create(detalhe)
+        .then((result) => {
 
-                  if (result instanceof Error) {
-                    if(result.message.includes('422')) {
-                      setErrorMessage('Faculdade já foi registrada.');
-                      setIsErrorModalOpen(true);
+          if (result instanceof Error) {
+            if(result.message.includes('422')) {
+              setErrorMessage('Faculdade já foi registrada.');
+              setIsErrorModalOpen(true);
 
-                      handleCloseFaculdadeDestinoModal();
-                      setIsLoading(false);
-                    } else {
-                      alert(result.message);
+              handleCloseFaculdadeDestinoModal();
+              setIsLoading(false);
+            } else {
+              alert(result.message);
 
-                      handleCloseFaculdadeDestinoModal();
-                      setIsLoading(false);
-                    }
-                  } else {
-                    const detalhe: TAutoCompleteOption = {
-                      id: Number(result.id),
-                      label: result.nome
-                    };
+              handleCloseFaculdadeDestinoModal();
+              setIsLoading(false);
+            }
+          } else {
+            const detalhe: TAutoCompleteOption = {
+              id: Number(result.id),
+              label: result.nome
+            };
 
-                    setTimeout(() => {
-                      handleNovaFaculdadeIdChange(detalhe)
+            setTimeout(() => {
+              handleNovaFaculdadeIdChange(detalhe)
 
-                      setIsLoading(false);
+              setIsLoading(false);
 
-                      setSuccessMessage('Faculdade registrada com sucesso.');
-                      setIsSuccessModalOpen(true); 
+              setSuccessMessage('Faculdade registrada com sucesso.');
+              setIsSuccessModalOpen(true); 
 
-                      handleCloseFaculdadeOrigemModal();
-                    }, 2000);
-                  }
-                });
+              handleCloseFaculdadeOrigemModal();
+            }, 2000);
+          }
+        });
+      })
+      .catch((errors: yup.ValidationError) => {
+        console.log("Errors yup: ", errors)
+        const validationErrors: IVFormErrors = {};
+
+        errors.inner.forEach(error => {
+          if (!error.path) return;
+
+          validationErrors[error.path] = error.message;
+        });
+
+        console.log(validationErrors)
+
+
+        modalFormFaculdadeOrigemRef.current?.setErrors(validationErrors);
+      });
   };
 
   const handleSaveFaculdadeDestino = () => {
@@ -1022,10 +1095,12 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
       <Dialog open={isFaculdadeOrigemModalOpen} onClose={handleCloseFaculdadeOrigemModal} BackdropComponent={Backdrop}>
         <DialogTitle>Registrar Faculdade de Origem</DialogTitle>
         <DialogContent>
-          <form>
+          <VForm ref={modalFormFaculdadeOrigemRef} onSubmit={handleSaveFaculdadeOrigem}>
+
             <TextField
               fullWidth
               label="Nome"
+              name='novaFaculdadeOrigem'
               value={novaFaculdadeOrigem}
               onChange={e => setNovaFaculdadeOrigem(e.target.value)}
             />
@@ -1049,7 +1124,7 @@ export const DetalheDeAlocacaoAnalisesProfessores: React.FC = () => {
                 Fechar
               </Button>
             </div>
-          </form>
+          </VForm>
         </DialogContent>
 
         {isLoading && (
