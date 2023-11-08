@@ -88,8 +88,10 @@ export const DetalheUsuario: React.FC = () => {
           senhaAtual: dadosValidados.senhaAtual,
           novaSenha: dadosValidados.confirmarSenha
         };
+        console.log(senhaAtual)
+        console.log(novaSenha)
 
-        if (senhaAtual !== novaSenha) {
+        if (dadosValidados.confirmarSenha !== dadosValidados.novaSenha) {
           setIsLoading(false);
           setErrorMessage('A confirmação de senha não coincide com a nova senha.');
           setIsErrorModalOpen(true);
